@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CrashGuard.install(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -81,6 +82,28 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.fabAdd).setOnClickListener { openEdit(null) }
 
         refresh()
+
+        CrashGuard.read(this)?.let { showCrashDialog(it) }
+    }
+
+    private fun showCrashDialog(text: String) {
+        val tv = TextView(this).apply {
+            setText(text)
+            textSize = 11f
+            setPadding(48, 32, 48, 32)
+            setTextIsSelectable(true)
+        }
+        val scroll = android.widget.ScrollView(this).apply { addView(tv) }
+        AlertDialog.Builder(this)
+            .setTitle("检测到上次崩溃日志")
+            .setView(scroll)
+            .setPositiveButton("复制日志") { _, _ ->
+                CrashGuard.copy(this, text)
+                Toast.makeText(this, "已复制，可粘贴发给开发者", Toast.LENGTH_SHORT).show()
+            }
+            .setNeutralButton("清除日志") { _, _ -> CrashGuard.clear(this) }
+            .setNegativeButton("关闭", null)
+            .show()
     }
 
     // ---------- 列表 ----------

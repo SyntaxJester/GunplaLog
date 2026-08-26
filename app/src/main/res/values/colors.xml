@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#1E4FD6</color>
+    <color name="primary_dark">#12358F</color>
+    <color name="grad_start">#2E6BFF</color>
+    <color name="grad_end">#14359E</color>
+    <color name="icon_bg">#1E4FD6</color>
+    <color name="white">#FFFFFF</color>
+</resources>

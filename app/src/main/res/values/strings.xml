@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">高达记物</string>
+    <string name="subtitle_fmt">共 %1$d 台 · 累计 ¥%2$.2f</string>
+    <string name="search_hint">搜索名称 / 备注…</string>
+    <string name="fab_add">＋ 记一笔</string>
+    <string name="empty_text">还没有记录\n点右下角「记一笔」开始吧</string>
+
+    <string name="save">保存</string>
+    <string name="name_required">请输入名称</string>
+    <string name="delete_title">删除记录</string>
+    <string name="delete_msg_fmt">确定删除「%1$s」吗？</string>
+    <string name="delete_ok">删除</string>
+
+    <string name="menu_sort">排序方式</string>
+    <string name="sort_date_desc">日期 新→旧</string>
+    <string name="sort_date_asc">日期 旧→新</string>
+    <string name="sort_price_desc">价格 高→低</string>
+    <string name="sort_price_asc">价格 低→高</string>
+    <string name="sort_name">名称 A→Z</string>
+    <string name="menu_stats">📊 统计</string>
+    <string name="menu_export">📤 导出 CSV</string>
+    <string name="menu_import">📥 导入 CSV</string>
+
+    <string name="stats_total_fmt">总记录：%1$d 条</string>
+    <string name="stats_owned_fmt">已入手：%1$d 台 · 合计 ¥%2$.2f</string>
+    <string name="stats_wanted_fmt">想买 %1$d 台 · 已出 %2$d 台</string>
+    <string name="stats_by_grade">按等级：</string>
+    <string name="stats_top_fmt">最贵一台：%1$s（¥%2$.2f）</string>
+
+    <string name="export_done_fmt">已导出 %1$d 条</string>
+    <string name="export_fail_fmt">导出失败：%1$s</string>
+    <string name="import_done_fmt">导入 %1$d 条，跳过重复/无效 %2$d 条</string>
+    <string name="import_fail_fmt">导入失败：%1$s</string>
+</resources>

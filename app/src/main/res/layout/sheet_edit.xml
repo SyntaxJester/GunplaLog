@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="28dp">
+
+        <View
+            android:layout_width="36dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#DDDDDD" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/app_name"
+            android:textColor="#222222"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="名称 *"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input"
+            android:hint="如：RG 独角兽高达"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="等级"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgGrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:chipSpacingHorizontal="6dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cHG"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="HG" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cRG"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="RG" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cMG"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="MG" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cPG"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="PG" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cSD"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="SD" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cOT"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="其他" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="比例"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/etScale"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="1/144"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="价格（元）"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/etPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="0.00"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="购买日期"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:clickable="true"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="状态"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:chipSpacingHorizontal="6dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sWant"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="想买" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sGot"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="已入手" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sOut"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="已出" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="备注"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/etNote"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input"
+            android:gravity="top"
+            android:hint="版件状态、购入渠道、涂装计划…"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:paddingLeft="12dp"
+            android:paddingTop="10dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="10dp"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="18dp"
+            android:backgroundTint="@color/primary"
+            android:text="@string/save"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:cornerRadius="26dp" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

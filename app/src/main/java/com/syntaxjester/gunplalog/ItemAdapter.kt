@@ -62,7 +62,11 @@ class ItemAdapter(
             if (item.price > 0) "¥" + String.format("%.2f", item.price) else "—"
 
         holder.tvStatus.text = Item.statusName(item.status)
-        holder.tvStatus.setTextColor(Color.parseColor(statusColor(item.status)))
+        val sc = statusColor(item.status)
+        holder.tvStatus.setTextColor(Color.parseColor(sc))
+        holder.tvStatus.background?.let {
+            it.setTint(Color.parseColor("#22" + sc.substring(1)))
+        }
 
         holder.itemView.setOnClickListener { onClick(item) }
         holder.itemView.setOnLongClickListener {

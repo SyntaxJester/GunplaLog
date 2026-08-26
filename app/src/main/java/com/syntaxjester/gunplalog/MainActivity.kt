@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
     private val items = mutableListOf<Item>()
     private lateinit var adapter: ItemAdapter
     private lateinit var tvSubtitle: TextView
-    private lateinit var emptyView: TextView
+    private lateinit var tvCount: TextView
+    private lateinit var emptyView: View
     private lateinit var rv: RecyclerView
 
     private var filterGrade = "全部"
@@ -80,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         rv = findViewById(R.id.recycler)
         emptyView = findViewById(R.id.emptyView)
         tvSubtitle = findViewById(R.id.tvSubtitle)
+        tvCount = findViewById(R.id.tvCount)
 
         adapter = ItemAdapter(
             onClick = { openEdit(it) },
@@ -110,6 +112,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.btnMore).setOnClickListener { showMenu(it) }
         findViewById<View>(R.id.fabAdd).setOnClickListener { openEdit(null) }
+        findViewById<View>(R.id.btnStats).setOnClickListener { showStats() }
 
         refresh()
         CrashGuard.step(this, "[4] first refresh ok")
@@ -159,6 +162,7 @@ class MainActivity : AppCompatActivity() {
         emptyView.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
         val spent = items.filter { it.status == 1 }.sumOf { it.price }
         tvSubtitle.text = getString(R.string.subtitle_fmt, items.size, spent)
+        tvCount.text = getString(R.string.count_fmt, items.size)
     }
 
     // ---------- 编辑 / 删除 ----------

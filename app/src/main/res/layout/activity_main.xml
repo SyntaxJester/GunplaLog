@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/page_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,10 +15,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_header"
             android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingTop="40dp"
-            android:paddingRight="12dp"
-            android:paddingBottom="18dp">
+            android:paddingLeft="18dp"
+            android:paddingTop="38dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="20dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -26,45 +27,90 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tvTitle"
+                    <FrameLayout
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_icon_circle">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/title_main"
+                            android:src="@drawable/ic_gundam" />
+                    </FrameLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/app_name"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:layout_marginLeft="12dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvSubtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="#CCFFFFFF"
-                        android:textSize="13sp" />
+                        <TextView
+                            android:id="@+id/tvTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/title_main"
+                            android:textColor="#FFFFFF"
+                            android:textSize="21sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="@string/sub_main"
+                            android:textColor="#B3FFFFFF"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/btnMore"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/menu_sort"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_more" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_pill"
+                        android:paddingLeft="14dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="14dp"
+                        android:paddingBottom="6dp"
+                        android:text="@string/count_fmt"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/btnMore"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="4dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/menu_sort"
+                        android:padding="9dp"
+                        android:src="@drawable/ic_more" />
+                </LinearLayout>
             </RelativeLayout>
 
             <EditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="46dp"
                 android:layout_marginTop="14dp"
                 android:background="@drawable/bg_search"
-                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="10dp"
                 android:hint="@string/search_hint"
                 android:importantForAutofill="no"
                 android:inputType="text"
@@ -74,80 +120,114 @@
                 android:textColor="#222222"
                 android:textColorHint="#999999"
                 android:textSize="14sp" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGrades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipSpacingHorizontal="8dp"
+                    app:checkedChip="@+id/chipAll"
+                    app:singleLine="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipAll"
+                        style="@style/GunplaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="全部" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipHG"
+                        style="@style/GunplaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="HG" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipRG"
+                        style="@style/GunplaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="RG" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipMG"
+                        style="@style/GunplaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="MG" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPG"
+                        style="@style/GunplaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="PG" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSD"
+                        style="@style/GunplaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="SD" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipOT"
+                        style="@style/GunplaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="其他" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
         </LinearLayout>
 
-        <HorizontalScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:scrollbars="none">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="18dp"
+            android:paddingTop="12dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="8dp">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGrades"
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/btnStats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:checkedChip="@id/chipAll"
-                app:chipSpacingHorizontal="6dp"
-                app:singleLine="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipAll"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="全部" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipHG"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="HG" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipRG"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="RG" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipMG"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="MG" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipPG"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="PG" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSD"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="SD" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipOT"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="其他" />
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
+                android:background="@drawable/bg_card_btn"
+                android:elevation="2dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="8dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/btn_stats"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -155,34 +235,63 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:clipToPadding="false"
-            android:paddingBottom="96dp"
-            android:paddingTop="4dp" />
+            android:overScrollMode="never"
+            android:paddingBottom="110dp"
+            android:paddingTop="2dp" />
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/empty_text"
-        android:textColor="#AAAAAA"
-        android:textSize="15sp"
-        android:lineSpacingExtra="6dp"
-        android:visibility="gone" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <Button
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="🤖"
+                android:textSize="54sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/empty_title"
+            android:textColor="#333333"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/empty_sub"
+            android:textColor="#999999"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:backgroundTint="@color/primary"
-        android:minHeight="52dp"
-        android:paddingLeft="22dp"
-        android:paddingRight="22dp"
-        android:text="@string/fab_add"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:cornerRadius="26dp" />
+        android:layout_margin="22dp"
+        android:contentDescription="@string/empty_sub"
+        app:backgroundTint="@color/primary"
+        app:elevation="4dp"
+        app:fabSize="normal"
+        app:tint="#FFFFFF"
+        app:srcCompat="@drawable/ic_plus" />
 </FrameLayout>

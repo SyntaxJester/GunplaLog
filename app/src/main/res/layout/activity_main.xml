@@ -82,7 +82,7 @@
             android:overScrollMode="never"
             android:scrollbars="none">
 
-            <ChipGroup
+            <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGrades"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="true"
                     android:text="其他" />
-            </ChipGroup>
+            </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 
         <androidx.recyclerview.widget.RecyclerView

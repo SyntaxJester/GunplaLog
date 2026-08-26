@@ -48,7 +48,10 @@ object CrashGuard {
         try {
             val sw = StringWriter()
             t.printStackTrace(PrintWriter(sw))
-            file(ctx).appendText("\n---- CRASH ----\n").appendText(sw.toString()).appendText("\n")
+            val f = file(ctx)
+            f.appendText("\n---- CRASH ----\n")
+            f.appendText(sw.toString())
+            f.appendText("\n")
         } catch (_: Exception) {
         }
     }

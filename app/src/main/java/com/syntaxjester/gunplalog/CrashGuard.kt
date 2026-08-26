@@ -14,27 +14,53 @@ object CrashGuard {
 
     private const val FILE = "crash_report.txt"
 
+    @Volatile
+    private var prev: String? = null
+
     fun file(ctx: Context): File =
         File(ctx.getExternalFilesDir(null) ?: ctx.filesDir, FILE)
+
+    /** 记录本次启动之前的旧报告，然后开新的一页 */
+    fun begin(ctx: Context) {
+        prev = try {
+            file(ctx).takeIf { it.exists() }?.readText()
+        } catch (_: Exception) {
+            null
+        }
+        try {
+            file(ctx).writeText(
+                "=== launch "
+                        + SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date())
+                        + " ===\n"
+            )
+        } catch (_: Exception) {
+        }
+    }
+
+    fun step(ctx: Context, msg: String) {
+        try {
+            file(ctx).appendText(msg + "\n")
+        } catch (_: Exception) {
+        }
+    }
+
+    fun logThrowable(ctx: Context, t: Throwable) {
+        try {
+            val sw = StringWriter()
+            t.printStackTrace(PrintWriter(sw))
+            file(ctx).appendText("\n---- CRASH ----\n").appendText(sw.toString()).appendText("\n")
+        } catch (_: Exception) {
+        }
+    }
+
+    fun prevReport(): String? = prev?.takeIf { it.isNotBlank() }
 
     fun install(ctx: Context) {
         val old = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
             try {
-                val sw = StringWriter()
-                e.printStackTrace(PrintWriter(sw))
-                val txt = buildString {
-                    append("time=").append(
-                        SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date())
-                    ).append('\n')
-                    append("thread=").append(t.name).append('\n')
-                    append("device=").append(android.os.Build.MANUFACTURER).append(' ')
-                        .append(android.os.Build.MODEL)
-                        .append(" Android ").append(android.os.Build.VERSION.SDK_INT)
-                        .append("\n\n")
-                    append(sw.toString())
-                }
-                file(ctx).writeText(txt)
+                logThrowable(ctx, e)
+                step(ctx, "uncaught on thread " + t.name)
             } catch (_: Exception) {
             }
             @Suppress("DEPRECATION")

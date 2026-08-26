@@ -41,7 +41,37 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         CrashGuard.install(this)
         super.onCreate(savedInstanceState)
+        try {
+            setupUi()
+            CrashGuard.step(this, "[5] activity.onCreate complete")
+            CrashGuard.prevReport()?.let { showCrashDialog(it) }
+        } catch (t: Throwable) {
+            CrashGuard.logThrowable(this, t)
+            CrashGuard.step(this, "[X] crashed: " + t.javaClass.name)
+            showFatal(t)
+        }
+    }
+
+    private fun showFatal(t: Throwable) {
+        val sb = StringBuilder()
+        sb.append("GunplaLog 启动失败诊断\n\n")
+        CrashGuard.prevReport()?.let { sb.append("[上次运行记录]\n").append(it).append("\n\n") }
+        val sw = java.io.StringWriter()
+        t.printStackTrace(java.io.PrintWriter(sw))
+        sb.append("[本次崩溃堆栈]\n").append(sw.toString())
+        val tv = TextView(this).apply {
+            setText(sb.toString())
+            textSize = 11f
+            setPadding(40, 40, 40, 40)
+            setTextIsSelectable(true)
+            setVerticalScrollBarEnabled(true)
+        }
+        setContentView(android.widget.ScrollView(this).apply { addView(tv) })
+    }
+
+    private fun setupUi() {
         setContentView(R.layout.activity_main)
+        CrashGuard.step(this, "[3] setContentView ok")
 
         store = Store(this)
         items.addAll(store.load())
@@ -82,8 +112,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.fabAdd).setOnClickListener { openEdit(null) }
 
         refresh()
-
-        CrashGuard.read(this)?.let { showCrashDialog(it) }
+        CrashGuard.step(this, "[4] first refresh ok")
     }
 
     private fun showCrashDialog(text: String) {

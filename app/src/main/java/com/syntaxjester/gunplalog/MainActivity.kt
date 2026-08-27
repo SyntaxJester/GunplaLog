@@ -7,14 +7,16 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvCount: TextView
     private lateinit var emptyView: View
     private lateinit var rv: RecyclerView
+    private lateinit var pillRow: LinearLayout
 
     private var filterGrade = "全部"
     private var query = ""
@@ -41,6 +44,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         CrashGuard.install(this)
+        // 沉浸式：内容绘制到状态栏下方
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         try {
             setupUi()
@@ -63,9 +68,8 @@ class MainActivity : AppCompatActivity() {
         val tv = TextView(this).apply {
             setText(sb.toString())
             textSize = 11f
-            setPadding(40, 40, 40, 40)
+            setPadding(40, 120, 40, 40)
             setTextIsSelectable(true)
-            setVerticalScrollBarEnabled(true)
         }
         setContentView(android.widget.ScrollView(this).apply { addView(tv) })
     }
@@ -73,6 +77,15 @@ class MainActivity : AppCompatActivity() {
     private fun setupUi() {
         setContentView(R.layout.activity_main)
         CrashGuard.step(this, "[3] setContentView ok")
+
+        // 把状态栏高度补到头部 padding 上，避免标题被状态栏压住
+        val header = findViewById<View>(R.id.header)
+        val basePadding = header.paddingTop
+        ViewCompat.setOnApplyWindowInsetsListener(header) { v, insets ->
+            val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            v.setPadding(v.paddingLeft, basePadding + top, v.paddingRight, v.paddingBottom)
+            insets
+        }
 
         store = Store(this)
         items.addAll(store.load())
@@ -82,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         emptyView = findViewById(R.id.emptyView)
         tvSubtitle = findViewById(R.id.tvSubtitle)
         tvCount = findViewById(R.id.tvCount)
+        pillRow = findViewById(R.id.pillRow)
 
         adapter = ItemAdapter(
             onClick = { openEdit(it) },
@@ -89,6 +103,8 @@ class MainActivity : AppCompatActivity() {
         )
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
+
+        buildFilterPills()
 
         findViewById<EditText>(R.id.etSearch).addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -100,22 +116,29 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
         })
 
-        val cg = findViewById<ChipGroup>(R.id.chipGrades)
-        cg.setOnCheckedStateChangeListener { group, _ ->
-            filterGrade = if (group.checkedChipId == View.NO_ID) {
-                "全部"
-            } else {
-                group.findViewById<Chip>(group.checkedChipId).text.toString()
-            }
-            refresh()
-        }
-
         findViewById<View>(R.id.btnMore).setOnClickListener { showMenu(it) }
         findViewById<View>(R.id.fabAdd).setOnClickListener { openEdit(null) }
         findViewById<View>(R.id.btnStats).setOnClickListener { showStats() }
 
         refresh()
         CrashGuard.step(this, "[4] first refresh ok")
+    }
+
+    /** 首页筛选胶囊：全部 + 18 个规格，代码创建保证选中态配色正确 */
+    private fun buildFilterPills() {
+        pillRow.removeAllViews()
+        val labels = mutableListOf("全部")
+        labels.addAll(Grades.ALL)
+        labels.forEach { label ->
+            val pill = Pills.header(this, label)
+            pill.isSelected = (label == filterGrade)
+            pill.setOnClickListener {
+                filterGrade = label
+                Pills.select(pillRow, pill)
+                refresh()
+            }
+            pillRow.addView(pill, Pills.rowParams(this))
+        }
     }
 
     private fun showCrashDialog(text: String) {
@@ -157,9 +180,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refresh() {
-        adapter.submit(visible())
-        rv.visibility = if (items.isEmpty()) View.GONE else View.VISIBLE
-        emptyView.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
+        val shown = visible()
+        adapter.submit(shown)
+        rv.visibility = if (shown.isEmpty()) View.GONE else View.VISIBLE
+        emptyView.visibility = if (shown.isEmpty()) View.VISIBLE else View.GONE
         val spent = items.filter { it.status == 1 }.sumOf { it.price }
         tvSubtitle.text = getString(R.string.subtitle_fmt, items.size, spent)
         tvCount.text = getString(R.string.count_fmt, items.size)
@@ -208,7 +232,7 @@ class MainActivity : AppCompatActivity() {
         val sub = popup.menu.addSubMenu(R.string.menu_sort)
         sorts.forEachIndexed { i, s -> sub.add(9, 100 + i, i, s) }
         sub.setGroupCheckable(9, true, true)
-        if (sortMode in 0 until sorts.size) sub.getItem(sortMode).isChecked = true
+        if (sortMode in sorts.indices) sub.getItem(sortMode).isChecked = true
 
         popup.menu.add(getString(R.string.menu_stats))
         popup.menu.add(getString(R.string.menu_export))
@@ -248,13 +272,15 @@ class MainActivity : AppCompatActivity() {
         sb.append(getString(R.string.stats_total_fmt, items.size)).append('\n')
         sb.append(getString(R.string.stats_owned_fmt, owned.size, spent)).append('\n')
         sb.append(getString(R.string.stats_wanted_fmt, wanted.size, sold.size)).append("\n\n")
-        val byGrade = items.groupingBy { it.grade }.eachCount().toSortedMap()
+        val counts = items.groupingBy { it.grade }.eachCount()
         sb.append(getString(R.string.stats_by_grade))
-        for ((g, c) in byGrade) sb.append('\n').append(g).append(" × ").append(c)
+        Grades.ALL.forEach { g ->
+            val c = counts[g] ?: 0
+            if (c > 0) sb.append('\n').append(g).append(" × ").append(c)
+        }
         val max = items.maxByOrNull { it.price }
         if (max != null && max.price > 0) {
-            sb.append("\n\n")
-                .append(getString(R.string.stats_top_fmt, max.name, max.price))
+            sb.append("\n\n").append(getString(R.string.stats_top_fmt, max.name, max.price))
         }
         AlertDialog.Builder(this)
             .setTitle(R.string.menu_stats)
@@ -273,7 +299,7 @@ class MainActivity : AppCompatActivity() {
     private fun doExport(uri: Uri) {
         try {
             val sb = StringBuilder()
-            sb.append("名称,等级,比例,价格,购买日期,状态,备注").append('\n')
+            sb.append("名称,规格,比例,价格,购买日期,状态,备注").append('\n')
             for (it2 in items) {
                 sb.append(csvEsc(it2.name)).append(',')
                     .append(it2.grade).append(',')
@@ -299,31 +325,21 @@ class MainActivity : AppCompatActivity() {
             } ?: return
             var added = 0
             var skipped = 0
-            val lines = text.lines()
-            for ((i, line) in lines.withIndex()) {
+            for ((i, line) in text.lines().withIndex()) {
                 val raw = line.trim()
                 if (raw.isEmpty()) continue
                 if (i == 0 && raw.startsWith("名称")) continue
                 val cols = parseCsvLine(raw)
-                if (cols.size < 4) {
-                    skipped++
-                    continue
-                }
+                if (cols.size < 4) { skipped++; continue }
                 val name = cols[0].trim()
-                if (name.isEmpty()) {
-                    skipped++
-                    continue
-                }
+                if (name.isEmpty()) { skipped++; continue }
                 val date = if (cols.size > 4) cols[4].trim() else ""
-                if (items.any { it.name == name && it.date == date }) {
-                    skipped++
-                    continue
-                }
+                if (items.any { it.name == name && it.date == date }) { skipped++; continue }
                 items.add(
                     Item(
                         id = java.util.UUID.randomUUID().toString(),
                         name = name,
-                        grade = cols[1].trim().ifEmpty { "HG" },
+                        grade = Grades.normalize(cols[1]),
                         scale = cols[2].trim(),
                         price = cols[3].trim().toDoubleOrNull() ?: 0.0,
                         date = date,
@@ -335,6 +351,7 @@ class MainActivity : AppCompatActivity() {
                 added++
             }
             store.save(items)
+            buildFilterPills()
             refresh()
             Toast.makeText(this, getString(R.string.import_done_fmt, added, skipped), Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {

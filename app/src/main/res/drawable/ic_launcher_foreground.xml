@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
-    <!-- V 形天线 -->
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M30,32 L52,50 L49,55 L27,38 Z" />
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M78,32 L56,50 L59,55 L81,38 Z" />
-    <!-- 头部 -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M40,54 h28 v16 h-28 z" />
-    <!-- 双眼 -->
     <path
         android:fillColor="#FFD600"
         android:pathData="M45,59 h6 v4 h-6 z" />
     <path
         android:fillColor="#FFD600"
         android:pathData="M57,59 h6 v4 h-6 z" />
-    <!-- 下巴 -->
     <path
         android:fillColor="#E53935"
         android:pathData="M48,70 h12 v3 h-12 z" />

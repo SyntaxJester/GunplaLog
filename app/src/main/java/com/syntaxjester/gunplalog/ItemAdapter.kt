@@ -39,11 +39,12 @@ class ItemAdapter(
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item = data[position]
+
         holder.tvBadge.text = item.grade
-        try {
-            holder.tvBadge.background.setTint(Color.parseColor(gradeColor(item.grade)))
-        } catch (_: Exception) {
-        }
+        holder.tvBadge.background?.mutate()?.setTint(
+            safeColor(Grades.color(item.grade), "#9E9E9E")
+        )
+
         holder.tvName.text = item.name
 
         val parts = mutableListOf<String>()
@@ -61,12 +62,12 @@ class ItemAdapter(
         holder.tvPrice.text =
             if (item.price > 0) "¥" + String.format("%.2f", item.price) else "—"
 
-        holder.tvStatus.text = Item.statusName(item.status)
         val sc = statusColor(item.status)
-        holder.tvStatus.setTextColor(Color.parseColor(sc))
-        holder.tvStatus.background?.let {
-            it.setTint(Color.parseColor("#22" + sc.substring(1)))
-        }
+        holder.tvStatus.text = Item.statusName(item.status)
+        holder.tvStatus.setTextColor(safeColor(sc, "#2E7D32"))
+        holder.tvStatus.background?.mutate()?.setTint(
+            safeColor("#22" + sc.removePrefix("#"), "#EEF1F6")
+        )
 
         holder.itemView.setOnClickListener { onClick(item) }
         holder.itemView.setOnLongClickListener {
@@ -75,13 +76,10 @@ class ItemAdapter(
         }
     }
 
-    private fun gradeColor(grade: String): String = when (grade) {
-        "HG" -> "#FF8F00"
-        "RG" -> "#1E88E5"
-        "MG" -> "#8E24AA"
-        "PG" -> "#D81B60"
-        "SD" -> "#00897B"
-        else -> "#757575"
+    private fun safeColor(hex: String, fallback: String): Int = try {
+        Color.parseColor(hex)
+    } catch (_: Exception) {
+        Color.parseColor(fallback)
     }
 
     private fun statusColor(status: Int): String = when (status) {

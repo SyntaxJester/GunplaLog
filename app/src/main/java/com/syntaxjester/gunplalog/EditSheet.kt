@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.chip.ChipGroup
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
@@ -20,6 +21,9 @@ class EditSheet : BottomSheetDialogFragment() {
 
     var onSaved: ((Item) -> Unit)? = null
     private var existing: Item? = null
+
+    private var pickedGrade = Grades.DEFAULT
+    private var pickedStatus = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,16 +39,8 @@ class EditSheet : BottomSheetDialogFragment() {
             }
         }
 
-        val gradeIds = linkedMapOf(
-            "HG" to R.id.cHG, "RG" to R.id.cRG, "MG" to R.id.cMG,
-            "PG" to R.id.cPG, "SD" to R.id.cSD, "其他" to R.id.cOT
-        )
-        val statusIds = linkedMapOf(
-            0 to R.id.sWant, 1 to R.id.sGot, 2 to R.id.sOut
-        )
-
-        val cgGrade = view.findViewById<ChipGroup>(R.id.cgGrade)
-        val cgStatus = view.findViewById<ChipGroup>(R.id.cgStatus)
+        val flowGrade = view.findViewById<FlowLayout>(R.id.flowGrade)
+        val flowStatus = view.findViewById<FlowLayout>(R.id.flowStatus)
         val etName = view.findViewById<EditText>(R.id.etName)
         val etScale = view.findViewById<EditText>(R.id.etScale)
         val etDate = view.findViewById<EditText>(R.id.etDate)
@@ -52,23 +48,40 @@ class EditSheet : BottomSheetDialogFragment() {
         val etNote = view.findViewById<EditText>(R.id.etNote)
         val btnSave = view.findViewById<Button>(R.id.btnSave)
 
-        cgGrade.isSingleSelection = true
-        cgStatus.isSingleSelection = true
-
         val e = existing
+        pickedGrade = if (e != null) Grades.normalize(e.grade) else Grades.DEFAULT
+        pickedStatus = e?.status ?: 1
+
+        // 规格胶囊（18 个，自动换行）
+        Grades.ALL.forEach { g ->
+            val pill: TextView = Pills.sheet(requireContext(), g)
+            pill.isSelected = (g == pickedGrade)
+            pill.setOnClickListener {
+                pickedGrade = g
+                Pills.select(flowGrade, pill)
+            }
+            flowGrade.addView(pill)
+        }
+
+        // 状态胶囊
+        listOf(0 to "想买", 1 to "已入手", 2 to "已出").forEach { (code, label) ->
+            val pill: TextView = Pills.sheet(requireContext(), label)
+            pill.isSelected = (code == pickedStatus)
+            pill.setOnClickListener {
+                pickedStatus = code
+                Pills.select(flowStatus, pill)
+            }
+            flowStatus.addView(pill)
+        }
+
         if (e != null) {
             etName.setText(e.name)
             etScale.setText(e.scale)
             etDate.setText(e.date)
             if (e.price > 0) etPrice.setText(trimPrice(e.price))
             etNote.setText(e.note)
-            gradeIds[e.grade]?.let { cgGrade.check(it) }
-            statusIds[e.status]?.let { cgStatus.check(it) }
-            btnSave.text = getString(R.string.save)
         } else {
-            cgGrade.check(R.id.cHG)
-            cgStatus.check(R.id.sGot)
-            etDate.setText(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(java.util.Date()))
+            etDate.setText(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
         }
 
         etDate.setOnClickListener {
@@ -99,19 +112,14 @@ class EditSheet : BottomSheetDialogFragment() {
                 Toast.makeText(context, getString(R.string.name_required), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            var grade = "HG"
-            for ((g, id) in gradeIds) if (cgGrade.checkedChipId == id) grade = g
-            var status = 1
-            for ((s, id) in statusIds) if (cgStatus.checkedChipId == id) status = s
-
             val saved = Item(
                 id = existing?.id ?: UUID.randomUUID().toString(),
                 name = name,
-                grade = grade,
+                grade = pickedGrade,
                 scale = etScale.text.toString().trim(),
                 price = etPrice.text.toString().toDoubleOrNull() ?: 0.0,
                 date = etDate.text.toString().trim(),
-                status = status,
+                status = pickedStatus,
                 note = etNote.text.toString().trim(),
                 createdAt = existing?.createdAt ?: System.currentTimeMillis()
             )
@@ -121,5 +129,6 @@ class EditSheet : BottomSheetDialogFragment() {
     }
 
     private fun trimPrice(p: Double): String =
-        if (p == p.toLong().toDouble()) p.toLong().toString() else String.format(Locale.US, "%.2f", p)
+        if (p == p.toLong().toDouble()) p.toLong().toString()
+        else String.format(Locale.US, "%.2f", p)
 }

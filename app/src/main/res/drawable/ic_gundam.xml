@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="20dp"
-    android:height="20dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
-    <!-- V 形天线 -->
+    android:width="34dp"
+    android:height="34dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- V-fin 天线 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M6.5,6.5 L11,10.2 L10.2,11.4 L5.8,8 Z" />
+        android:pathData="M26,20 L52,44 L47,52 L21,28 Z" />
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M17.5,6.5 L13,10.2 L13.8,11.4 L18.2,8 Z" />
-    <!-- 头部 -->
+        android:pathData="M82,20 L56,44 L61,52 L87,28 Z" />
+    <!-- 头部主体 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M9,12 h6 v5 h-6 z" />
+        android:pathData="M36,48 h36 v34 a6,6 0 0 1 -6,6 h-24 a6,6 0 0 1 -6,-6 Z" />
     <!-- 双眼 -->
     <path
         android:fillColor="#FFD600"
-        android:pathData="M10.2,13.5 h1.6 v1.2 h-1.6 z" />
+        android:pathData="M42,56 h8 v7 h-8 z" />
     <path
         android:fillColor="#FFD600"
-        android:pathData="M12.4,13.5 h1.6 v1.2 h-1.6 z" />
-    <!-- 下巴 -->
+        android:pathData="M58,56 h8 v7 h-8 z" />
+    <!-- 面部通气口 -->
     <path
         android:fillColor="#E53935"
-        android:pathData="M11,17 h2 v1 h-2 z" />
+        android:pathData="M46,72 h16 v5 h-16 z" />
 </vector>

@@ -12,6 +12,16 @@
     <string name="empty_sub">点击右下角 ＋ 添加第一台高达</string>
 
     <string name="label_name">名称 *</string>
+    <string name="label_photo">模型美图</string>
+    <string name="photo_camera">📷 拍照</string>
+    <string name="photo_gallery">🖼 从相册选择</string>
+    <string name="photo_remove">移除图片</string>
+    <string name="photo_replace">更换图片</string>
+    <string name="photo_view">查看大图</string>
+    <string name="photo_fail">图片处理失败，请重试</string>
+    <string name="photo_camera_denied">未授予相机权限，可改用「从相册选择」</string>
+    <string name="photo_no_camera">未找到可用的相机应用</string>
+    <string name="photo_no_gallery">未找到可用的相册应用</string>
     <string name="label_grade">规格</string>
     <string name="label_scale">比例</string>
     <string name="label_price">价格（元）</string>

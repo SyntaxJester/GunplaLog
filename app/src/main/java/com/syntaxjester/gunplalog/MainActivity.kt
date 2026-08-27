@@ -99,7 +99,8 @@ class MainActivity : AppCompatActivity() {
 
         adapter = ItemAdapter(
             onClick = { openEdit(it) },
-            onLongClick = { confirmDelete(it) }
+            onLongClick = { confirmDelete(it) },
+            onPhotoClick = { PhotoViewer.show(this, it.photo) }
         )
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
@@ -122,6 +123,9 @@ class MainActivity : AppCompatActivity() {
 
         refresh()
         CrashGuard.step(this, "[4] first refresh ok")
+
+        // 清理没有被任何记录引用的孤儿图片
+        Photos.gc(this, items)
     }
 
     /** 首页筛选胶囊：全部 + 18 个规格，代码创建保证选中态配色正确 */
@@ -212,6 +216,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle(R.string.delete_title)
             .setMessage(getString(R.string.delete_msg_fmt, item.name))
             .setPositiveButton(R.string.delete_ok) { _, _ ->
+                Photos.delete(this, item.photo)
                 items.removeAll { it.id == item.id }
                 store.save(items)
                 refresh()
@@ -345,6 +350,7 @@ class MainActivity : AppCompatActivity() {
                         date = date,
                         status = statusFrom(if (cols.size > 5) cols[5].trim() else ""),
                         note = if (cols.size > 6) cols[6].trim() else "",
+                        photo = "",
                         createdAt = System.currentTimeMillis()
                     )
                 )

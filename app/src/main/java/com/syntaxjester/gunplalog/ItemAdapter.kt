@@ -4,12 +4,15 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 
 class ItemAdapter(
     private val onClick: (Item) -> Unit,
-    private val onLongClick: (Item) -> Unit
+    private val onLongClick: (Item) -> Unit,
+    private val onPhotoClick: (Item) -> Unit
 ) : RecyclerView.Adapter<ItemAdapter.VH>() {
 
     val data = mutableListOf<Item>()
@@ -21,6 +24,8 @@ class ItemAdapter(
     }
 
     class VH(v: View) : RecyclerView.ViewHolder(v) {
+        val thumbCard: MaterialCardView = v.findViewById(R.id.thumbCard)
+        val ivThumb: ImageView = v.findViewById(R.id.ivThumb)
         val tvBadge: TextView = v.findViewById(R.id.tvBadge)
         val tvName: TextView = v.findViewById(R.id.tvName)
         val tvMeta: TextView = v.findViewById(R.id.tvMeta)
@@ -39,11 +44,27 @@ class ItemAdapter(
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item = data[position]
+        val ctx = holder.itemView.context
+        val gradeColor = safeColor(Grades.color(item.grade), "#9E9E9E")
 
         holder.tvBadge.text = item.grade
-        holder.tvBadge.background?.mutate()?.setTint(
-            safeColor(Grades.color(item.grade), "#9E9E9E")
-        )
+        holder.thumbCard.setCardBackgroundColor(gradeColor)
+
+        // 有美图 → 显示图片，规格标签压在底部；无美图 → 纯规格色块
+        val thumb = Photos.decode(ctx, item.photo, 240)
+        if (thumb != null) {
+            holder.ivThumb.setImageBitmap(thumb)
+            holder.ivThumb.visibility = View.VISIBLE
+            holder.tvBadge.setBackgroundColor(Color.parseColor("#59000000"))
+            holder.ivThumb.setOnClickListener { onPhotoClick(item) }
+            holder.ivThumb.isClickable = true
+        } else {
+            holder.ivThumb.setImageDrawable(null)
+            holder.ivThumb.visibility = View.GONE
+            holder.tvBadge.setBackgroundColor(Color.TRANSPARENT)
+            holder.ivThumb.setOnClickListener(null)
+            holder.ivThumb.isClickable = false
+        }
 
         holder.tvName.text = item.name
 

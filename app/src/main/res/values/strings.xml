@@ -32,6 +32,10 @@
     <string name="hint_scale">1/144</string>
     <string name="hint_price">0.00</string>
     <string name="hint_note">版件状态、购入渠道、涂装计划…</string>
+    <string name="hint_date">如 2026-09-02</string>
+    <string name="date_pick">选择日期</string>
+    <string name="date_invalid">日期格式不对，请按 2026-09-02 填写</string>
+    <string name="grade_pick_title">选择规格</string>
 
     <string name="save">保存</string>
     <string name="name_required">请输入名称</string>

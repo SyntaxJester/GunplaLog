@@ -83,8 +83,8 @@ class EditSheet : BottomSheetDialogFragment() {
             } catch (_: Exception) {
             }
         }
-        val flowGrade = view.findViewById<FlowLayout>(R.id.flowGrade)
         val flowStatus = view.findViewById<FlowLayout>(R.id.flowStatus)
+        val tvGrade = view.findViewById<TextView>(R.id.tvGrade)
         val etName = view.findViewById<EditText>(R.id.etName)
         val etScale = view.findViewById<EditText>(R.id.etScale)
         val etDate = view.findViewById<EditText>(R.id.etDate)
@@ -100,15 +100,21 @@ class EditSheet : BottomSheetDialogFragment() {
         pickedStatus = e?.status ?: 1
         pickedPhoto = e?.photo ?: ""
 
-        Grades.ALL.forEach { g ->
-            val pill: TextView = Pills.sheet(requireContext(), g)
-            pill.isSelected = (g == pickedGrade)
-            pill.setOnClickListener {
-                pickedGrade = g
-                Pills.select(flowGrade, pill)
-            }
-            flowGrade.addView(pill)
+        tvGrade.text = pickedGrade
+        tvGrade.setOnClickListener {
+            val opts = Grades.ALL.toTypedArray()
+            val cur = opts.indexOf(pickedGrade).coerceAtLeast(0)
+            androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.grade_pick_title)
+                .setSingleChoiceItems(opts, cur) { dlg, which ->
+                    pickedGrade = opts[which]
+                    tvGrade.text = pickedGrade
+                    dlg.dismiss()
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
         }
+
 
         listOf(0 to "想买", 1 to "已入手", 2 to "已出").forEach { (code, label) ->
             val pill: TextView = Pills.sheet(requireContext(), label)
@@ -143,27 +149,23 @@ class EditSheet : BottomSheetDialogFragment() {
             }
         }
 
-        etDate.setOnClickListener {
+        // 日期：可手动输入，输入时自动补 '-'；日历按钮弹选择器
+        etDate.addTextChangedListener(DateAutoFormat(etDate))
+        view.findViewById<View>(R.id.btnDatePick).setOnClickListener {
             val cal = Calendar.getInstance()
-            val cur = etDate.text.toString()
-            if (cur.length == 10) {
-                try {
-                    val parts = cur.split("-")
-                    cal.set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
-                } catch (_: Exception) {
-                }
-            }
+            val cur = etDate.text.toString().trim()
+            parseDate(cur)?.let { cal.time = it }
             DatePickerDialog(
                 requireContext(),
                 { _, y, m, d ->
                     etDate.setText(String.format(Locale.US, "%04d-%02d-%02d", y, m + 1, d))
+                    etDate.setSelection(etDate.text.length)
                 },
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
-
         btnSave.setOnClickListener {
             val name = etName.text.toString().trim()
             if (name.isEmpty()) {
@@ -171,13 +173,27 @@ class EditSheet : BottomSheetDialogFragment() {
                 toast(R.string.name_required)
                 return@setOnClickListener
             }
+            // 手输日期做一次校验与规范化（空日期允许，比如「想买」还没买）
+            val rawDate = etDate.text.toString().trim()
+            val normDate: String
+            if (rawDate.isEmpty()) {
+                normDate = ""
+            } else {
+                val d = parseDate(rawDate)
+                if (d == null) {
+                    etDate.error = getString(R.string.date_invalid)
+                    toast(R.string.date_invalid)
+                    return@setOnClickListener
+                }
+                normDate = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(d)
+            }
             val saved = Item(
                 id = existing?.id ?: UUID.randomUUID().toString(),
                 name = name,
                 grade = pickedGrade,
                 scale = etScale.text.toString().trim(),
                 price = etPrice.text.toString().toDoubleOrNull() ?: 0.0,
-                date = etDate.text.toString().trim(),
+                date = normDate,
                 status = pickedStatus,
                 note = etNote.text.toString().trim(),
                 photo = pickedPhoto,
@@ -274,4 +290,49 @@ class EditSheet : BottomSheetDialogFragment() {
     private fun trimPrice(p: Double): String =
         if (p == p.toLong().toDouble()) p.toLong().toString()
         else String.format(Locale.US, "%.2f", p)
+
+    /**
+     * 宽松解析日期：接受 2026-09-02 / 2026/9/2 / 20260902 等写法，
+     * 并用 setLenient(false) 拦掉 2026-02-31 这类不存在的日期。
+     */
+    private fun parseDate(raw: String): Date? {
+        val s = raw.trim()
+        if (s.isEmpty()) return null
+        val digits = s.filter { it.isDigit() }
+        val norm = when {
+            digits.length == 8 ->
+                digits.substring(0, 4) + "-" + digits.substring(4, 6) + "-" + digits.substring(6, 8)
+            else -> s.replace('/', '-').replace('.', '-')
+        }
+        return try {
+            SimpleDateFormat("yyyy-MM-dd", Locale.US).apply { isLenient = false }.parse(norm)
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    /** 手输时自动在 4、6 位后补 '-'，省得自己敲分隔符 */
+    private class DateAutoFormat(private val et: EditText) : android.text.TextWatcher {
+        private var busy = false
+
+        override fun afterTextChanged(s: android.text.Editable?) {
+            if (busy || s == null) return
+            val digits = s.toString().filter { it.isDigit() }.take(8)
+            val sb = StringBuilder()
+            for ((i, c) in digits.withIndex()) {
+                if (i == 4 || i == 6) sb.append('-')
+                sb.append(c)
+            }
+            val formatted = sb.toString()
+            if (formatted != s.toString()) {
+                busy = true
+                et.setText(formatted)
+                et.setSelection(formatted.length)
+                busy = false
+            }
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+        override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+    }
 }

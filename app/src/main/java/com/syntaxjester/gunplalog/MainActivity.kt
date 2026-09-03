@@ -33,13 +33,13 @@ class MainActivity : AppCompatActivity() {
     private var query = ""
     private var sortMode = 0
 
-    private val exportLauncher =
-        registerForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
-            if (uri != null) doExport(uri)
+    private val backupLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument(Backup.MIME)) { uri ->
+            if (uri != null) doLocalBackup(uri)
         }
-    private val importLauncher =
+    private val restoreLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri != null) doImport(uri)
+            if (uri != null) doLocalRestore(uri)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -239,8 +239,9 @@ class MainActivity : AppCompatActivity() {
         if (sortMode in sorts.indices) sub.getItem(sortMode).isChecked = true
 
         popup.menu.add(getString(R.string.menu_stats))
-        popup.menu.add(getString(R.string.menu_export))
-        popup.menu.add(getString(R.string.menu_import))
+        popup.menu.add(getString(R.string.menu_backup))
+        popup.menu.add(getString(R.string.menu_restore))
+        popup.menu.add(getString(R.string.menu_cloud))
 
         popup.setOnMenuItemClickListener { mi ->
             when {
@@ -251,14 +252,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 mi.title == getString(R.string.menu_stats) -> { showStats(); true }
-                mi.title == getString(R.string.menu_export) -> {
-                    exportLauncher.launch("gunplalog_" + System.currentTimeMillis() + ".csv")
-                    true
-                }
-                mi.title == getString(R.string.menu_import) -> {
-                    importLauncher.launch(arrayOf("*/*"))
-                    true
-                }
+                mi.title == getString(R.string.menu_backup) -> { pickBackupTarget(); true }
+                mi.title == getString(R.string.menu_restore) -> { pickRestoreSource(); true }
+                mi.title == getString(R.string.menu_cloud) -> { openCloudSetting(); true }
                 else -> false
             }
         }
@@ -293,104 +289,227 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    // ---------- CSV ----------
+    // ---------- 备份 / 恢复 ----------
 
-    private fun csvEsc(s: String): String =
-        if (s.contains(',') || s.contains('"') || s.contains('\n')) {
-            "\"" + s.replace("\"", "\"\"") + "\""
-        } else s
+    private fun pickBackupTarget() {
+        if (items.isEmpty()) {
+            toast(getString(R.string.backup_empty))
+            return
+        }
+        val opts = arrayOf(getString(R.string.backup_local), getString(R.string.backup_cloud))
+        AlertDialog.Builder(this)
+            .setTitle(R.string.backup_pick_title)
+            .setItems(opts) { _, which ->
+                if (which == 0) backupLauncher.launch(Backup.defaultName())
+                else cloudBackup()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
 
-    private fun doExport(uri: Uri) {
+    private fun pickRestoreSource() {
+        val opts = arrayOf(getString(R.string.restore_local), getString(R.string.restore_cloud))
+        AlertDialog.Builder(this)
+            .setTitle(R.string.restore_pick_title)
+            .setItems(opts) { _, which ->
+                if (which == 0) restoreLauncher.launch(arrayOf("*/*"))
+                else cloudRestore()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun openCloudSetting() {
+        val sheet = CloudSheet()
+        sheet.show(supportFragmentManager, "cloud")
+    }
+
+    // --- 本地 ---
+
+    private fun doLocalBackup(uri: Uri) {
         try {
-            val sb = StringBuilder()
-            sb.append("名称,规格,比例,价格,购买日期,状态,备注").append('\n')
-            for (it2 in items) {
-                sb.append(csvEsc(it2.name)).append(',')
-                    .append(it2.grade).append(',')
-                    .append(csvEsc(it2.scale)).append(',')
-                    .append(String.format(java.util.Locale.US, "%.2f", it2.price)).append(',')
-                    .append(it2.date).append(',')
-                    .append(Item.statusName(it2.status)).append(',')
-                    .append(csvEsc(it2.note)).append('\n')
-            }
             contentResolver.openOutputStream(uri)?.use { os ->
-                os.write(sb.toString().toByteArray(Charsets.UTF_8))
-            }
-            Toast.makeText(this, getString(R.string.export_done_fmt, items.size), Toast.LENGTH_SHORT).show()
+                Backup.write(this, items, os)
+            } ?: throw IllegalStateException("无法写入所选位置")
+            toast(getString(R.string.backup_done_fmt, items.size))
         } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.export_fail_fmt, e.message ?: ""), Toast.LENGTH_LONG).show()
+            toast(getString(R.string.backup_fail_fmt, e.message ?: e.javaClass.simpleName))
         }
     }
 
-    private fun doImport(uri: Uri) {
-        try {
-            val text = contentResolver.openInputStream(uri)?.use { ins ->
-                ins.readBytes().toString(Charsets.UTF_8)
-            } ?: return
-            var added = 0
-            var skipped = 0
-            for ((i, line) in text.lines().withIndex()) {
-                val raw = line.trim()
-                if (raw.isEmpty()) continue
-                if (i == 0 && raw.startsWith("名称")) continue
-                val cols = parseCsvLine(raw)
-                if (cols.size < 4) { skipped++; continue }
-                val name = cols[0].trim()
-                if (name.isEmpty()) { skipped++; continue }
-                val date = if (cols.size > 4) cols[4].trim() else ""
-                if (items.any { it.name == name && it.date == date }) { skipped++; continue }
-                items.add(
-                    Item(
-                        id = java.util.UUID.randomUUID().toString(),
-                        name = name,
-                        grade = Grades.normalize(cols[1]),
-                        scale = cols[2].trim(),
-                        price = cols[3].trim().toDoubleOrNull() ?: 0.0,
-                        date = date,
-                        status = statusFrom(if (cols.size > 5) cols[5].trim() else ""),
-                        note = if (cols.size > 6) cols[6].trim() else "",
-                        photo = "",
-                        createdAt = System.currentTimeMillis()
-                    )
-                )
-                added++
+    private fun doLocalRestore(uri: Uri) {
+        val bytes = try {
+            contentResolver.openInputStream(uri)?.use { it.readBytes() }
+        } catch (e: Exception) {
+            toast(getString(R.string.restore_fail_fmt, e.message ?: ""))
+            return
+        }
+        if (bytes == null || bytes.isEmpty()) {
+            toast(getString(R.string.restore_bad_file))
+            return
+        }
+        confirmAndRestore(bytes)
+    }
+
+    // --- 云端 ---
+
+    private fun cloudBackup() {
+        val cfg = WebDav.load(this)
+        if (!cfg.configured) {
+            promptCloudSetup()
+            return
+        }
+        val dlg = progress(getString(R.string.backup_uploading))
+        val name = Backup.defaultName()
+        Thread {
+            val err: String? = try {
+                WebDav.upload(cfg, name, Backup.toBytes(this, items))
+            } catch (e: Exception) {
+                e.message ?: e.javaClass.simpleName
             }
+            runOnUiThread {
+                dismiss(dlg)
+                if (err == null) toast(getString(R.string.backup_cloud_done_fmt, name))
+                else toast(getString(R.string.backup_fail_fmt, err))
+            }
+        }.start()
+    }
+
+    private fun cloudRestore() {
+        val cfg = WebDav.load(this)
+        if (!cfg.configured) {
+            promptCloudSetup()
+            return
+        }
+        val dlg = progress(getString(R.string.cloud_listing))
+        Thread {
+            var err: String? = null
+            var list: List<WebDav.Entry> = emptyList()
+            try {
+                list = WebDav.list(cfg)
+            } catch (e: Exception) {
+                err = e.message ?: e.javaClass.simpleName
+            }
+            val finalList = list
+            val finalErr = err
+            runOnUiThread {
+                dismiss(dlg)
+                when {
+                    finalErr != null -> toast(getString(R.string.restore_fail_fmt, finalErr))
+                    finalList.isEmpty() -> toast(getString(R.string.cloud_list_empty))
+                    else -> showCloudPicker(cfg, finalList)
+                }
+            }
+        }.start()
+    }
+
+    private fun showCloudPicker(cfg: WebDav.Config, list: List<WebDav.Entry>) {
+        val labels = list.map { e ->
+            val kb = if (e.size > 0) " · " + (e.size / 1024).coerceAtLeast(1) + " KB" else ""
+            e.name + kb
+        }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle(R.string.cloud_pick_title)
+            .setItems(labels) { _, which -> downloadAndRestore(cfg, list[which].name) }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun downloadAndRestore(cfg: WebDav.Config, name: String) {
+        val dlg = progress(getString(R.string.restore_downloading))
+        Thread {
+            var bytes: ByteArray? = null
+            var err: String? = null
+            try {
+                bytes = WebDav.download(cfg, name)
+            } catch (e: Exception) {
+                err = e.message ?: e.javaClass.simpleName
+            }
+            val finalBytes = bytes
+            val finalErr = err
+            runOnUiThread {
+                dismiss(dlg)
+                if (finalErr != null || finalBytes == null) {
+                    toast(getString(R.string.restore_fail_fmt, finalErr ?: ""))
+                } else {
+                    confirmAndRestore(finalBytes)
+                }
+            }
+        }.start()
+    }
+
+    // --- 恢复确认 ---
+
+    private fun confirmAndRestore(bytes: ByteArray) {
+        val meta = Backup.peek(java.io.ByteArrayInputStream(bytes))
+        if (meta == null) {
+            toast(getString(R.string.restore_bad_file))
+            return
+        }
+        val count = meta.optInt("count", meta.optJSONArray("items")?.length() ?: 0)
+        val created = meta.optString("createdAtText").ifBlank { "未知时间" }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.restore_mode_title)
+            .setMessage(getString(R.string.restore_mode_msg_fmt, count, created))
+            .setPositiveButton(R.string.restore_mode_merge) { _, _ ->
+                applyRestore(bytes, Backup.MODE_MERGE)
+            }
+            .setNeutralButton(R.string.restore_mode_replace) { _, _ ->
+                applyRestore(bytes, Backup.MODE_REPLACE)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun applyRestore(bytes: ByteArray, mode: Int) {
+        try {
+            val r = Backup.restore(this, java.io.ByteArrayInputStream(bytes), items, mode)
             store.save(items)
+            Photos.gc(this, items)
             buildFilterPills()
             refresh()
-            Toast.makeText(this, getString(R.string.import_done_fmt, added, skipped), Toast.LENGTH_SHORT).show()
+            toast(getString(R.string.restore_done_fmt, r.added, r.skipped, r.photos))
         } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.import_fail_fmt, e.message ?: ""), Toast.LENGTH_LONG).show()
+            toast(getString(R.string.restore_fail_fmt, e.message ?: e.javaClass.simpleName))
         }
     }
 
-    private fun statusFrom(s: String): Int = when {
-        s.contains("想买") -> 0
-        s.contains("已出") -> 2
-        else -> 1
+    private fun promptCloudSetup() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.cloud_not_configured)
+            .setPositiveButton(R.string.cloud_goto_setting) { _, _ -> openCloudSetting() }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
-    private fun parseCsvLine(line: String): List<String> {
-        val out = mutableListOf<String>()
-        val sb = StringBuilder()
-        var inQ = false
-        var i = 0
-        while (i < line.length) {
-            val c = line[i]
-            if (inQ) {
-                if (c == '"') {
-                    if (i + 1 < line.length && line[i + 1] == '"') {
-                        sb.append('"'); i++
-                    } else inQ = false
-                } else sb.append(c)
-            } else when (c) {
-                '"' -> inQ = true
-                ',' -> { out.add(sb.toString()); sb.setLength(0) }
-                else -> sb.append(c)
-            }
-            i++
+    // ---------- 小工具 ----------
+
+    private fun toast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun progress(msg: String): AlertDialog {
+        val pad = (24 * resources.displayMetrics.density).toInt()
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = android.view.Gravity.CENTER_VERTICAL
+            setPadding(pad, pad, pad, pad)
+            addView(android.widget.ProgressBar(this@MainActivity))
+            addView(TextView(this@MainActivity).apply {
+                text = msg
+                textSize = 14f
+                setPadding(pad / 2, 0, 0, 0)
+            })
         }
-        out.add(sb.toString())
-        return out
+        val d = AlertDialog.Builder(this).setView(row).setCancelable(false).create()
+        d.show()
+        return d
+    }
+
+    private fun dismiss(d: AlertDialog?) {
+        try {
+            d?.dismiss()
+        } catch (_: Exception) {
+        }
     }
 }

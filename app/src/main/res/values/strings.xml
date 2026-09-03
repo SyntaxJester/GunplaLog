@@ -50,8 +50,57 @@
     <string name="sort_price_asc">价格 低→高</string>
     <string name="sort_name">名称 A→Z</string>
     <string name="menu_stats">📊 统计</string>
-    <string name="menu_export">📤 导出 CSV</string>
-    <string name="menu_import">📥 导入 CSV</string>
+    <string name="menu_backup">💾 备份</string>
+    <string name="menu_restore">♻️ 恢复</string>
+    <string name="menu_cloud">☁️ 云服务设置</string>
+
+    <string name="backup_pick_title">备份到哪里</string>
+    <string name="backup_local">📁 备份到本地文件</string>
+    <string name="backup_cloud">☁️ 备份到坚果云</string>
+    <string name="restore_pick_title">从哪里恢复</string>
+    <string name="restore_local">📁 从本地文件恢复</string>
+    <string name="restore_cloud">☁️ 从坚果云恢复</string>
+
+    <string name="backup_empty">还没有任何记录，无需备份</string>
+    <string name="backup_done_fmt">已备份 %1$d 条记录</string>
+    <string name="backup_fail_fmt">备份失败：%1$s</string>
+    <string name="backup_uploading">正在上传到坚果云…</string>
+    <string name="backup_cloud_done_fmt">已上传：%1$s</string>
+
+    <string name="restore_mode_title">恢复方式</string>
+    <string name="restore_mode_msg_fmt">备份包含 %1$d 条记录（%2$s）\n\n合并：保留现有记录，只补充没有的\n覆盖：清空现有记录，完全按备份还原</string>
+    <string name="restore_mode_merge">合并</string>
+    <string name="restore_mode_replace">覆盖</string>
+    <string name="restore_done_fmt">恢复完成：新增 %1$d 条，跳过 %2$d 条，图片 %3$d 张</string>
+    <string name="restore_fail_fmt">恢复失败：%1$s</string>
+    <string name="restore_bad_file">这不是有效的备份文件（需要 .gunpla.zip）</string>
+    <string name="restore_downloading">正在从坚果云下载…</string>
+    <string name="cloud_list_empty">坚果云上还没有备份文件</string>
+    <string name="cloud_listing">正在读取云端备份列表…</string>
+    <string name="cloud_pick_title">选择要恢复的备份</string>
+    <string name="cloud_not_configured">请先设置坚果云账号</string>
+    <string name="cloud_goto_setting">去设置</string>
+
+    <string name="cloud_title">坚果云 / WebDAV</string>
+    <string name="cloud_help">坚果云需要使用「应用密码」，不是登录密码。在坚果云网页端 → 账户信息 → 安全选项 → 添加应用密码，生成后填到下面。凭据保存在本机应用私有目录，不会上传到别处。</string>
+    <string name="cloud_open_console">打开坚果云安全设置页 ›</string>
+    <string name="cloud_endpoint">服务器地址</string>
+    <string name="cloud_endpoint_hint">https://dav.jianguoyun.com/dav/</string>
+    <string name="cloud_user">账号（邮箱）</string>
+    <string name="cloud_user_hint">you@example.com</string>
+    <string name="cloud_pass">应用密码</string>
+    <string name="cloud_pass_hint">坚果云生成的应用密码</string>
+    <string name="cloud_dir">备份目录</string>
+    <string name="cloud_dir_hint">GunplaLog</string>
+    <string name="cloud_test">测试连接</string>
+    <string name="cloud_save">保存</string>
+    <string name="cloud_clear">清除已保存的账号</string>
+    <string name="cloud_testing">正在连接…</string>
+    <string name="cloud_test_ok">连接成功，备份目录就绪</string>
+    <string name="cloud_need_all">地址、账号、应用密码都要填</string>
+    <string name="cloud_saved">已保存云服务设置</string>
+    <string name="cloud_cleared">已清除云服务账号</string>
+    <string name="cloud_open_fail">没有可用的浏览器</string>
 
     <string name="stats_total_fmt">总记录：%1$d 条</string>
     <string name="stats_owned_fmt">已入手：%1$d 台 · 合计 ¥%2$.2f</string>
@@ -59,8 +108,5 @@
     <string name="stats_by_grade">按规格：</string>
     <string name="stats_top_fmt">最贵一台：%1$s（¥%2$.2f）</string>
 
-    <string name="export_done_fmt">已导出 %1$d 条</string>
-    <string name="export_fail_fmt">导出失败：%1$s</string>
-    <string name="import_done_fmt">导入 %1$d 条，跳过重复/无效 %2$d 条</string>
-    <string name="import_fail_fmt">导入失败：%1$s</string>
+    <string name="loading">处理中…</string>
 </resources>

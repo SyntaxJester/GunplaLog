@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         try {
             setupUi()
             CrashGuard.step(this, "[5] activity.onCreate complete")
-            CrashGuard.prevReport()?.let { showCrashDialog(it) }
+            CrashGuard.consumePrevReport()?.let { showCrashDialog(it) }
         } catch (t: Throwable) {
             CrashGuard.logThrowable(this, t)
             CrashGuard.step(this, "[X] crashed: " + t.javaClass.name)
@@ -154,14 +154,13 @@ class MainActivity : AppCompatActivity() {
         }
         val scroll = android.widget.ScrollView(this).apply { addView(tv) }
         AlertDialog.Builder(this)
-            .setTitle("检测到上次崩溃日志")
+            .setTitle("上次运行异常退出")
             .setView(scroll)
             .setPositiveButton("复制日志") { _, _ ->
                 CrashGuard.copy(this, text)
                 Toast.makeText(this, "已复制，可粘贴发给开发者", Toast.LENGTH_SHORT).show()
             }
-            .setNeutralButton("清除日志") { _, _ -> CrashGuard.clear(this) }
-            .setNegativeButton("关闭", null)
+            .setNegativeButton("知道了") { _, _ -> CrashGuard.clear(this) }
             .show()
     }
 

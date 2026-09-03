@@ -13,6 +13,7 @@ import java.util.Locale
 object CrashGuard {
 
     private const val FILE = "crash_report.txt"
+    private const val CRASH_MARK = "---- CRASH ----"
 
     @Volatile
     private var prev: String? = null
@@ -20,13 +21,18 @@ object CrashGuard {
     fun file(ctx: Context): File =
         File(ctx.getExternalFilesDir(null) ?: ctx.filesDir, FILE)
 
-    /** 记录本次启动之前的旧报告，然后开新的一页 */
+    /**
+     * 记录本次启动之前的旧报告，然后开新的一页。
+     * 只有真正含崩溃堆栈的旧报告才会留在 prev —— 正常启动的面包屑不算，
+     * 否则每次开 App 都会弹诊断框。
+     */
     fun begin(ctx: Context) {
-        prev = try {
+        val last = try {
             file(ctx).takeIf { it.exists() }?.readText()
         } catch (_: Exception) {
             null
         }
+        prev = last?.takeIf { it.contains(CRASH_MARK) }
         try {
             file(ctx).writeText(
                 "=== launch "
@@ -57,6 +63,13 @@ object CrashGuard {
     }
 
     fun prevReport(): String? = prev?.takeIf { it.isNotBlank() }
+
+    /** 弹过一次就丢掉，避免同一份日志反复打扰 */
+    fun consumePrevReport(): String? {
+        val p = prev?.takeIf { it.isNotBlank() }
+        prev = null
+        return p
+    }
 
     fun install(ctx: Context) {
         val old = Thread.getDefaultUncaughtExceptionHandler()

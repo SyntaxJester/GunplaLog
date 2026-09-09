@@ -97,25 +97,17 @@ class CalendarWeekView(context: Context) {
             val tvDay = v.findViewById<TextView>(R.id.tvDay)
             val vDot = v.findViewById<View>(R.id.vDot)
 
-            // 星期文字
+            // 星期文字（图二保持统一灰色）
             tvWeek.text = dayLabels[(dayCal.get(Calendar.DAY_OF_WEEK) - 2 + 7) % 7]
-            tvWeek.setTextColor(if (isSelected) Color.parseColor("#3C7BF2") else Color.parseColor("#999999"))
+            tvWeek.setTextColor(Color.parseColor("#777D88"))
 
             // 日期数字
             tvDay.text = dayCal.get(Calendar.DAY_OF_MONTH).toString()
             tvDay.isSelected = isSelected
-            tvDay.setTextColor(if (isSelected) Color.WHITE else Color.parseColor("#333333"))
+            tvDay.setTextColor(if (isSelected) Color.parseColor("#3C7BF2") else Color.parseColor("#151924"))
 
-            // 今日小圆点
-            if (isToday && markedDates.contains(dateKey)) {
-                vDot.visibility = View.VISIBLE
-                vDot.setBackgroundResource(R.drawable.bg_cal_today)
-            } else if (markedDates.contains(dateKey)) {
-                vDot.visibility = View.VISIBLE
-                vDot.setBackgroundResource(R.drawable.bg_cal_dot)
-            } else {
-                vDot.visibility = View.INVISIBLE
-            }
+            // 图二不显示记录小圆点，日期本身就是唯一视觉焦点
+            vDot.visibility = View.GONE
 
             // 点击
             v.setOnClickListener {

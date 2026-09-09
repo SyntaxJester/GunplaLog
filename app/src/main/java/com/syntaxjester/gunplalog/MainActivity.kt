@@ -151,18 +151,6 @@ class MainActivity : AppCompatActivity() {
         }
         val calContainer = tabHome.findViewById<ViewGroup>(R.id.calendarContainer)
         calContainer.addView(calendarView.getContainer())
-        tabHome.findViewById<TextView>(R.id.tvMonthTitle).text = calendarView.getMonthTitle()
-
-        tabHome.findViewById<View>(R.id.btnPrevWeek).setOnClickListener {
-            calendarView.prevWeek()
-            val title = calendarView.getMonthTitle()
-            tabHome.findViewById<TextView>(R.id.tvMonthTitle).text = title
-        }
-        tabHome.findViewById<View>(R.id.btnNextWeek).setOnClickListener {
-            calendarView.nextWeek()
-            val title = calendarView.getMonthTitle()
-            tabHome.findViewById<TextView>(R.id.tvMonthTitle).text = title
-        }
 
         // 底部导航：必须绑定 nav* 按钮，不能绑到 tab 内容容器
         switchTab(0)

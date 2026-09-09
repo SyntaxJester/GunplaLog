@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 图二：选中日是极浅蓝圆，不是实心深蓝 -->
     <item android:state_selected="true">
         <shape android:shape="oval">
-            <solid android:color="#3C7BF2" />
+            <solid android:color="#EAF3FF" />
         </shape>
     </item>
     <item>

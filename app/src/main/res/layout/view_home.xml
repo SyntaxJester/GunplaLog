@@ -3,83 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 用户提供的原始参考图：包含「玩物赏志」标题、手写 Logo、相机与背景 -->
+    <!-- 直接使用用户提供的玩物赏志背景；已在资源中去掉中间相机装饰 -->
     <ImageView
-        android:id="@+id/ivHomeReferenceBg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="首页背景"
         android:scaleType="fitXY"
         android:src="@drawable/home_reference" />
 
-    <!-- 业务层：避开原图顶部 Logo，保留周日历和当天记录 -->
+    <!-- 图二样式：标题下仅显示星期和日期，无月份标题与箭头 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="214dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp">
-
-            <ImageView
-                android:id="@+id/btnPrevWeek"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="上一周"
-                android:padding="7dp"
-                android:src="@drawable/ic_arrow_left" />
-
-            <TextView
-                android:id="@+id/tvMonthTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#333333"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/btnNextWeek"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="下一周"
-                android:padding="7dp"
-                android:src="@drawable/ic_arrow_right" />
-        </LinearLayout>
+        android:paddingTop="126dp">
 
         <LinearLayout
             android:id="@+id/calendarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp" />
-
-        <TextView
-            android:id="@+id/tvHomeDateLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="4dp"
-            android:text="@string/home_date_label"
-            android:textColor="#222222"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="38dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHome"
@@ -93,33 +44,35 @@
                 android:id="@+id/homeEmpty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="94dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="☀️"
-                    android:textSize="42sp" />
+                <!-- 图一：太阳改为相机图标 -->
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:contentDescription="@string/photo_camera"
+                    android:src="@drawable/ic_empty_camera" />
 
                 <TextView
                     android:id="@+id/tvHomeEmpty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="18dp"
                     android:text="@string/home_empty_today"
-                    android:textColor="#8A909C"
-                    android:textSize="15sp" />
+                    android:textColor="#222222"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/home_empty_hint"
-                    android:textColor="#AAB0BC"
-                    android:textSize="13sp" />
+                    android:textColor="#7F8B9B"
+                    android:textSize="14sp" />
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>

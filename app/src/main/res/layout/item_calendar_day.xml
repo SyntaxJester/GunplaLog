@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="6dp"
-    android:paddingBottom="14dp">
+    android:paddingTop="5dp"
+    android:paddingBottom="6dp">
 
     <!-- 星期 -->
     <TextView

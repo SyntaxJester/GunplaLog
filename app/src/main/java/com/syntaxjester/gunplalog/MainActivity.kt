@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var store: Store
     private val items = mutableListOf<Item>()
     private lateinit var adapter: ItemAdapter
+    private lateinit var homeAdapter: ItemAdapter
     private lateinit var caseAdapter: ShowCaseAdapter
 
     private var filterGrade = "全部"
@@ -106,6 +107,16 @@ class MainActivity : AppCompatActivity() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
 
+        // 首页和物品页不能共享同一个 adapter：共享时刷新首页会覆盖物品列表
+        val rvHome = tabHome.findViewById<RecyclerView>(R.id.rvHome)
+        homeAdapter = ItemAdapter(
+            onClick = { openEdit(it) },
+            onLongClick = { confirmDelete(it) },
+            onPhotoClick = { PhotoViewer.show(this, it.photo) }
+        )
+        rvHome.layoutManager = LinearLayoutManager(this)
+        rvHome.adapter = homeAdapter
+
         tabItems.findViewById<EditText>(R.id.etSearch).addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 query = s?.toString()?.trim() ?: ""
@@ -118,6 +129,7 @@ class MainActivity : AppCompatActivity() {
 
         // 展架 tab
         caseAdapter = ShowCaseAdapter(
+            onItemClick = { openEdit(it) },
             onPhotoClick = { PhotoViewer.show(this, it.photo) },
             onItemLong = { confirmDelete(it) }
         )
@@ -128,6 +140,7 @@ class MainActivity : AppCompatActivity() {
         // 我的 tab
         tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { showStats() }
         tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { pickBackupTarget() }
+        tabMe.findViewById<View>(R.id.btnMeRestore).setOnClickListener { pickRestoreSource() }
         tabMe.findViewById<View>(R.id.btnMeCloud).setOnClickListener { openCloudSetting() }
 
         // 日历周条
@@ -151,13 +164,13 @@ class MainActivity : AppCompatActivity() {
             tabHome.findViewById<TextView>(R.id.tvMonthTitle).text = title
         }
 
-        // 底部导航
+        // 底部导航：必须绑定 nav* 按钮，不能绑到 tab 内容容器
         switchTab(0)
-        setupNav(tabHome, 0)
-        setupNav(tabItems, 1)
+        setupNav(findViewById(R.id.navHome), 0)
+        setupNav(findViewById(R.id.navItems), 1)
         navAdd.setOnClickListener { openEdit(null) }
-        setupNav(tabShowcase, 3)
-        setupNav(tabMe, 4)
+        setupNav(findViewById(R.id.navShowcase), 3)
+        setupNav(findViewById(R.id.navMe), 4)
     }
 
     private fun setupNav(view: View, index: Int) {
@@ -233,9 +246,7 @@ class MainActivity : AppCompatActivity() {
         if (dayItems.isEmpty()) {
             tvEmpty.text = getString(R.string.home_empty_today)
         }
-        rvHome.layoutManager = LinearLayoutManager(this)
-        rvHome.adapter = adapter
-        adapter.submit(dayItems)
+        homeAdapter.submit(dayItems)
         // 更新日历标记
         calendarView.markedDates = items.map { it.date }.toSet()
         calendarView.refreshMarks()

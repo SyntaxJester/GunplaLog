@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 参考图的低饱和雾蓝底色：只借鉴氛围，不复刻其文字或插画 -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="315"
+                android:startColor="#F3F7FC"
+                android:centerColor="#FCFCFE"
+                android:endColor="#F5F6FA"
+                android:type="linear" />
+        </shape>
+    </item>
+    <!-- 右上方轻蓝雾光 -->
+    <item android:left="580dp" android:top="-100dp" android:right="-120dp" android:bottom="1280dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="0"
+                android:startColor="#193C7BF2"
+                android:endColor="#003C7BF2"
+                android:type="radial"
+                android:gradientRadius="360dp" />
+        </shape>
+    </item>
+    <!-- 左下方轻灰蓝雾光 -->
+    <item android:left="-260dp" android:top="940dp" android:right="380dp" android:bottom="-180dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="0"
+                android:startColor="#12B8C8E8"
+                android:endColor="#00B8C8E8"
+                android:type="radial"
+                android:gradientRadius="330dp" />
+        </shape>
+    </item>
+</layer-list>

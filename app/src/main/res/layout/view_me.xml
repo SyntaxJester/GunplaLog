@@ -191,6 +191,25 @@
                         android:background="@color/divider" />
 
                     <TextView
+                        android:id="@+id/btnMeRestore"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:drawableStart="@drawable/ic_restore"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:text="@string/menu_restore"
+                        android:textColor="@color/text_main"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <TextView
                         android:id="@+id/btnMeCloud"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"

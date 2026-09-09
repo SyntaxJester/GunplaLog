@@ -6,5 +6,13 @@
     <color name="grad_end">#14359E</color>
     <color name="icon_bg">#1E4FD6</color>
     <color name="white">#FFFFFF</color>
-    <color name="page_bg">#F4F6FB</color>
+    <color name="page_bg">#FFFFFF</color>
+    <color name="text_main">#222222</color>
+    <color name="text_secondary">#8A909C</color>
+    <color name="text_tertiary">#B4B9C9</color>
+    <color name="divider">#F1F3F8</color>
+    <color name="nav_bg">#FFFFFF</color>
+    <color name="nav_icon_inactive">#9AA0AC</color>
+    <color name="nav_icon_active">#1E4FD6</color>
+    <color name="empty_icon">#DDE3EF</color>
 </resources>

@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">高达记物</string>
+    <string name="tagline">高达模型收藏 · 记录你的每一台高达</string>
+    <string name="app_version">GunplaLog v1.3.0</string>
     <string name="title_main">高达模型收藏</string>
-    <string name="sub_main">GunplaLog · 离线存储</string>
     <string name="sheet_title">高达模型</string>
     <string name="count_fmt">%1$d 台</string>
     <string name="subtitle_fmt">共 %1$d 台 · 累计 ¥%2$.2f</string>
     <string name="search_hint">搜索名称 / 备注…</string>
     <string name="btn_stats">📊 统计</string>
     <string name="empty_title">暂无模型数据</string>
-    <string name="empty_sub">点击右下角 ＋ 添加第一台高达</string>
+    <string name="empty_sub">点击 ＋ 添加第一台高达</string>
 
+    <!-- Tabs -->
+    <string name="tab_home">首页</string>
+    <string name="tab_items">物品</string>
+    <string name="tab_add">拍摄</string>
+    <string name="tab_showcase">展架</string>
+    <string name="tab_me">我的</string>
+
+    <!-- Home -->
+    <string name="home_empty_today">这天还没有模型</string>
+    <string name="home_empty_hint">点击 ＋ 添加新记录</string>
+
+    <!-- Showcase -->
+    <string name="showcase_empty">还没有带照片的模型</string>
+
+    <!-- Me -->
+    <string name="me_stats_title">收藏概览</string>
+    <string name="me_total_models">总收藏</string>
+    <string name="me_total_spent">累计花费</string>
+    <string name="me_types">模型种类</string>
+
+    <!-- Editor -->
     <string name="label_name">名称 *</string>
     <string name="label_photo">模型美图</string>
     <string name="photo_camera">📷 拍照</string>
@@ -36,13 +58,13 @@
     <string name="date_pick">选择日期</string>
     <string name="date_invalid">日期格式不对，请按 2026-09-02 填写</string>
     <string name="grade_pick_title">选择规格</string>
-
     <string name="save">保存</string>
     <string name="name_required">请输入名称</string>
     <string name="delete_title">删除记录</string>
     <string name="delete_msg_fmt">确定删除「%1$s」吗？</string>
     <string name="delete_ok">删除</string>
 
+    <!-- Sort -->
     <string name="menu_sort">排序方式</string>
     <string name="sort_date_desc">日期 新→旧</string>
     <string name="sort_date_asc">日期 旧→新</string>
@@ -54,19 +76,20 @@
     <string name="menu_restore">♻️ 恢复</string>
     <string name="menu_cloud">☁️ 云服务设置</string>
 
+    <!-- Backup -->
     <string name="backup_pick_title">备份到哪里</string>
     <string name="backup_local">📁 备份到本地文件</string>
     <string name="backup_cloud">☁️ 备份到坚果云</string>
     <string name="restore_pick_title">从哪里恢复</string>
     <string name="restore_local">📁 从本地文件恢复</string>
     <string name="restore_cloud">☁️ 从坚果云恢复</string>
-
     <string name="backup_empty">还没有任何记录，无需备份</string>
     <string name="backup_done_fmt">已备份 %1$d 条记录</string>
     <string name="backup_fail_fmt">备份失败：%1$s</string>
     <string name="backup_uploading">正在上传到坚果云…</string>
     <string name="backup_cloud_done_fmt">已上传：%1$s</string>
 
+    <!-- Restore -->
     <string name="restore_mode_title">恢复方式</string>
     <string name="restore_mode_msg_fmt">备份包含 %1$d 条记录（%2$s）\n\n合并：保留现有记录，只补充没有的\n覆盖：清空现有记录，完全按备份还原</string>
     <string name="restore_mode_merge">合并</string>
@@ -75,12 +98,13 @@
     <string name="restore_fail_fmt">恢复失败：%1$s</string>
     <string name="restore_bad_file">这不是有效的备份文件（需要 .gunpla.zip）</string>
     <string name="restore_downloading">正在从坚果云下载…</string>
+
+    <!-- Cloud -->
     <string name="cloud_list_empty">坚果云上还没有备份文件</string>
     <string name="cloud_listing">正在读取云端备份列表…</string>
     <string name="cloud_pick_title">选择要恢复的备份</string>
     <string name="cloud_not_configured">请先设置坚果云账号</string>
     <string name="cloud_goto_setting">去设置</string>
-
     <string name="cloud_title">坚果云 / WebDAV</string>
     <string name="cloud_help">坚果云需要使用「应用密码」，不是登录密码。在坚果云网页端 → 账户信息 → 安全选项 → 添加应用密码，生成后填到下面。凭据保存在本机应用私有目录，不会上传到别处。</string>
     <string name="cloud_open_console">打开坚果云安全设置页 ›</string>
@@ -102,11 +126,11 @@
     <string name="cloud_cleared">已清除云服务账号</string>
     <string name="cloud_open_fail">没有可用的浏览器</string>
 
+    <!-- Stats -->
     <string name="stats_total_fmt">总记录：%1$d 条</string>
     <string name="stats_owned_fmt">已入手：%1$d 台 · 合计 ¥%2$.2f</string>
     <string name="stats_wanted_fmt">想买 %1$d 台 · 已出 %2$d 台</string>
     <string name="stats_by_grade">按规格：</string>
     <string name="stats_top_fmt">最贵一台：%1$s（¥%2$.2f）</string>
-
     <string name="loading">处理中…</string>
 </resources>

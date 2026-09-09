@@ -136,7 +136,20 @@ class MainActivity : AppCompatActivity() {
             selectedCal = cal.clone() as Calendar
             refreshHome()
         }
-        tabHome.findViewById<ViewGroup>(R.id.calendarContainer).addView(calendarView)
+        val calContainer = tabHome.findViewById<ViewGroup>(R.id.calendarContainer)
+        calContainer.addView(calendarView.getContainer())
+        tabHome.findViewById<TextView>(R.id.tvMonthTitle).text = calendarView.getMonthTitle()
+
+        tabHome.findViewById<View>(R.id.btnPrevWeek).setOnClickListener {
+            calendarView.prevWeek()
+            val title = calendarView.getMonthTitle()
+            tabHome.findViewById<TextView>(R.id.tvMonthTitle).text = title
+        }
+        tabHome.findViewById<View>(R.id.btnNextWeek).setOnClickListener {
+            calendarView.nextWeek()
+            val title = calendarView.getMonthTitle()
+            tabHome.findViewById<TextView>(R.id.tvMonthTitle).text = title
+        }
 
         // 底部导航
         switchTab(0)

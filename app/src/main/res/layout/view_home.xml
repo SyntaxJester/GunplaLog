@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="36dp">
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
     <!-- 标题区 -->
     <LinearLayout
@@ -11,24 +11,64 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="6dp">
+        android:paddingTop="42dp"
+        android:paddingBottom="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textColor="@color/text_main"
+            android:text="@string/title_main"
+            android:textColor="#222222"
             android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:text="@string/tagline"
-            android:textColor="@color/text_tertiary"
+            android:textColor="#B4B9C9"
             android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- 月份标题 + 左右箭头 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingTop="12dp"
+        android:paddingRight="16dp">
+
+        <ImageView
+            android:id="@+id/btnPrevWeek"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="上一周"
+            android:padding="6dp"
+            android:src="@drawable/ic_arrow_left" />
+
+        <TextView
+            android:id="@+id/tvMonthTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2026年9月"
+            android:textColor="#222222"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnNextWeek"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="下一周"
+            android:padding="6dp"
+            android:src="@drawable/ic_arrow_right" />
     </LinearLayout>
 
     <!-- 日历周条 -->
@@ -36,10 +76,33 @@
         android:id="@+id/calendarContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingTop="12dp"
-        android:paddingRight="12dp" />
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp" />
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="20dp"
+        android:background="#F1F3F8" />
+
+    <!-- 当日列表标题 -->
+    <TextView
+        android:id="@+id/tvHomeDateLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="4dp"
+        android:text="@string/home_date_label"
+        android:textColor="#222222"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <!-- 当日列表 -->
     <FrameLayout
@@ -52,8 +115,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
+            android:paddingTop="2dp"
+            android:paddingBottom="80dp" />
 
         <!-- 空态 -->
         <LinearLayout
@@ -75,17 +138,17 @@
                 android:id="@+id/tvHomeEmpty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/home_empty_today"
-                android:textColor="@color/text_tertiary"
+                android:textColor="#999999"
                 android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/home_empty_hint"
-                android:textColor="@color/text_tertiary"
+                android:textColor="#CCCCCC"
                 android:textSize="13sp" />
         </LinearLayout>
     </FrameLayout>

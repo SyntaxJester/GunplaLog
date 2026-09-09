@@ -1,146 +1,137 @@
-/*
- * 写在文件头部方便排查
- * - CalendarWeekView：横向 7 天日历条，本周可换页
- * - 点击某天 → 选中 + 回调；今日有记录 → 小圆点
- */
 package com.syntaxjester.gunplalog
 
 import android.content.Context
-import android.util.AttributeSet
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
-class CalendarWeekView @JvmOverloads constructor(
-    ctx: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : LinearLayout(ctx, attrs, defStyle) {
+/**
+ * 仿「玩物赏志」的周日历组件。
+ *
+ * 功能：
+ * - 显示一周七天的日期卡片
+ * - 选中日期蓝色圆圈背景白字
+ * - 有收藏的日期下方小灰点
+ * - 点击日期回调 listener
+ */
+class CalendarWeekView(context: Context) {
 
-    private val row = LinearLayout(ctx).apply {
-        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        orientation = HORIZONTAL
-        gravity = android.view.Gravity.CENTER_HORIZONTAL
+    private val container: LinearLayout = LinearLayout(context).apply {
+        orientation = LinearLayout.HORIZONTAL
     }
-    private val weekFmt = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-    private var weekStart: Calendar = Calendar.getInstance().apply {
-        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-    }
-    var selected: Calendar = Calendar.getInstance()
+
     var listener: ((Calendar) -> Unit)? = null
-
-    /** 有记录的日期字符串集合（yyyy-MM-dd） */
-    var markedDates: Set<String> = emptySet()
+    private val selected: Calendar = Calendar.getInstance()
+    private var weekStart: Calendar = Calendar.getInstance()
 
     init {
-        addView(row)
+        setWeekStart(selected)
         render()
-        setSelectedDay(selected)
     }
 
-    /** 设置周起始（保持周内日期不变） */
-    fun setWeekStart(cal: Calendar) {
-        weekStart = cal.clone() as Calendar
-        (weekStart as Calendar).set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    fun getContainer(): LinearLayout = container
+
+    fun refreshMarks() {
+        render()
+    }
+
+    var markedDates: Set<String> = emptySet()
+
+    fun today() {
+        val now = Calendar.getInstance()
+        setWeekStart(now)
+        setSelectedDay(now)
+        render()
+        listener?.invoke(selected.clone() as Calendar)
+    }
+
+    fun prevWeek() {
+        weekStart.add(Calendar.DAY_OF_YEAR, -7)
+        render()
+    }
+
+    fun nextWeek() {
+        weekStart.add(Calendar.DAY_OF_YEAR, 7)
         render()
     }
 
     fun setSelectedDay(sel: Calendar) {
-        selected = sel.clone() as Calendar
-        highlight()
-    }
-
-    /** 上一周 / 下一周 */
-    fun shift(weeks: Int) {
-        weekStart.add(Calendar.WEEK_OF_YEAR, weeks)
+        selected.time = sel.time
+        setWeekStart(selected)
         render()
     }
 
-    /** 今天 */
-    fun today() {
-        val now = Calendar.getInstance()
-        val cur = Calendar.getInstance().apply { time = now.time }
-        setWeekStart(cur)
-        setSelectedDay(now)
-        listener?.invoke(selected.clone() as Calendar)
+    fun getMonthTitle(): String {
+        val sdf = SimpleDateFormat("yyyy年M月", Locale.CHINESE)
+        return sdf.format(weekStart.time)
+    }
+
+    private fun setWeekStart(cal: Calendar) {
+        weekStart = cal.clone() as Calendar
+        weekStart.set(Calendar.DAY_OF_WEEK, weekStart.firstDayOfWeek)
+        weekStart.set(Calendar.HOUR_OF_DAY, 0)
+        weekStart.set(Calendar.MINUTE, 0)
+        weekStart.set(Calendar.SECOND, 0)
+        weekStart.set(Calendar.MILLISECOND, 0)
     }
 
     private fun render() {
-        row.removeAllViews()
-        val days = arrayOf("一", "二", "三", "四", "五", "六", "日")
+        container.removeAllViews()
+        val dayLabels = arrayOf("一", "二", "三", "四", "五", "六", "日")
+        val inflater = LayoutInflater.from(container.context)
+
         for (i in 0 until 7) {
             val dayCal = (weekStart.clone() as Calendar).apply {
                 add(Calendar.DAY_OF_YEAR, i)
             }
-            val v = LayoutInflater.from(context).inflate(
-                R.layout.item_calendar_day, row, false
-            )
+            val dateKey = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(dayCal.time)
+            val isToday = isSameDay(dayCal, Calendar.getInstance())
+            val isSelected = isSameDay(dayCal, selected)
+
+            val v = inflater.inflate(R.layout.item_calendar_day, container, false)
             val tvWeek = v.findViewById<TextView>(R.id.tvWeekday)
             val tvDay = v.findViewById<TextView>(R.id.tvDay)
-            val dot = v.findViewById<View>(R.id.vDot)
+            val vDot = v.findViewById<View>(R.id.vDot)
 
-            tvWeek.text = days[(dayCal.get(Calendar.DAY_OF_WEEK) - 2 + 7) % 7]
+            // 星期文字
+            tvWeek.text = dayLabels[(dayCal.get(Calendar.DAY_OF_WEEK) - 2 + 7) % 7]
+            tvWeek.setTextColor(if (isSelected) Color.parseColor("#3C7BF2") else Color.parseColor("#999999"))
+
+            // 日期数字
             tvDay.text = dayCal.get(Calendar.DAY_OF_MONTH).toString()
-            val isToday = isSameDay(dayCal, Calendar.getInstance())
-            dot.visibility = if (weekFmt.format(dayCal.time) in markedDates) View.VISIBLE else View.GONE
-            dot.isSelected = isToday
-            if (isToday) {
-                dot.visibility = View.VISIBLE
-                dot.isSelected = true
+            v.isSelected = isSelected
+
+            // 今日小圆点
+            if (isToday && markedDates.contains(dateKey)) {
+                vDot.visibility = View.VISIBLE
+                vDot.setBackgroundResource(R.drawable.bg_cal_today)
+            } else if (markedDates.contains(dateKey)) {
+                vDot.visibility = View.VISIBLE
+                vDot.setBackgroundResource(R.drawable.bg_cal_dot)
+            } else {
+                vDot.visibility = View.INVISIBLE
             }
 
-            val selectedCal = selected.clone() as Calendar
-            val isSelected = isSameDay(dayCal, selectedCal)
-            v.isSelected = isSelected
-            tvDay.isSelected = isSelected
-
+            // 点击
             v.setOnClickListener {
                 setSelectedDay(dayCal)
-                highlight()
-                listener?.invoke(selected.clone() as Calendar)
+                render()
+                listener?.invoke(dayCal.clone() as Calendar)
             }
-            row.addView(v, LayoutParams(0, LayoutParams.WRAP_CONTENT).apply {
+
+            container.addView(v, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 weight = 1f
             })
         }
     }
 
-    private fun highlight() {
-        for (i in 0 until row.childCount) {
-            val cal = (weekStart.clone() as Calendar).apply {
-                add(Calendar.DAY_OF_YEAR, i)
-            }
-            val v = row.getChildAt(i)
-            v.isSelected = isSameDay(cal, selected)
-            v.findViewById<TextView>(R.id.tvDay).isSelected = isSameDay(cal, selected)
-        }
-    }
-
-    /** 在当前周范围内刷新标记点 */
-    fun refreshMarks() {
-        for (i in 0 until row.childCount) {
-            val cal = (weekStart.clone() as Calendar).apply {
-                add(Calendar.DAY_OF_YEAR, i)
-            }
-            val dot = row.getChildAt(i).findViewById<View>(R.id.vDot)
-            val hasRecord = weekFmt.format(cal.time) in markedDates
-            val isToday = isSameDay(cal, Calendar.getInstance())
-            dot.visibility = if (hasRecord || isToday) View.VISIBLE else View.GONE
-            dot.isSelected = isToday
-        }
-    }
-
-    private fun isSameDay(a: Calendar, b: Calendar): Boolean {
-        return a.get(Calendar.YEAR) == b.get(Calendar.YEAR) &&
+    private fun isSameDay(a: Calendar, b: Calendar): Boolean =
+        a.get(Calendar.YEAR) == b.get(Calendar.YEAR) &&
                 a.get(Calendar.DAY_OF_YEAR) == b.get(Calendar.DAY_OF_YEAR)
-    }
-
-    /** 格式化日期字符串给外部消费 */
-    fun selectedDateKey(): String = weekFmt.format(selected.time)
 }

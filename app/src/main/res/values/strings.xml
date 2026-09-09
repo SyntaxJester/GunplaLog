@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">高达记物</string>
-    <string name="tagline">高达模型收藏 · 记录你的每一台高达</string>
+    <string name="tagline">发现美好·收藏热爱·记录生活</string>
     <string name="app_version">GunplaLog v1.3.0</string>
-    <string name="title_main">高达模型收藏</string>
-    <string name="sheet_title">高达模型</string>
+    <string name="title_main">高达记物</string>
+    <string name="sheet_title">高达记物</string>
     <string name="count_fmt">%1$d 台</string>
     <string name="subtitle_fmt">共 %1$d 台 · 累计 ¥%2$.2f</string>
     <string name="search_hint">搜索名称 / 备注…</string>
@@ -20,8 +20,9 @@
     <string name="tab_me">我的</string>
 
     <!-- Home -->
-    <string name="home_empty_today">这天还没有模型</string>
-    <string name="home_empty_hint">点击 ＋ 添加新记录</string>
+    <string name="home_empty_today">这天还没有收藏</string>
+    <string name="home_empty_hint">☀️ 切换日期，查看其他收藏</string>
+    <string name="home_date_label">今日收藏</string>
 
     <!-- Showcase -->
     <string name="showcase_empty">还没有带照片的模型</string>

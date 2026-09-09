@@ -29,10 +29,19 @@ class CalendarWeekView(context: Context) {
     var listener: ((Calendar) -> Unit)? = null
     private val selected: Calendar = Calendar.getInstance()
     private var weekStart: Calendar = Calendar.getInstance()
+    var markedDates: Set<String> = emptySet()
 
     init {
         setWeekStart(selected)
         render()
+    }
+
+    fun today() {
+        val now = Calendar.getInstance()
+        setWeekStart(now)
+        setSelectedDay(now)
+        render()
+        listener?.invoke(selected.clone() as Calendar)
     }
 
     fun getContainer(): LinearLayout = container
@@ -41,14 +50,8 @@ class CalendarWeekView(context: Context) {
         render()
     }
 
-    var markedDates: Set<String> = emptySet()
-
-    fun today() {
-        val now = Calendar.getInstance()
-        setWeekStart(now)
-        setSelectedDay(now)
-        render()
-        listener?.invoke(selected.clone() as Calendar)
+    fun getMonthTitle(): String {
+        return SimpleDateFormat("yyyy 年 MM 月", Locale.CHINA).format(weekStart.time)
     }
 
     fun prevWeek() {
@@ -65,11 +68,6 @@ class CalendarWeekView(context: Context) {
         selected.time = sel.time
         setWeekStart(selected)
         render()
-    }
-
-    fun getMonthTitle(): String {
-        val sdf = SimpleDateFormat("yyyy年M月", Locale.CHINESE)
-        return sdf.format(weekStart.time)
     }
 
     private fun setWeekStart(cal: Calendar) {
@@ -105,7 +103,8 @@ class CalendarWeekView(context: Context) {
 
             // 日期数字
             tvDay.text = dayCal.get(Calendar.DAY_OF_MONTH).toString()
-            v.isSelected = isSelected
+            tvDay.isSelected = isSelected
+            tvDay.setTextColor(if (isSelected) Color.WHITE else Color.parseColor("#333333"))
 
             // 今日小圆点
             if (isToday && markedDates.contains(dateKey)) {

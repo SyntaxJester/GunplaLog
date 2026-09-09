@@ -41,7 +41,7 @@ class CalendarWeekView @JvmOverloads constructor(
     init {
         addView(row)
         render()
-        setSelected(selected)
+        setSelectedDay(selected)
     }
 
     /** 设置周起始（保持周内日期不变） */
@@ -51,7 +51,7 @@ class CalendarWeekView @JvmOverloads constructor(
         render()
     }
 
-    fun setSelected(sel: Calendar) {
+    fun setSelectedDay(sel: Calendar) {
         selected = sel.clone() as Calendar
         highlight()
     }
@@ -67,7 +67,7 @@ class CalendarWeekView @JvmOverloads constructor(
         val now = Calendar.getInstance()
         val cur = Calendar.getInstance().apply { time = now.time }
         setWeekStart(cur)
-        setSelected(now)
+        setSelectedDay(now)
         listener?.invoke(selected.clone() as Calendar)
     }
 
@@ -101,7 +101,7 @@ class CalendarWeekView @JvmOverloads constructor(
             tvDay.isSelected = isSelected
 
             v.setOnClickListener {
-                setSelected(dayCal)
+                setSelectedDay(dayCal)
                 highlight()
                 listener?.invoke(selected.clone() as Calendar)
             }

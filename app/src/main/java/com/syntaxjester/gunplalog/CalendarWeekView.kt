@@ -106,7 +106,7 @@ class CalendarWeekView @JvmOverloads constructor(
                 listener?.invoke(selected.clone() as Calendar)
             }
             row.addView(v, LayoutParams(0, LayoutParams.WRAP_CONTENT).apply {
-                weight = 1
+                weight = 1f
             })
         }
     }

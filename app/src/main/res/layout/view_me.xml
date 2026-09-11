@@ -1,242 +1,330 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/meRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="36dp">
+    android:paddingBottom="24dp">
 
+    <!-- 顶部资料卡：头像 / 昵称 / 简介 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_me_tool"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/avatarView"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:background="@drawable/bg_profile_avatar"
+            android:contentDescription="@string/me_avatar"
+            android:src="@drawable/ic_profile_face" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="游客"
+                android:textColor="#151924"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvMeNameHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/me_name_hint"
+                android:textColor="#8A96AA"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnEditProfile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/me_edit"
+            android:padding="9dp"
+            android:src="@drawable/ic_profile_edit"
+            android:tint="#8A96AA" />
+    </LinearLayout>
+
+    <!-- 统计卡片：总收藏 / 累计花费 / 模型种类 -->
+    <LinearLayout
+        android:id="@+id/btnMeStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_me_tool"
+        android:orientation="horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMeTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#1E4FD6"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/me_total_models"
+                android:textColor="#8A96AA"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="#E4EAF4" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMeSpent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#1E4FD6"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="¥0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/me_total_spent"
+                android:textColor="#8A96AA"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="#E4EAF4" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMeTypes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#1E4FD6"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/me_types"
+                android:textColor="#8A96AA"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 功能列表 -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="14dp"
-        android:paddingBottom="12dp"
-        android:text="@string/tab_me"
-        android:textColor="@color/text_main"
-        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/me_tools_title"
+        android:textColor="#151924"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_me_tool"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
+        <!-- 备份 -->
         <LinearLayout
+            android:id="@+id/btnMeBackup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp">
+            android:layout_height="58dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
-                app:strokeColor="#F1F3F8"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/me_stats_title"
-                        android:textColor="@color/text_main"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tvMeTotal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@color/primary"
-                                android:textSize="28sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@string/me_total_models"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tvMeSpent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="¥0"
-                                android:textColor="#D32F2F"
-                                android:textSize="28sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@string/me_total_spent"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tvMeTypes"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="#7E57C2"
-                                android:textSize="28sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@string/me_types"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
-                app:strokeColor="#F1F3F8"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
-
-                    <TextView
-                        android:id="@+id/btnMeStats"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:drawableStart="@drawable/ic_nav_item"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:text="@string/menu_stats"
-                        android:textColor="@color/text_main"
-                        android:textSize="15sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider" />
-
-                    <TextView
-                        android:id="@+id/btnMeBackup"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:drawableStart="@drawable/ic_nav_showcase"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:text="@string/menu_backup"
-                        android:textColor="@color/text_main"
-                        android:textSize="15sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider" />
-
-                    <TextView
-                        android:id="@+id/btnMeRestore"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:drawableStart="@drawable/ic_restore"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:text="@string/menu_restore"
-                        android:textColor="@color/text_main"
-                        android:textSize="15sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider" />
-
-                    <TextView
-                        android:id="@+id/btnMeCloud"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:drawableStart="@drawable/ic_camera"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:text="@string/menu_cloud"
-                        android:textColor="@color/text_main"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_tool_backup"
+                android:tint="#2F7CF4" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:gravity="center"
-                android:text="@string/app_version"
-                android:textColor="@color/text_tertiary"
-                android:textSize="12sp" />
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:text="@string/menu_backup"
+                android:textColor="#151924"
+                android:textSize="15sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="32dp" />
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_nav_me_more"
+                android:tint="#8A96AA" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFF3FA" />
+
+        <!-- 恢复 -->
+        <LinearLayout
+            android:id="@+id/btnMeRestore"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_tool_restore"
+                android:tint="#2F7CF4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:text="@string/menu_restore"
+                android:textColor="#151924"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_nav_me_more"
+                android:tint="#8A96AA" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFF3FA" />
+
+        <!-- 云服务 -->
+        <LinearLayout
+            android:id="@+id/btnMeCloud"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_tool_cloud"
+                android:tint="#2F7CF4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:text="@string/menu_cloud"
+                android:textColor="#151924"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_nav_me_more"
+                android:tint="#8A96AA" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFF3FA" />
+
+        <!-- 关于 -->
+        <LinearLayout
+            android:id="@+id/btnMeAbout"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_tool_about"
+                android:tint="#2F7CF4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:text="@string/me_about"
+                android:textColor="#151924"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_nav_me_more"
+                android:tint="#8A96AA" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">高达记物</string>
     <string name="tagline">发现美好·收藏热爱·记录生活</string>
-    <string name="app_version">GunplaLog v1.3.0</string>
+    <string name="app_version">GunplaLog v1.3.6</string>
     <string name="title_main">高达记物</string>
     <string name="sheet_title">高达记物</string>
     <string name="count_fmt">%1$d 台</string>
@@ -16,22 +16,30 @@
     <string name="tab_home">首页</string>
     <string name="tab_items">物品</string>
     <string name="tab_add">拍摄</string>
+    <string name="tab_shoot">拍摄</string>
     <string name="tab_showcase">展架</string>
     <string name="tab_me">我的</string>
 
     <!-- Home -->
     <string name="home_empty_today">这天还没有收藏</string>
-    <string name="home_empty_hint">☀️ 切换日期，查看其他收藏</string>
+    <string name="home_empty_hint">点击中间拍摄，记录第一台模型</string>
     <string name="home_date_label">今日收藏</string>
 
     <!-- Showcase -->
     <string name="showcase_empty">还没有带照片的模型</string>
 
     <!-- Me -->
+    <string name="me_avatar">头像</string>
+    <string name="me_edit">编辑资料</string>
+    <string name="me_name_hint">轻触编辑昵称</string>
+    <string name="me_tools_title">功能工具</string>
     <string name="me_stats_title">收藏概览</string>
     <string name="me_total_models">总收藏</string>
     <string name="me_total_spent">累计花费</string>
     <string name="me_types">模型种类</string>
+    <string name="me_about">关于高达记物</string>
+    <string name="me_cloud">坚果云同步</string>
+    <string name="me_version">版本 %1$s</string>
 
     <!-- Editor -->
     <string name="label_name">名称 *</string>
@@ -72,10 +80,10 @@
     <string name="sort_price_desc">价格 高→低</string>
     <string name="sort_price_asc">价格 低→高</string>
     <string name="sort_name">名称 A→Z</string>
-    <string name="menu_stats">📊 统计</string>
-    <string name="menu_backup">💾 备份</string>
-    <string name="menu_restore">♻️ 恢复</string>
-    <string name="menu_cloud">☁️ 云服务设置</string>
+    <string name="menu_stats">统计信息</string>
+    <string name="menu_backup">备份数据</string>
+    <string name="menu_restore">恢复数据</string>
+    <string name="menu_cloud">坚果云同步</string>
 
     <!-- Backup -->
     <string name="backup_pick_title">备份到哪里</string>

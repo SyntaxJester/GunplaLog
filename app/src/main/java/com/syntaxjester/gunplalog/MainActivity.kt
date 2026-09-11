@@ -137,11 +137,14 @@ class MainActivity : AppCompatActivity() {
         caseRv.layoutManager = GridLayoutManager(this, 2)
         caseRv.adapter = caseAdapter
 
-        // 我的 tab
+        // 我的 tab：资料、统计、备份 / 恢复、云服务均可直接使用
         tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { showStats() }
         tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { pickBackupTarget() }
         tabMe.findViewById<View>(R.id.btnMeRestore).setOnClickListener { pickRestoreSource() }
         tabMe.findViewById<View>(R.id.btnMeCloud).setOnClickListener { openCloudSetting() }
+        tabMe.findViewById<View>(R.id.btnEditProfile).setOnClickListener { editProfileName() }
+        tabMe.findViewById<View>(R.id.avatarView).setOnClickListener { editProfileName() }
+        tabMe.findViewById<View>(R.id.btnMeAbout).setOnClickListener { showAbout() }
 
         // 日历周条
         calendarView = CalendarWeekView(this)
@@ -256,6 +259,41 @@ class MainActivity : AppCompatActivity() {
         tabMe.findViewById<TextView>(R.id.tvMeSpent).text = "¥" + String.format("%.0f", spent)
         tabMe.findViewById<TextView>(R.id.tvMeTypes).text =
             items.map { it.grade }.distinct().size.toString()
+        val name = store.prefs.getString("profileName", "游客")?.trim().orEmpty().ifBlank { "游客" }
+        tabMe.findViewById<TextView>(R.id.tvMeName).text = name
+        tabMe.findViewById<TextView>(R.id.tvMeNameHint).text =
+            if (name == "游客") getString(R.string.me_name_hint) else "已记录 $name 的收藏旅程"
+    }
+
+    private fun editProfileName() {
+        val input = EditText(this).apply {
+            setSingleLine(true)
+            hint = "输入你的昵称"
+            setText(store.prefs.getString("profileName", "游客").orEmpty().takeIf { it != "游客" }.orEmpty())
+            setSelection(text.length)
+        }
+        val pad = (24 * resources.displayMetrics.density).toInt()
+        val frame = android.widget.FrameLayout(this).apply {
+            setPadding(pad, 0, pad, 0)
+            addView(input)
+        }
+        AlertDialog.Builder(this)
+            .setTitle("编辑昵称")
+            .setView(frame)
+            .setPositiveButton("保存") { _, _ ->
+                store.prefs.edit().putString("profileName", input.text.toString().trim().ifBlank { "游客" }).apply()
+                refreshMe()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun showAbout() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.app_name))
+            .setMessage(getString(R.string.me_version, getString(R.string.app_version)) + "\n\n记录模型、收藏热爱。\n\n你的数据仅保存在本机；可通过备份或坚果云 WebDAV 自主同步。")
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     // ━━━━━━━━━━━━━━━━━ 排序 / 筛选 ━━━━━━━━━━━━━━━━━

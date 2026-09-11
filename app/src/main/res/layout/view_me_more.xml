@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_me_more"
+    android:elevation="5dp"
+    android:orientation="vertical"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp">
+
+    <LinearLayout
+        android:id="@+id/btnMeSettings"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView android:layout_width="42dp" android:layout_height="wrap_content" android:gravity="center" android:text="⚙" android:textColor="#4596EF" android:textSize="31sp" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:text="设置" android:textColor="#191B22" android:textSize="18sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#9AA7B8" android:textSize="32sp" />
+    </LinearLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="54dp" android:background="#E8ECF2" />
+
+    <LinearLayout
+        android:id="@+id/btnMeFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView android:layout_width="42dp" android:layout_height="wrap_content" android:gravity="center" android:text="✎" android:textColor="#35BCA9" android:textSize="31sp" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:text="意见反馈/举报" android:textColor="#191B22" android:textSize="18sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#9AA7B8" android:textSize="32sp" />
+    </LinearLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="54dp" android:background="#E8ECF2" />
+
+    <LinearLayout
+        android:id="@+id/btnMeAbout"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView android:layout_width="42dp" android:layout_height="wrap_content" android:gravity="center" android:text="ⓘ" android:textColor="#F1A324" android:textSize="31sp" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:text="关于我们" android:textColor="#191B22" android:textSize="18sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#9AA7B8" android:textSize="32sp" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="54dp" android:background="#E8ECF2" />
+
+    <LinearLayout
+        android:id="@+id/btnMeContact"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView android:layout_width="42dp" android:layout_height="wrap_content" android:gravity="center" android:text="✉" android:textColor="#8262D7" android:textSize="31sp" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="联系我们" android:textColor="#191B22" android:textSize="18sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="GitHub · QQ Privat5418" android:textColor="#8E99A9" android:textSize="12sp" />
+        </LinearLayout>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#9AA7B8" android:textSize="32sp" />
+    </LinearLayout>
+</LinearLayout>

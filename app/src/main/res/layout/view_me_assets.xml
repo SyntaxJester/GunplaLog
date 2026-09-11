@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/bg_me_section"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:text="资产与管理  ✦"
+        android:textColor="#151820"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/btnMeStats"
+            android:layout_width="0dp"
+            android:layout_height="112dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_me_asset_tile"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="▥" android:textColor="#64A5F4" android:textSize="38sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="资产统计" android:textColor="#191B22" android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnMeWishlist"
+            android:layout_width="0dp"
+            android:layout_height="112dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_me_asset_tile"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="♡" android:textColor="#F18DB2" android:textSize="42sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="心愿单" android:textColor="#191B22" android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnMeCollab"
+            android:layout_width="0dp"
+            android:layout_height="112dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_me_asset_tile"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="♟♟" android:textColor="#8365D9" android:textSize="29sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="协作管理" android:textColor="#191B22" android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnMeCategory"
+            android:layout_width="0dp"
+            android:layout_height="112dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_me_asset_tile"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="▦" android:textColor="#F2A615" android:textSize="40sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="分类管理" android:textColor="#191B22" android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/btnMeCabinet"
+            android:layout_width="0dp"
+            android:layout_height="112dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_me_asset_tile"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="▣" android:textColor="#58C696" android:textSize="40sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="柜子管理" android:textColor="#191B22" android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnMeLocation"
+            android:layout_width="0dp"
+            android:layout_height="112dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_me_asset_tile"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="●" android:textColor="#58A5EE" android:textSize="38sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="位置管理" android:textColor="#191B22" android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnMeBackup"
+            android:layout_width="0dp"
+            android:layout_height="112dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_me_asset_tile"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⇧" android:textColor="#4499F2" android:textSize="42sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="数据导出" android:textColor="#191B22" android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="112dp"
+            android:layout_margin="4dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <!-- 兼容统计刷新逻辑，不改变参考图的宫格 -->
+    <LinearLayout android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone">
+        <TextView android:id="@+id/tvMeTotal" android:layout_width="1dp" android:layout_height="1dp" />
+        <TextView android:id="@+id/tvMeSpent" android:layout_width="1dp" android:layout_height="1dp" />
+        <TextView android:id="@+id/tvMeTypes" android:layout_width="1dp" android:layout_height="1dp" />
+    </LinearLayout>
+</LinearLayout>

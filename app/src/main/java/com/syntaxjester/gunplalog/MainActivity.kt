@@ -137,14 +137,20 @@ class MainActivity : AppCompatActivity() {
         caseRv.layoutManager = GridLayoutManager(this, 2)
         caseRv.adapter = caseAdapter
 
-        // 我的 tab：资料、统计、备份 / 恢复、云服务均可直接使用
+        // 我的 tab：完全按参考页组织资产管理和更多功能
         tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { showStats() }
+        tabMe.findViewById<View>(R.id.btnMeWishlist).setOnClickListener { showWishlist() }
+        tabMe.findViewById<View>(R.id.btnMeCollab).setOnClickListener { manageNameList("协作管理", "collaborators", "协作者") }
+        tabMe.findViewById<View>(R.id.btnMeCategory).setOnClickListener { showCategoryManager() }
+        tabMe.findViewById<View>(R.id.btnMeCabinet).setOnClickListener { manageNameList("柜子管理", "cabinets", "柜子") }
+        tabMe.findViewById<View>(R.id.btnMeLocation).setOnClickListener { showLocationManager() }
         tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { pickBackupTarget() }
-        tabMe.findViewById<View>(R.id.btnMeRestore).setOnClickListener { pickRestoreSource() }
-        tabMe.findViewById<View>(R.id.btnMeCloud).setOnClickListener { openCloudSetting() }
+        tabMe.findViewById<View>(R.id.btnMeSettings).setOnClickListener { showSettingsMenu() }
+        tabMe.findViewById<View>(R.id.btnMeFeedback).setOnClickListener { openGithubRepository() }
+        tabMe.findViewById<View>(R.id.btnMeAbout).setOnClickListener { showAbout() }
+        tabMe.findViewById<View>(R.id.btnMeContact).setOnClickListener { showContact() }
         tabMe.findViewById<View>(R.id.btnEditProfile).setOnClickListener { editProfileName() }
         tabMe.findViewById<View>(R.id.avatarView).setOnClickListener { editProfileName() }
-        tabMe.findViewById<View>(R.id.btnMeAbout).setOnClickListener { showAbout() }
 
         // 日历周条
         calendarView = CalendarWeekView(this)
@@ -290,9 +296,112 @@ class MainActivity : AppCompatActivity() {
 
     private fun showAbout() {
         AlertDialog.Builder(this)
-            .setTitle(getString(R.string.app_name))
-            .setMessage(getString(R.string.me_version, getString(R.string.app_version)) + "\n\n记录模型、收藏热爱。\n\n你的数据仅保存在本机；可通过备份或坚果云 WebDAV 自主同步。")
+            .setTitle("关于我们")
+            .setMessage(getString(R.string.app_version) + "\n\n高达记物用于记录模型、收藏和心愿清单。数据默认保存在本机，可通过数据导出或坚果云 WebDAV 备份。\n\n开源仓库：\nhttps://github.com/SyntaxJester/GunplaLog")
+            .setPositiveButton("打开 GitHub") { _, _ -> openGithubRepository() }
+            .setNegativeButton(android.R.string.ok, null)
+            .show()
+    }
+
+    private fun showFeatureInfo(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
             .setPositiveButton(android.R.string.ok, null)
+            .show()
+    }
+
+    private fun showWishlist() {
+        val wanted = items.filter { it.status == 0 }
+        val text = if (wanted.isEmpty()) "心愿单还是空的。\n在物品编辑页把状态设为「想买」即可加入。"
+        else wanted.joinToString("\n") { "• ${it.name}" }
+        showFeatureInfo("心愿单（${wanted.size}）", text)
+    }
+
+    private fun showCategoryManager() {
+        val counts = items.groupingBy { it.grade }.eachCount().toList().sortedByDescending { it.second }
+        val text = if (counts.isEmpty()) "暂无分类。添加模型后会按规格自动归类。"
+        else counts.joinToString("\n") { "${it.first}　${it.second} 件" }
+        showFeatureInfo("分类管理", text)
+    }
+
+    private fun showLocationManager() {
+        manageNameList("位置管理", "locations", "位置")
+    }
+
+    private fun manageNameList(title: String, key: String, itemLabel: String) {
+        fun entries(): MutableList<String> = store.prefs.getString(key, "").orEmpty()
+            .split("\n").map { it.trim() }.filter { it.isNotEmpty() }.toMutableList()
+        fun openList() {
+            val data = entries()
+            val rows = (data + "＋ 添加$itemLabel").toTypedArray()
+            AlertDialog.Builder(this)
+                .setTitle(title)
+                .setItems(rows) { _, which ->
+                    if (which == data.size) {
+                        val input = EditText(this).apply { hint = "输入$itemLabel名称"; setSingleLine(true) }
+                        AlertDialog.Builder(this)
+                            .setTitle("添加$itemLabel")
+                            .setView(input)
+                            .setPositiveButton("保存") { _, _ ->
+                                val value = input.text.toString().trim()
+                                if (value.isNotEmpty()) {
+                                    data.add(value)
+                                    store.prefs.edit().putString(key, data.joinToString("\n")).apply()
+                                    toast("已添加$value")
+                                }
+                            }
+                            .setNegativeButton(android.R.string.cancel, null).show()
+                    } else {
+                        AlertDialog.Builder(this)
+                            .setTitle(data[which])
+                            .setMessage("是否删除此$itemLabel？")
+                            .setPositiveButton("删除") { _, _ ->
+                                data.removeAt(which)
+                                store.prefs.edit().putString(key, data.joinToString("\n")).apply()
+                            }
+                            .setNegativeButton(android.R.string.cancel, null).show()
+                    }
+                }
+                .setNegativeButton(android.R.string.cancel, null).show()
+        }
+        openList()
+    }
+
+    private fun showSettingsMenu() {
+        AlertDialog.Builder(this)
+            .setTitle("设置")
+            .setItems(arrayOf("恢复数据", "坚果云同步", "编辑昵称")) { _, which ->
+                when (which) {
+                    0 -> pickRestoreSource()
+                    1 -> openCloudSetting()
+                    else -> editProfileName()
+                }
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun openGithubRepository() {
+        val uri = Uri.parse("https://github.com/SyntaxJester/GunplaLog")
+        try {
+            startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, uri))
+        } catch (_: Exception) {
+            toast("GitHub：https://github.com/SyntaxJester/GunplaLog")
+        }
+    }
+
+    private fun showContact() {
+        AlertDialog.Builder(this)
+            .setTitle("联系我们")
+            .setMessage("GitHub 仓库：\nhttps://github.com/SyntaxJester/GunplaLog\n\nQQ：Privat5418")
+            .setPositiveButton("打开 GitHub") { _, _ -> openGithubRepository() }
+            .setNeutralButton("复制 QQ") { _, _ ->
+                val cm = getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                cm.setPrimaryClip(android.content.ClipData.newPlainText("QQ", "Privat5418"))
+                toast("已复制 QQ：Privat5418")
+            }
+            .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
 

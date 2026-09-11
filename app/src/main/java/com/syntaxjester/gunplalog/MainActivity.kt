@@ -67,10 +67,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         try {
             setContentView(R.layout.activity_main)
-            // 状态栏占位
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.container)) { v, insets ->
-                v.setPadding(0, insets.getInsets(WindowInsetsCompat.Type.statusBars()).top, 0, 0)
-                WindowInsetsCompat.CONSUMED
+                val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(0, bars.top, 0, 0)
+                insets
             }
             store = Store(this)
             items.addAll(store.load())

@@ -26,7 +26,7 @@ class ManagerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         store = Store(this)
         mode = intent.getStringExtra("mode") ?: "stats"
         render()
@@ -102,7 +102,7 @@ class ManagerActivity : AppCompatActivity() {
         root.addView(label("状态统计", 19f, dark, true).apply { setPadding(0, dp(20), 0, dp(8)) })
         root.addView(statusCard("退役统计", items.count { it.status == 2 }, "回收金额 ${money(0.0)}", "#E7F8F1"))
         root.addView(statusCard("心愿统计", items.count { it.status == 0 }, "预计投入 ${money(items.filter { it.status == 0 }.sumOf { it.price })}", "#FFF3DE"), margins(top = 10))
-        setContentView(ScrollView(this).apply { addView(root) })
+        setContentView(ScrollView(this).apply { fitsSystemWindows = true; addView(root) })
     }
 
     private fun renderWishlist() {
@@ -131,7 +131,7 @@ class ManagerActivity : AppCompatActivity() {
         } else wanted.forEach { item ->
             root.addView(itemCard(item).apply { setOnClickListener { openWishEditor(item) } }, margins(top = 12))
         }
-        setContentView(ScrollView(this).apply { addView(root) })
+        setContentView(ScrollView(this).apply { fitsSystemWindows = true; addView(root) })
     }
 
     private fun openNewWish() {
@@ -176,7 +176,7 @@ class ManagerActivity : AppCompatActivity() {
                 setOnClickListener { AlertDialog.Builder(this@ManagerActivity).setTitle(grade).setItems(items.filter { it.grade == grade }.map { it.name }.toTypedArray(), null).setPositiveButton("关闭", null).show() }
             }, margins(top = 12))
         }
-        setContentView(ScrollView(this).apply { addView(root) })
+        setContentView(ScrollView(this).apply { fitsSystemWindows = true; addView(root) })
     }
 
     private fun renderNameManager(title: String, subtitle: String, key: String, noun: String) {
@@ -203,7 +203,7 @@ class ManagerActivity : AppCompatActivity() {
                 setOnLongClickListener { deleteName(key, noun, name); true }
             }, margins(top = 12))
         }
-        setContentView(ScrollView(this).apply { addView(root) })
+        setContentView(ScrollView(this).apply { fitsSystemWindows = true; addView(root) })
     }
 
     private fun addName(key: String, noun: String) {

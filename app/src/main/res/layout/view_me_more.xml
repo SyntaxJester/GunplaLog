@@ -49,6 +49,19 @@
     <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="54dp" android:background="#E8ECF2" />
 
     <LinearLayout
+        android:id="@+id/btnMeGithub"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView android:layout_width="42dp" android:layout_height="wrap_content" android:gravity="center" android:text="⌘" android:textColor="#E85B99" android:textSize="31sp" android:textStyle="bold" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:text="GitHub：GunplaLog" android:textColor="#191B22" android:textSize="18sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="#9AA7B8" android:textSize="32sp" />
+    </LinearLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="54dp" android:background="#E8ECF2" />
+
+    <LinearLayout
         android:id="@+id/btnMeContact"
         android:layout_width="match_parent"
         android:layout_height="72dp"

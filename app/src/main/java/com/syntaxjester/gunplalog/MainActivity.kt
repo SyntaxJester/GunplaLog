@@ -146,8 +146,9 @@ class MainActivity : AppCompatActivity() {
         tabMe.findViewById<View>(R.id.btnMeLocation).setOnClickListener { showLocationManager() }
         tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { pickBackupTarget() }
         tabMe.findViewById<View>(R.id.btnMeSettings).setOnClickListener { showSettingsMenu() }
-        tabMe.findViewById<View>(R.id.btnMeFeedback).setOnClickListener { openGithubRepository() }
+        tabMe.findViewById<View>(R.id.btnMeFeedback).setOnClickListener { showFeedback() }
         tabMe.findViewById<View>(R.id.btnMeAbout).setOnClickListener { showAbout() }
+        tabMe.findViewById<View>(R.id.btnMeGithub).setOnClickListener { openGithubRepository() }
         tabMe.findViewById<View>(R.id.btnMeContact).setOnClickListener { showContact() }
         tabMe.findViewById<View>(R.id.btnEditProfile).setOnClickListener { editProfileName() }
         tabMe.findViewById<View>(R.id.avatarView).setOnClickListener { editProfileName() }
@@ -334,12 +335,12 @@ class MainActivity : AppCompatActivity() {
             .split("\n").map { it.trim() }.filter { it.isNotEmpty() }.toMutableList()
         fun openList() {
             val data = entries()
-            val rows = (data + "＋ 添加$itemLabel").toTypedArray()
+            val rows = (data + "＋ 添加${itemLabel}").toTypedArray()
             AlertDialog.Builder(this)
                 .setTitle(title)
                 .setItems(rows) { _, which ->
                     if (which == data.size) {
-                        val input = EditText(this).apply { hint = "输入$itemLabel名称"; setSingleLine(true) }
+                        val input = EditText(this).apply { hint = "输入${itemLabel}名称"; setSingleLine(true) }
                         AlertDialog.Builder(this)
                             .setTitle("添加$itemLabel")
                             .setView(input)
@@ -355,7 +356,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         AlertDialog.Builder(this)
                             .setTitle(data[which])
-                            .setMessage("是否删除此$itemLabel？")
+                            .setMessage("是否删除此${itemLabel}？")
                             .setPositiveButton("删除") { _, _ ->
                                 data.removeAt(which)
                                 store.prefs.edit().putString(key, data.joinToString("\n")).apply()
@@ -389,6 +390,20 @@ class MainActivity : AppCompatActivity() {
         } catch (_: Exception) {
             toast("GitHub：https://github.com/SyntaxJester/GunplaLog")
         }
+    }
+
+    private fun showFeedback() {
+        AlertDialog.Builder(this)
+            .setTitle("意见反馈/举报")
+            .setMessage("请前往 GitHub 仓库提交 Issue：\n\nhttps://github.com/SyntaxJester/GunplaLog\n\n反馈时建议附上问题截图、复现步骤和软件版本。")
+            .setPositiveButton("打开 GitHub") { _, _ -> openGithubRepository() }
+            .setNeutralButton("复制地址") { _, _ ->
+                val cm = getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                cm.setPrimaryClip(android.content.ClipData.newPlainText("GunplaLog GitHub", "https://github.com/SyntaxJester/GunplaLog"))
+                toast("已复制 GitHub 仓库地址")
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun showContact() {

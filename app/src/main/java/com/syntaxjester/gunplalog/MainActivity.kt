@@ -88,6 +88,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (::store.isInitialized) {
+            items.clear()
+            items.addAll(store.load())
+            if (::adapter.isInitialized) refresh()
+        }
+    }
+
     // ━━━━━━━━━━━━━━━━━ 初始化 ━━━━━━━━━━━━━━━━━
 
     private fun initViews() {
@@ -138,12 +147,12 @@ class MainActivity : AppCompatActivity() {
         caseRv.adapter = caseAdapter
 
         // 我的 tab：完全按参考页组织资产管理和更多功能
-        tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { showStats() }
-        tabMe.findViewById<View>(R.id.btnMeWishlist).setOnClickListener { showWishlist() }
+        tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { openManager("stats") }
+        tabMe.findViewById<View>(R.id.btnMeWishlist).setOnClickListener { openManager("wishlist") }
         tabMe.findViewById<View>(R.id.btnMeCollab).setOnClickListener { manageNameList("协作管理", "collaborators", "协作者") }
-        tabMe.findViewById<View>(R.id.btnMeCategory).setOnClickListener { showCategoryManager() }
-        tabMe.findViewById<View>(R.id.btnMeCabinet).setOnClickListener { manageNameList("柜子管理", "cabinets", "柜子") }
-        tabMe.findViewById<View>(R.id.btnMeLocation).setOnClickListener { showLocationManager() }
+        tabMe.findViewById<View>(R.id.btnMeCategory).setOnClickListener { openManager("category") }
+        tabMe.findViewById<View>(R.id.btnMeCabinet).setOnClickListener { openManager("cabinet") }
+        tabMe.findViewById<View>(R.id.btnMeLocation).setOnClickListener { openManager("location") }
         tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { pickBackupTarget() }
         tabMe.findViewById<View>(R.id.btnMeSettings).setOnClickListener { showSettingsMenu() }
         tabMe.findViewById<View>(R.id.btnMeFeedback).setOnClickListener { showFeedback() }
@@ -310,6 +319,10 @@ class MainActivity : AppCompatActivity() {
             .setMessage(message)
             .setPositiveButton(android.R.string.ok, null)
             .show()
+    }
+
+    private fun openManager(mode: String) {
+        startActivity(android.content.Intent(this, ManagerActivity::class.java).putExtra("mode", mode))
     }
 
     private fun showWishlist() {

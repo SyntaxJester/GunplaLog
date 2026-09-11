@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">高达记物</string>
+    <string name="app_name">玩物赏志</string>
     <string name="tagline">发现美好·收藏热爱·记录生活</string>
-    <string name="app_version">GunplaLog v1.4.0</string>
-    <string name="title_main">高达记物</string>
-    <string name="sheet_title">高达记物</string>
+    <string name="app_version">玩物赏志 v1.5.0</string>
+    <string name="title_main">玩物赏志</string>
+    <string name="sheet_title">玩物赏志</string>
     <string name="count_fmt">%1$d 台</string>
     <string name="subtitle_fmt">共 %1$d 台 · 累计 ¥%2$.2f</string>
     <string name="search_hint">搜索名称 / 备注…</string>

@@ -23,7 +23,7 @@
             android:layout_marginBottom="2dp"
             android:text="我的"
             android:textColor="#171A20"
-            android:textSize="28sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
 
         <include layout="@layout/view_me_assets" />
@@ -36,7 +36,7 @@
             android:layout_marginBottom="12dp"
             android:text="更多"
             android:textColor="#8795AA"
-            android:textSize="22sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <include layout="@layout/view_me_more" />

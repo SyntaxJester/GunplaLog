@@ -7,40 +7,40 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
-    <LinearLayout android:id="@+id/btnMeSettings" android:layout_width="match_parent" android:layout_height="60dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
-        <ImageView android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="设置" android:src="@drawable/ic_more_settings" />
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:text="设置" android:textColor="#191B22" android:textSize="16sp" android:textStyle="bold" />
-        <ImageView android:layout_width="18dp" android:layout_height="18dp" android:contentDescription="进入设置" android:src="@drawable/ic_more_chevron" />
+    <LinearLayout android:id="@+id/btnMeSettings" android:layout_width="match_parent" android:layout_height="52dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
+        <ImageView android:layout_width="28dp" android:layout_height="28dp" android:contentDescription="设置" android:src="@drawable/ic_more_settings" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_weight="1" android:text="设置" android:textColor="#191B22" android:textSize="15sp" android:textStyle="normal" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:contentDescription="进入设置" android:src="@drawable/ic_more_chevron" />
     </LinearLayout>
     <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="50dp" android:background="#E9ECF1" />
 
-    <LinearLayout android:id="@+id/btnMeFeedback" android:layout_width="match_parent" android:layout_height="60dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
-        <ImageView android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="意见反馈" android:src="@drawable/ic_more_feedback" />
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:text="意见反馈/举报" android:textColor="#191B22" android:textSize="16sp" android:textStyle="bold" />
-        <ImageView android:layout_width="18dp" android:layout_height="18dp" android:contentDescription="进入反馈" android:src="@drawable/ic_more_chevron" />
+    <LinearLayout android:id="@+id/btnMeFeedback" android:layout_width="match_parent" android:layout_height="52dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
+        <ImageView android:layout_width="28dp" android:layout_height="28dp" android:contentDescription="意见反馈" android:src="@drawable/ic_more_feedback" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_weight="1" android:text="意见反馈/举报" android:textColor="#191B22" android:textSize="15sp" android:textStyle="normal" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:contentDescription="进入反馈" android:src="@drawable/ic_more_chevron" />
     </LinearLayout>
     <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="50dp" android:background="#E9ECF1" />
 
-    <LinearLayout android:id="@+id/btnMeAbout" android:layout_width="match_parent" android:layout_height="60dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
-        <ImageView android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="关于我们" android:src="@drawable/ic_more_about" />
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:text="关于我们" android:textColor="#191B22" android:textSize="16sp" android:textStyle="bold" />
-        <ImageView android:layout_width="18dp" android:layout_height="18dp" android:contentDescription="查看关于" android:src="@drawable/ic_more_chevron" />
+    <LinearLayout android:id="@+id/btnMeAbout" android:layout_width="match_parent" android:layout_height="52dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
+        <ImageView android:layout_width="28dp" android:layout_height="28dp" android:contentDescription="关于我们" android:src="@drawable/ic_more_about" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_weight="1" android:text="关于我们" android:textColor="#191B22" android:textSize="15sp" android:textStyle="normal" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:contentDescription="查看关于" android:src="@drawable/ic_more_chevron" />
     </LinearLayout>
     <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="50dp" android:background="#E9ECF1" />
 
-    <LinearLayout android:id="@+id/btnMeGithub" android:layout_width="match_parent" android:layout_height="60dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
-        <ImageView android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="GitHub" android:src="@drawable/ic_more_github" />
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:text="GitHub：GunplaLog" android:textColor="#191B22" android:textSize="16sp" android:textStyle="bold" />
-        <ImageView android:layout_width="18dp" android:layout_height="18dp" android:contentDescription="打开 GitHub" android:src="@drawable/ic_more_chevron" />
+    <LinearLayout android:id="@+id/btnMeGithub" android:layout_width="match_parent" android:layout_height="52dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
+        <ImageView android:layout_width="28dp" android:layout_height="28dp" android:contentDescription="GitHub" android:src="@drawable/ic_more_github" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_weight="1" android:text="GitHub 仓库" android:textColor="#191B22" android:textSize="15sp" android:textStyle="normal" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:contentDescription="打开 GitHub" android:src="@drawable/ic_more_chevron" />
     </LinearLayout>
     <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginLeft="50dp" android:background="#E9ECF1" />
 
-    <LinearLayout android:id="@+id/btnMeContact" android:layout_width="match_parent" android:layout_height="68dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
-        <ImageView android:layout_width="34dp" android:layout_height="34dp" android:contentDescription="联系我们" android:src="@drawable/ic_more_contact" />
-        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="联系我们" android:textColor="#191B22" android:textSize="16sp" android:textStyle="bold" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="GitHub · QQ Privat5418" android:textColor="#8E99A9" android:textSize="12sp" android:textStyle="bold" />
+    <LinearLayout android:id="@+id/btnMeContact" android:layout_width="match_parent" android:layout_height="56dp" android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical" android:orientation="horizontal">
+        <ImageView android:layout_width="28dp" android:layout_height="28dp" android:contentDescription="联系我们" android:src="@drawable/ic_more_contact" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_weight="1" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="联系我们" android:textColor="#191B22" android:textSize="15sp" android:textStyle="normal" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="GitHub · QQ Privat5418" android:textColor="#8E99A9" android:textSize="12sp" android:textStyle="normal" />
         </LinearLayout>
-        <ImageView android:layout_width="18dp" android:layout_height="18dp" android:contentDescription="联系方式" android:src="@drawable/ic_more_chevron" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:contentDescription="联系方式" android:src="@drawable/ic_more_chevron" />
     </LinearLayout>
 </LinearLayout>

@@ -8,7 +8,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="92dp">
+        android:layout_marginBottom="100dp">
 
         <include android:id="@+id/tabHome" layout="@layout/view_home" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="visible" />
         <include android:id="@+id/tabItems" layout="@layout/view_items" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone" />
@@ -16,75 +16,73 @@
         <include android:id="@+id/tabMe" layout="@layout/view_me" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone" />
     </FrameLayout>
 
-    <!-- 底部导航栏 — 扁平白色、无阴影、直接贴底 -->
+    <!-- 图二样式：悬浮胶囊底栏；拍摄按钮独立上浮，不会被父容器裁切 -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="104dp"
         android:layout_gravity="bottom"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:paddingTop="8dp">
 
         <LinearLayout
             android:id="@+id/navBar"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:background="#FFFFFF"
+            android:layout_height="78dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_nav_float"
+            android:elevation="14dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="4dp"
             android:paddingRight="4dp">
 
             <LinearLayout android:id="@+id/navHome" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-                <ImageView android:id="@+id/navHomeIcon" android:layout_width="24dp" android:layout_height="24dp" android:contentDescription="@string/tab_home" android:src="@drawable/ic_nav_home" />
-                <TextView android:id="@+id/navHomeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/tab_home" android:textColor="#8A96AA" android:textSize="10sp" android:textStyle="bold" />
+                <ImageView android:id="@+id/navHomeIcon" android:layout_width="26dp" android:layout_height="26dp" android:contentDescription="@string/tab_home" android:src="@drawable/ic_nav_home" />
+                <TextView android:id="@+id/navHomeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/tab_home" android:textColor="#8A96AA" android:textSize="12sp" android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout android:id="@+id/navItems" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-                <ImageView android:id="@+id/navItemsIcon" android:layout_width="24dp" android:layout_height="24dp" android:contentDescription="@string/tab_items" android:src="@drawable/ic_nav_item" />
-                <TextView android:id="@+id/navItemsText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/tab_items" android:textColor="#8A96AA" android:textSize="10sp" android:textStyle="bold" />
+                <ImageView android:id="@+id/navItemsIcon" android:layout_width="26dp" android:layout_height="26dp" android:contentDescription="@string/tab_items" android:src="@drawable/ic_nav_item" />
+                <TextView android:id="@+id/navItemsText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/tab_items" android:textColor="#8A96AA" android:textSize="12sp" android:textStyle="bold" />
             </LinearLayout>
 
             <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
 
             <LinearLayout android:id="@+id/navShowcase" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-                <ImageView android:id="@+id/navShowcaseIcon" android:layout_width="24dp" android:layout_height="24dp" android:contentDescription="@string/tab_showcase" android:src="@drawable/ic_nav_showcase" />
-                <TextView android:id="@+id/navShowcaseText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/tab_showcase" android:textColor="#8A96AA" android:textSize="10sp" android:textStyle="bold" />
+                <ImageView android:id="@+id/navShowcaseIcon" android:layout_width="26dp" android:layout_height="26dp" android:contentDescription="@string/tab_showcase" android:src="@drawable/ic_nav_showcase" />
+                <TextView android:id="@+id/navShowcaseText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/tab_showcase" android:textColor="#8A96AA" android:textSize="11sp" android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout android:id="@+id/navMe" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-                <ImageView android:id="@+id/navMeIcon" android:layout_width="24dp" android:layout_height="24dp" android:contentDescription="@string/tab_me" android:src="@drawable/ic_nav_me" />
-                <TextView android:id="@+id/navMeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/tab_me" android:textColor="#8A96AA" android:textSize="10sp" android:textStyle="bold" />
+                <ImageView android:id="@+id/navMeIcon" android:layout_width="26dp" android:layout_height="26dp" android:contentDescription="@string/tab_me" android:src="@drawable/ic_nav_me" />
+                <TextView android:id="@+id/navMeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/tab_me" android:textColor="#8A96AA" android:textSize="12sp" android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 拍摄按钮上浮 -->
         <LinearLayout
             android:id="@+id/navAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="76dp"
+            android:layout_height="104dp"
             android:layout_gravity="top|center_horizontal"
-            android:layout_marginTop="-12dp"
             android:clickable="true"
-            android:elevation="8dp"
+            android:elevation="20dp"
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <FrameLayout
-                android:layout_width="54dp"
-                android:layout_height="54dp"
-                android:background="@drawable/bg_nav_add">
-                <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:contentDescription="@string/tab_add" android:src="@drawable/ic_nav_add" />
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:background="@drawable/bg_nav_add"
+                android:elevation="20dp">
+                <ImageView android:layout_width="30dp" android:layout_height="30dp" android:layout_gravity="center" android:contentDescription="@string/tab_add" android:src="@drawable/ic_nav_add" />
             </FrameLayout>
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="@string/tab_shoot" android:textColor="#607086" android:textSize="10sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="@string/tab_shoot" android:textColor="#607086" android:textSize="12sp" android:textStyle="bold" />
         </LinearLayout>
-
-        <!-- 系统导航栏安全区 -->
-        <LinearLayout
-            android:id="@+id/navBarSpacer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical" />
     </FrameLayout>
 </FrameLayout>

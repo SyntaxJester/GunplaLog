@@ -153,8 +153,8 @@ class MainActivity : AppCompatActivity() {
         tabMe.findViewById<View>(R.id.btnMeCategory).setOnClickListener { openManager("category") }
         tabMe.findViewById<View>(R.id.btnMeCabinet).setOnClickListener { openManager("cabinet") }
         tabMe.findViewById<View>(R.id.btnMeLocation).setOnClickListener { openManager("location") }
-        tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { pickBackupTarget() }
-        tabMe.findViewById<View>(R.id.btnMeSettings).setOnClickListener { showSettingsMenu() }
+        tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { openDataExport() }
+        tabMe.findViewById<View>(R.id.btnMeSettings).setOnClickListener { openSettings() }
         tabMe.findViewById<View>(R.id.btnMeFeedback).setOnClickListener { showFeedback() }
         tabMe.findViewById<View>(R.id.btnMeAbout).setOnClickListener { showAbout() }
         tabMe.findViewById<View>(R.id.btnMeGithub).setOnClickListener { openGithubRepository() }
@@ -307,7 +307,7 @@ class MainActivity : AppCompatActivity() {
     private fun showAbout() {
         AlertDialog.Builder(this)
             .setTitle("关于我们")
-            .setMessage(getString(R.string.app_version) + "\n\n高达记物用于记录模型、收藏和心愿清单。数据默认保存在本机，可通过数据导出或坚果云 WebDAV 备份。\n\n开源仓库：\nhttps://github.com/SyntaxJester/GunplaLog")
+            .setMessage(getString(R.string.app_version) + "\n\n玩物赏志用于记录模型、收藏和心愿清单。数据默认保存在本机，可通过数据导出或坚果云 WebDAV 备份。\n\n开源仓库：\nhttps://github.com/SyntaxJester/GunplaLog")
             .setPositiveButton("打开 GitHub") { _, _ -> openGithubRepository() }
             .setNegativeButton(android.R.string.ok, null)
             .show()
@@ -323,6 +323,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun openManager(mode: String) {
         startActivity(android.content.Intent(this, ManagerActivity::class.java).putExtra("mode", mode))
+    }
+
+    private fun openSettings() {
+        startActivity(android.content.Intent(this, SettingsActivity::class.java))
+    }
+
+    private fun openDataExport() {
+        startActivity(android.content.Intent(this, DataExportActivity::class.java))
     }
 
     private fun showWishlist() {

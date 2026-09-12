@@ -8,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class ItemAdapter(
     private val onClick: (Item) -> Unit,
@@ -68,9 +71,16 @@ class ItemAdapter(
 
         holder.tvName.text = item.name
 
+        val prefs = ctx.getSharedPreferences("gunplalog", android.content.Context.MODE_PRIVATE)
+        val showDateService = prefs.getBoolean("showDateService", false)
+        val showAverageCost = prefs.getBoolean("showAverageCost", false)
+
         val parts = mutableListOf<String>()
         if (item.scale.isNotBlank()) parts.add(item.scale)
-        if (item.date.isNotBlank()) parts.add(item.date)
+        if (showDateService && item.date.isNotBlank()) {
+            parts.add(item.date)
+            serviceDays(item)?.let { parts.add("服役 $it 天") }
+        }
         holder.tvMeta.text = parts.joinToString(" · ")
 
         if (item.note.isBlank()) {
@@ -80,8 +90,12 @@ class ItemAdapter(
             holder.tvNote.text = item.note
         }
 
-        holder.tvPrice.text =
-            if (item.price > 0) "¥" + String.format("%.2f", item.price) else "—"
+        val priceText = if (item.price > 0) "¥" + String.format("%.2f", item.price) else "—"
+        holder.tvPrice.text = if (showAverageCost && item.price > 0) {
+            serviceDays(item)?.let { days ->
+                "$priceText  日均 ¥" + String.format("%.2f", item.price / days.coerceAtLeast(1))
+            } ?: priceText
+        } else priceText
 
         val sc = statusColor(item.status)
         holder.tvStatus.text = Item.statusName(item.status)
@@ -94,6 +108,17 @@ class ItemAdapter(
         holder.itemView.setOnLongClickListener {
             onLongClick(item)
             true
+        }
+    }
+
+    private fun serviceDays(item: Item): Int? {
+        if (item.date.isBlank() || item.status != 1) return null
+        return try {
+            val start = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(item.date)?.time ?: return null
+            val today = Calendar.getInstance().timeInMillis
+            ((today - start) / (24L * 60L * 60L * 1000L)).toInt().coerceAtLeast(1)
+        } catch (_: Exception) {
+            null
         }
     }
 

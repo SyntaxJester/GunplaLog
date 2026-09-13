@@ -167,7 +167,7 @@ class AssetManagerActivity : AppCompatActivity() {
     private fun entityEditor(key: String, noun: String, old: ManagedEntry?, templateOverride: String? = null) {
         val root = page(); var photo = old?.photo.orEmpty(); var selectedTemplate = templateOverride ?: old?.template ?: "云光玻璃柜"
         root.addView(header(if (old == null) "新建$noun" else "编辑$noun", if (noun == "柜子") "给柜子命名，并选择喜欢的陈列模板" else "填写位置名称，并可添加一张位置图片"))
-        val name = EditText(this).apply { hint = "${noun}名称"; setText(old?.name.orEmpty()); textSize = 17f; backgroundResource = R.drawable.bg_entity_input; setPadding(dp(16), 0, dp(16), 0) }
+        val name = EditText(this).apply { hint = "${noun}名称"; setText(old?.name.orEmpty()); textSize = 17f; setBackgroundResource(R.drawable.bg_entity_input); setPadding(dp(16), 0, dp(16), 0) }
         root.addView(txt("${noun}信息", 19f, dark, true), margin(26)); root.addView(name, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(52)).apply { topMargin = dp(10) })
         val preview = ImageView(this).apply { setBackgroundResource(R.drawable.bg_manager_card); scaleType = ImageView.ScaleType.CENTER_CROP; setPadding(dp(16), dp(16), dp(16), dp(16)) }
         fun updatePhoto() { if (photo.isBlank()) preview.setImageResource(if (noun == "柜子") R.drawable.ic_asset_cabinet else R.drawable.ic_asset_location) else Photos.decode(this, photo, 640)?.let { preview.setImageBitmap(it) } }
@@ -182,7 +182,7 @@ class AssetManagerActivity : AppCompatActivity() {
             val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
             listOf("通用柜子", "云光玻璃柜").forEach { template ->
                 val tile = LinearLayout(this).apply {
-                    orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER; setPadding(dp(8), dp(10), dp(8), dp(10)); backgroundResource = if (template == selectedTemplate) R.drawable.bg_template_selected else R.drawable.bg_template_normal
+                    orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER; setPadding(dp(8), dp(10), dp(8), dp(10)); setBackgroundResource(if (template == selectedTemplate) R.drawable.bg_template_selected else R.drawable.bg_template_normal)
                     addView(ImageView(this@AssetManagerActivity).apply { setImageResource(R.drawable.ic_asset_cabinet) }, LinearLayout.LayoutParams(dp(52), dp(52)))
                     addView(txt(template, 14f, if (template == selectedTemplate) blue else dark, true).apply { gravity = Gravity.CENTER; setPadding(0, dp(5), 0, 0) })
                     setOnClickListener { entityEditor(key, noun, old, template) }

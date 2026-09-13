@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.json.JSONObject
@@ -110,7 +111,7 @@ class EditSheet : BottomSheetDialogFragment() {
         tvGrade.setOnClickListener {
             val opts = Grades.ALL.toTypedArray()
             val cur = opts.indexOf(pickedGrade).coerceAtLeast(0)
-            androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            AlertDialog.Builder(requireContext())
                 .setTitle(R.string.grade_pick_title)
                 .setSingleChoiceItems(opts, cur) { dlg, which ->
                     pickedGrade = opts[which]

@@ -35,10 +35,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var homeAdapter: ItemAdapter
     private lateinit var caseAdapter: ShowCaseAdapter
 
-    private var filterGrade = "全部"
     private var query = ""
     private var sortMode = 0
     private var currentTab = 0
+
+    // 两级分类筛选
+    private var filterTopCat = "全部"
+    private var filterSubCat = "全部"
 
     // 日历选中日期
     private lateinit var calendarView: CalendarWeekView
@@ -136,6 +139,24 @@ class MainActivity : AppCompatActivity() {
         })
         tabItems.findViewById<View>(R.id.btnStats).setOnClickListener { showStats() }
 
+        val btnSort = tabItems.findViewById<TextView>(R.id.btnSort)
+        btnSort.text = sortLabel()
+        btnSort.setOnClickListener {
+            sortMode = when (sortMode) {
+                0 -> 1
+                1 -> 2
+                2 -> 3
+                3 -> 4
+                4 -> 10
+                10 -> 11
+                11 -> 12
+                else -> 0
+            }
+            store.prefs.edit().putInt("sortMode", sortMode).apply()
+            btnSort.text = sortLabel()
+            refresh()
+        }
+
         // 展架 tab
         caseAdapter = ShowCaseAdapter(
             onItemClick = { openEdit(it) },
@@ -228,14 +249,28 @@ class MainActivity : AppCompatActivity() {
     // ━━━━━━━━━━━━━━━━━ 刷新 ━━━━━━━━━━━━━━━━━
 
     private fun refresh() {
-        adapter.submit(visibleItems())
+        val visible = visibleItems()
+        // 组装分组条目（普通模式为纯物品行）
+        val entries = buildList {
+            if (sortMode >= 10) {
+                groupItems(visible).forEach { (label, groupList) ->
+                    add(ItemEntry.Header(label, groupList.size, groupList.sumOf { it.price }))
+                    groupList.forEach { add(ItemEntry.ItemRow(it)) }
+                }
+            } else {
+                visible.forEach { add(ItemEntry.ItemRow(it)) }
+            }
+        }
+        adapter.submit(entries)
         val rv = tabItems.findViewById<RecyclerView>(R.id.recycler)
         val ev = tabItems.findViewById<View>(R.id.emptyView)
-        rv.visibility = if (items.isEmpty()) View.GONE else View.VISIBLE
-        ev.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
-        val spent = items.filter { it.status == 1 }.sumOf { it.price }
+        rv.visibility = if (visible.isEmpty()) View.GONE else View.VISIBLE
+        ev.visibility = if (visible.isEmpty()) View.VISIBLE else View.GONE
+        val spent = visible.filter { it.status == 1 }.sumOf { it.price }
         tabItems.findViewById<TextView>(R.id.tvSubtitle)
-            .text = getString(R.string.subtitle_fmt, items.size, spent)
+            .text = if (visible.size == items.size)
+                getString(R.string.subtitle_fmt, visible.size, spent)
+            else "${visible.size}/${items.size} 件物品 · 已投入 ¥" + String.format("%.2f", spent)
         refreshHome()
         calendarView.refreshMarks()
     }
@@ -253,7 +288,7 @@ class MainActivity : AppCompatActivity() {
         if (dayItems.isEmpty()) {
             tvEmpty.text = getString(R.string.home_empty_today)
         }
-        homeAdapter.submit(dayItems)
+        homeAdapter.submit(dayItems.map { ItemEntry.ItemRow(it) })
         // 更新日历标记
         calendarView.markedDates = items.map { it.date }.toSet()
         calendarView.refreshMarks()
@@ -449,33 +484,90 @@ class MainActivity : AppCompatActivity() {
 
     private fun visibleItems(): List<Item> {
         val q = query.lowercase()
-        var list = items.filter {
-            (filterGrade == "全部" || it.grade == filterGrade) &&
-                    (q.isEmpty() || it.name.lowercase().contains(q) || it.note.lowercase().contains(q))
+        var list = items.filter { it ->
+            val catMatch = when {
+                filterTopCat == "全部" -> true
+                filterSubCat != "全部" -> it.category == filterSubCat
+                else -> it.category.contains(filterTopCat) || AssetStore.categories(this).any { c ->
+                    c.name == filterTopCat && c.children.contains(it.category)
+                }
+            }
+            catMatch &&
+                    (q.isEmpty() || it.name.lowercase().contains(q) ||
+                            it.note.lowercase().contains(q) ||
+                            it.brand.lowercase().contains(q) ||
+                            it.cabinet.lowercase().contains(q) ||
+                            it.location.lowercase().contains(q))
         }
-        list = when (sortMode) {
-            1 -> list.sortedWith(compareBy({ it.date }, { it.createdAt }))
-            2 -> list.sortedWith(compareByDescending<Item> { it.price }.thenByDescending { it.createdAt })
-            3 -> list.sortedWith(compareBy({ it.price }, { it.createdAt }))
-            4 -> list.sortedBy { it.name }
-            else -> list.sortedWith(compareByDescending<Item> { it.date }.thenByDescending { it.createdAt })
+        if (sortMode >= 10) {
+            // 10=按分类 11=按品牌 12=按柜子 分组查看
+            list = list.sortedBy { it.category }
+        } else {
+            list = when (sortMode) {
+                1 -> list.sortedWith(compareBy({ it.date }, { it.createdAt }))
+                2 -> list.sortedWith(compareByDescending<Item> { it.price }.thenByDescending { it.createdAt })
+                3 -> list.sortedWith(compareBy({ it.price }, { it.createdAt }))
+                4 -> list.sortedBy { it.name }
+                else -> list.sortedWith(compareByDescending<Item> { it.date }.thenByDescending { it.createdAt })
+            }
         }
         return list
     }
 
+    private fun sortLabel(): String = when (sortMode) {
+        1 -> "最早入手"
+        2 -> "价格 高→低"
+        3 -> "价格 低→高"
+        4 -> "按名称"
+        10 -> "按分类查看"
+        11 -> "按品牌查看"
+        12 -> "按柜子查看"
+        else -> "最近录入"
+    }
+
+    /** 分组查看：返回 (分组标签, 该组物品) 列表 */
+    private fun groupItems(list: List<Item>): List<Pair<String, List<Item>>> {
+        val keyOf: (Item) -> String = when (sortMode) {
+            10 -> { it -> it.category.ifBlank { "未分类" } }
+            11 -> { it -> it.brand.ifBlank { "未填品牌" } }
+            12 -> { it -> it.cabinet.ifBlank { "未入柜" } }
+            else -> return listOf("全部" to list)
+        }
+        return list.groupBy(keyOf).toList().sortedBy { it.first }
+    }
+
     private fun buildFilterPills() {
+        // 一级分类行
         val row = tabItems.findViewById<LinearLayout>(R.id.pillRow)
         row.removeAllViews()
-        val grades = listOf("全部") + Grades.ALL
-        grades.forEach { g ->
-            val pill = Pills.header(this, g)
-            pill.isSelected = (g == filterGrade)
+        val topNames = listOf("全部") + AssetStore.categories(this).filter { it.children.isNotEmpty() }.map { it.name }
+        topNames.forEach { name ->
+            val pill = Pills.header(this, name)
+            pill.isSelected = (name == filterTopCat)
             pill.setOnClickListener {
-                filterGrade = g
+                filterTopCat = name
+                filterSubCat = "全部"
                 Pills.select(row, pill)
+                buildFilterPills()
                 refresh()
             }
             row.addView(pill, Pills.rowParams(this))
+        }
+
+        // 二级分类行
+        val subRow = tabItems.findViewById<LinearLayout>(R.id.subPillRow)
+        subRow.removeAllViews()
+        val curTop = AssetStore.categories(this).firstOrNull { it.name == filterTopCat }
+        val subs = (if (curTop != null) curTop.children else emptyList())
+        (listOf("全部") + subs).forEach { name ->
+            val pill = Pills.header(this, name)
+            pill.isSelected = (name == filterSubCat)
+            pill.setOnClickListener {
+                filterSubCat = name
+                Pills.select(subRow, pill)
+                refresh()
+            }
+            subRow.addView(pill, Pills.rowParams(this))
         }
     }
 

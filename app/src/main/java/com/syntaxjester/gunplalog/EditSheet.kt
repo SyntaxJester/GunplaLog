@@ -31,6 +31,7 @@ class EditSheet : BottomSheetDialogFragment() {
 
     private var pickedGrade = Grades.DEFAULT
     private var pickedStatus = 1
+    private var pickedCategory = ""
 
     /** 当前选中的美图文件名（已落盘到 filesDir/images） */
     private var pickedPhoto: String = ""
@@ -85,11 +86,15 @@ class EditSheet : BottomSheetDialogFragment() {
         }
         val flowStatus = view.findViewById<FlowLayout>(R.id.flowStatus)
         val tvGrade = view.findViewById<TextView>(R.id.tvGrade)
+        val tvCategory = view.findViewById<TextView>(R.id.tvCategory)
         val etName = view.findViewById<EditText>(R.id.etName)
         val etScale = view.findViewById<EditText>(R.id.etScale)
         val etDate = view.findViewById<EditText>(R.id.etDate)
         val etPrice = view.findViewById<EditText>(R.id.etPrice)
         val etNote = view.findViewById<EditText>(R.id.etNote)
+        val etBrand = view.findViewById<EditText>(R.id.etBrand)
+        val etLocation = view.findViewById<EditText>(R.id.etLocation)
+        val etCabinet = view.findViewById<EditText>(R.id.etCabinet)
         val btnSave = view.findViewById<Button>(R.id.btnSave)
 
         ivPhoto = view.findViewById(R.id.ivPhoto)
@@ -99,6 +104,7 @@ class EditSheet : BottomSheetDialogFragment() {
         pickedGrade = if (e != null) Grades.normalize(e.grade) else Grades.DEFAULT
         pickedStatus = e?.status ?: 1
         pickedPhoto = e?.photo ?: ""
+        pickedCategory = e?.category ?: ""
 
         tvGrade.text = pickedGrade
         tvGrade.setOnClickListener {
@@ -115,6 +121,27 @@ class EditSheet : BottomSheetDialogFragment() {
                 .show()
         }
 
+        // 分类选择：从 AssetStore 的一级 + 二级分类生成扁平化条目「一级 / 二级」
+        tvCategory.setOnClickListener {
+            val ctx = requireContext()
+            val flat = mutableListOf<String>()
+            AssetStore.categories(ctx).forEach { top ->
+                flat.add(top.name)
+                top.children.forEach { c -> flat.add("${top.name}/${c}") }
+            }
+            if (flat.isEmpty()) flat.add("（暂无分类）")
+            val safeExisting = if (pickedCategory in flat) pickedCategory else flat.first()
+            AlertDialog.Builder(ctx).setTitle(R.string.hint_category)
+                .setSingleChoiceItems(flat.toTypedArray(), flat.indexOf(safeExisting)) { d, w ->
+                    tvCategory.text = if (flat[w].contains("/")) flat[w].substringAfter("/") else flat[w]
+                    pickedCategory = flat[w]
+                    d.dismiss()
+                }
+                .setNegativeButton(android.R.string.cancel, null).show()
+        }
+        if (pickedCategory.isNotBlank()) tvCategory.text =
+            if (pickedCategory.contains("/")) pickedCategory.substringAfter("/") else pickedCategory
+
 
         listOf(0 to "想买", 1 to "已入手", 2 to "已出").forEach { (code, label) ->
             val pill: TextView = Pills.sheet(requireContext(), label)
@@ -130,6 +157,9 @@ class EditSheet : BottomSheetDialogFragment() {
             etName.setText(e.name)
             etScale.setText(e.scale)
             etDate.setText(e.date)
+            etBrand.setText(e.brand)
+            etLocation.setText(e.location)
+            etCabinet.setText(e.cabinet)
             if (e.price > 0) etPrice.setText(trimPrice(e.price))
             etNote.setText(e.note)
         } else {
@@ -197,7 +227,11 @@ class EditSheet : BottomSheetDialogFragment() {
                 status = pickedStatus,
                 note = etNote.text.toString().trim(),
                 photo = pickedPhoto,
-                createdAt = existing?.createdAt ?: System.currentTimeMillis()
+                createdAt = existing?.createdAt ?: System.currentTimeMillis(),
+                category = pickedCategory,
+                brand = etBrand.text.toString().trim(),
+                cabinet = etCabinet.text.toString().trim(),
+                location = etLocation.text.toString().trim()
             )
             // 编辑时换了图 → 删掉旧图；本次导入但未采用的图也一并清理
             existing?.photo?.let { old ->

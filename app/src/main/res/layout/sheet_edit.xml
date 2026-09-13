@@ -219,59 +219,205 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="@string/label_date"
+            android:text="@string/label_category"
             android:textColor="#666666"
             android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_arrow_drop_down"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:hint="@string/hint_category"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textColor="#222222"
+            android:textColorHint="#9AA0AC"
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/bg_input"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etDate"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:digits="0123456789-/."
-                android:hint="@string/hint_date"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:paddingLeft="12dp"
-                android:paddingRight="8dp"
-                android:textColor="#222222"
-                android:textColorHint="#9AA0AC"
-                android:textSize="15sp" />
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/btnDatePick"
-                android:layout_width="44dp"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:contentDescription="@string/date_pick"
-                android:padding="11dp"
-                android:src="@drawable/ic_calendar" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_brand"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/etBrand"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="@string/hint_brand"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_location"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/etLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="@string/hint_location"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/label_status"
-            android:textColor="#666666"
-            android:textSize="13sp" />
-
-        <com.syntaxjester.gunplalog.FlowLayout
-            android:id="@+id/flowStatus"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_cabinet"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/etCabinet"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="@string/hint_cabinet"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_date"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/etDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="@string/hint_date"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_date_pick"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/btnDatePick"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:background="@drawable/bg_input"
+                    android:contentDescription="@string/date_pick"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_calendar" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_status"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <com.syntaxjester.gunplalog.FlowLayout
+                    android:id="@+id/flowStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"

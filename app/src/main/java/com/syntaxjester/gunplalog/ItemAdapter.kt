@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
@@ -12,18 +13,28 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+sealed class ItemEntry {
+    data class Header(val label: String, val count: Int, val total: Double) : ItemEntry()
+    data class ItemRow(val item: Item) : ItemEntry()
+}
+
 class ItemAdapter(
     private val onClick: (Item) -> Unit,
     private val onLongClick: (Item) -> Unit,
     private val onPhotoClick: (Item) -> Unit
-) : RecyclerView.Adapter<ItemAdapter.VH>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val data = mutableListOf<Item>()
+    val data = mutableListOf<ItemEntry>()
 
-    fun submit(list: List<Item>) {
+    fun submit(list: List<ItemEntry>) {
         data.clear()
         data.addAll(list)
         notifyDataSetChanged()
+    }
+
+    class HeaderVH(v: View) : RecyclerView.ViewHolder(v) {
+        val tvTitle: TextView = v.findViewById(R.id.tvGroupTitle)
+        val tvStat: TextView = v.findViewById(R.id.tvGroupStat)
     }
 
     class VH(v: View) : RecyclerView.ViewHolder(v) {
@@ -32,28 +43,47 @@ class ItemAdapter(
         val tvBadge: TextView = v.findViewById(R.id.tvBadge)
         val tvName: TextView = v.findViewById(R.id.tvName)
         val tvMeta: TextView = v.findViewById(R.id.tvMeta)
+        val tvCat: TextView = v.findViewById(R.id.tvCat)
         val tvNote: TextView = v.findViewById(R.id.tvNote)
         val tvPrice: TextView = v.findViewById(R.id.tvPrice)
         val tvStatus: TextView = v.findViewById(R.id.tvStatus)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_model, parent, false)
-        return VH(v)
+    override fun getItemViewType(position: Int): Int = when (data[position]) {
+        is ItemEntry.Header -> 0
+        is ItemEntry.ItemRow -> 1
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val infl = LayoutInflater.from(parent.context)
+        return if (viewType == 0) {
+            HeaderVH(infl.inflate(R.layout.item_group_header, parent, false))
+        } else {
+            VH(infl.inflate(R.layout.item_model, parent, false))
+        }
     }
 
     override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        val item = data[position]
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val entry = data[position]) {
+            is ItemEntry.Header -> {
+                val h = holder as HeaderVH
+                h.tvTitle.text = entry.label
+                h.tvStat.text = "${entry.count} 件" +
+                        if (entry.total > 0) " · ¥" + String.format("%.2f", entry.total) else ""
+            }
+            is ItemEntry.ItemRow -> bindItem(holder as VH, entry.item)
+        }
+    }
+
+    private fun bindItem(holder: VH, item: Item) {
         val ctx = holder.itemView.context
         val gradeColor = safeColor(Grades.color(item.grade), "#9E9E9E")
 
         holder.tvBadge.text = item.grade
         holder.thumbCard.setCardBackgroundColor(gradeColor)
 
-        // 有美图 → 显示图片，规格标签压在底部；无美图 → 纯规格色块
         val thumb = Photos.decode(ctx, item.photo, 240)
         if (thumb != null) {
             holder.ivThumb.setImageBitmap(thumb)
@@ -77,11 +107,17 @@ class ItemAdapter(
 
         val parts = mutableListOf<String>()
         if (item.scale.isNotBlank()) parts.add(item.scale)
+        if (item.brand.isNotBlank()) parts.add(item.brand)
+        if (item.cabinet.isNotBlank()) parts.add(item.cabinet)
+        if (item.location.isNotBlank()) parts.add(item.location)
         if (showDateService && item.date.isNotBlank()) {
             parts.add(item.date)
             serviceDays(item)?.let { parts.add("服役 $it 天") }
         }
         holder.tvMeta.text = parts.joinToString(" · ")
+
+        holder.tvCat.visibility = if (item.category.isNotBlank()) View.VISIBLE else View.GONE
+        holder.tvCat.text = item.category
 
         if (item.note.isBlank()) {
             holder.tvNote.visibility = View.GONE

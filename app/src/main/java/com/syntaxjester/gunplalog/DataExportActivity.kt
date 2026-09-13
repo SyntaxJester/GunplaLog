@@ -41,7 +41,7 @@ class DataExportActivity : AppCompatActivity() {
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundResource(R.drawable.bg_me_page)
-            setPadding(dp(20), dp(18), dp(20), dp(32))
+            setPadding(dp(14), dp(14), dp(14), dp(20))
         }
         root.addView(header())
         root.addView(summary(items.size), margin(18))
@@ -66,27 +66,27 @@ class DataExportActivity : AppCompatActivity() {
         }, LinearLayout.LayoutParams(dp(54), dp(54)))
         addView(LinearLayout(this@DataExportActivity).apply {
             orientation = LinearLayout.VERTICAL; setPadding(dp(15), 0, 0, 0)
-            addView(text("数据导出", 27f, dark, true))
-            addView(text("管理备份、恢复与云端同步", 14f, muted, false))
+            addView(text("数据导出", 22f, dark, true))
+            addView(text("管理备份、恢复与云端同步", 12f, muted, false))
         }, LinearLayout.LayoutParams(0, dp(54), 1f))
     }
 
     private fun summary(count: Int) = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL; setBackgroundResource(R.drawable.bg_export_summary)
-        setPadding(dp(20), dp(18), dp(20), dp(18))
-        addView(text("保护你的收藏数据", 20f, Color.WHITE, true))
-        addView(text("当前共有 $count 条物品记录，建议定期创建完整备份。", 14f, Color.WHITE, false).apply { alpha = .9f; setPadding(0, dp(6), 0, 0) })
+        setPadding(dp(15), dp(13), dp(15), dp(13))
+        addView(text("保护你的收藏数据", 16f, Color.WHITE, true))
+        addView(text("当前共有 $count 条物品记录，建议定期创建完整备份。", 12f, Color.WHITE, false).apply { alpha = .9f; setPadding(0, dp(4), 0, 0) })
     }
 
     private fun actionCard(icon: Int, title: String, sub: String, click: () -> Unit) = LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-        setBackgroundResource(R.drawable.bg_manager_card); setPadding(dp(16), dp(15), dp(16), dp(15)); isClickable = true
+        setBackgroundResource(R.drawable.bg_manager_card); setPadding(dp(12), dp(11), dp(12), dp(11)); isClickable = true
         setOnClickListener { click() }
-        addView(ImageView(this@DataExportActivity).apply { setImageResource(icon) }, LinearLayout.LayoutParams(dp(43), dp(43)))
+        addView(ImageView(this@DataExportActivity).apply { setImageResource(icon) }, LinearLayout.LayoutParams(dp(36), dp(36)))
         addView(LinearLayout(this@DataExportActivity).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(14), 0, dp(8), 0)
-            addView(text(title, 17f, dark, true))
-            addView(text(sub, 13f, muted, false).apply { setPadding(0, dp(3), 0, 0) })
+            orientation = LinearLayout.VERTICAL; setPadding(dp(11), 0, dp(6), 0)
+            addView(text(title, 15f, dark, true))
+            addView(text(sub, 12f, muted, false).apply { setPadding(0, dp(2), 0, 0) })
         }, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
         addView(text("›", 31f, Color.parseColor("#9BA7B8"), false))
     }

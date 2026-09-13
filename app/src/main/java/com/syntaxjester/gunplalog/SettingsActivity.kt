@@ -27,7 +27,7 @@ class SettingsActivity : AppCompatActivity() {
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundResource(R.drawable.bg_me_page)
-            setPadding(dp(22), dp(18), dp(22), dp(32))
+            setPadding(dp(16), dp(16), dp(16), dp(22))
         }
         root.addView(header())
         root.addView(settingCard(
@@ -59,7 +59,7 @@ class SettingsActivity : AppCompatActivity() {
         }, LinearLayout.LayoutParams(dp(54), dp(54)))
         addView(TextView(this@SettingsActivity).apply {
             text = "个性化"
-            textSize = 28f
+            textSize = 23f
             setTextColor(dark)
             setTypeface(typeface, android.graphics.Typeface.BOLD)
             gravity = Gravity.CENTER
@@ -71,20 +71,20 @@ class SettingsActivity : AppCompatActivity() {
         return LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundResource(R.drawable.bg_manager_card)
-            setPadding(dp(22), dp(22), dp(22), dp(22))
-            addView(text(title, 23f, dark, true))
-            addView(text(summary, 15f, muted, true).apply { setPadding(0, dp(12), 0, dp(24)) })
+            setPadding(dp(16), dp(16), dp(16), dp(16))
+            addView(text(title, 18f, dark, true))
+            addView(text(summary, 13f, muted, true).apply { setPadding(0, dp(7), 0, dp(13)) })
             addView(LinearLayout(this@SettingsActivity).apply {
                 gravity = Gravity.CENTER_VERTICAL
-                addView(text(option, 19f, dark, true), LinearLayout.LayoutParams(0, dp(48), 1f))
+                addView(text(option, 16f, dark, true), LinearLayout.LayoutParams(0, dp(40), 1f))
                 addView(Switch(this@SettingsActivity).apply {
                     isChecked = prefs.getBoolean(key, defaultValue)
                     setOnCheckedChangeListener { _, checked -> prefs.edit().putBoolean(key, checked).apply() }
                 })
             })
-            addView(text(description, 15f, muted, true).apply {
-                setLineSpacing(dp(4).toFloat(), 1f)
-                setPadding(0, dp(8), 0, 0)
+            addView(text(description, 12f, muted, true).apply {
+                setLineSpacing(dp(2).toFloat(), 1f)
+                setPadding(0, dp(5), 0, 0)
             })
         }
     }

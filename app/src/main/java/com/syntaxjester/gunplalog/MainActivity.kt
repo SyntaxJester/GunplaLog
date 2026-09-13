@@ -150,9 +150,9 @@ class MainActivity : AppCompatActivity() {
         tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { openManager("stats") }
         tabMe.findViewById<View>(R.id.btnMeWishlist).setOnClickListener { openManager("wishlist") }
         tabMe.findViewById<View>(R.id.btnMeCollab).setOnClickListener { manageNameList("协作管理", "collaborators", "协作者") }
-        tabMe.findViewById<View>(R.id.btnMeCategory).setOnClickListener { openManager("category") }
-        tabMe.findViewById<View>(R.id.btnMeCabinet).setOnClickListener { openManager("cabinet") }
-        tabMe.findViewById<View>(R.id.btnMeLocation).setOnClickListener { openManager("location") }
+        tabMe.findViewById<View>(R.id.btnMeCategory).setOnClickListener { openAssetManager("category") }
+        tabMe.findViewById<View>(R.id.btnMeCabinet).setOnClickListener { openAssetManager("cabinet") }
+        tabMe.findViewById<View>(R.id.btnMeLocation).setOnClickListener { openAssetManager("location") }
         tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { openDataExport() }
         tabMe.findViewById<View>(R.id.btnMeSettings).setOnClickListener { openSettings() }
         tabMe.findViewById<View>(R.id.btnMeFeedback).setOnClickListener { showFeedback() }
@@ -323,6 +323,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun openManager(mode: String) {
         startActivity(android.content.Intent(this, ManagerActivity::class.java).putExtra("mode", mode))
+    }
+
+    private fun openAssetManager(mode: String) {
+        startActivity(android.content.Intent(this, AssetManagerActivity::class.java).putExtra("mode", mode))
     }
 
     private fun openSettings() {

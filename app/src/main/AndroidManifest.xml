@@ -30,6 +30,11 @@
         android:theme="@style/Theme.GunplaLog">
 
         <activity
+            android:name=".AssetManagerActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />

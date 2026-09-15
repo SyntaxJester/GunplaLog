@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/meRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_me_page"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="18dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="2dp"
+            android:text="我的"
+            android:textColor="#171A20"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <include layout="@layout/view_me_assets" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:text="更多"
+            android:textColor="#8795AA"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <include layout="@layout/view_me_more" />
+
+        <!-- 资料编辑逻辑保留为隐藏兼容节点，页面视觉完全采用参考图结构 -->
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone">
+            <ImageView android:id="@+id/avatarView" android:layout_width="1dp" android:layout_height="1dp" android:contentDescription="@string/me_avatar" />
+            <ImageView android:id="@+id/btnEditProfile" android:layout_width="1dp" android:layout_height="1dp" android:contentDescription="@string/me_edit" />
+            <TextView android:id="@+id/tvMeName" android:layout_width="1dp" android:layout_height="1dp" />
+            <TextView android:id="@+id/tvMeNameHint" android:layout_width="1dp" android:layout_height="1dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

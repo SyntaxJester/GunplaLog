@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">玩物赏志</string>
+    <string name="tagline">发现美好·收藏热爱·记录生活</string>
+    <string name="app_version">玩物赏志 v1.7.0</string>
+    <string name="title_main">玩物赏志</string>
+    <string name="sheet_title">玩物赏志</string>
+    <string name="count_fmt">%1$d 台</string>
+    <string name="subtitle_fmt">共 %1$d 台 · 累计 ¥%2$.2f</string>
+    <string name="search_hint">搜索名称 / 备注…</string>
+    <string name="btn_stats">📊 统计</string>
+    <string name="title_assets">我的资产</string>
+    <string name="label_asset_value">当前资产</string>
+    <string name="label_today_cost">今日花费</string>
+    <string name="label_item_count">物品数量</string>
+    <string name="btn_group_view">分组查看</string>
+    <string name="empty_title">没有找到匹配的物品</string>
+    <string name="empty_sub">试试换一个名称、分类或存放位置</string>
+
+    <!-- Tabs -->
+    <string name="tab_home">首页</string>
+    <string name="tab_items">物品</string>
+    <string name="tab_add">拍摄</string>
+    <string name="tab_shoot">拍摄</string>
+    <string name="tab_showcase">展柜</string>
+    <string name="tab_me">我的</string>
+
+    <!-- Home -->
+    <string name="home_empty_today">这天还没有收藏</string>
+    <string name="home_empty_hint">点击中间拍摄，记录第一台模型</string>
+    <string name="home_date_label">今日收藏</string>
+
+    <!-- Showcase -->
+    <string name="showcase_empty">还没有带照片的模型</string>
+
+    <!-- Me -->
+    <string name="me_avatar">头像</string>
+    <string name="me_edit">编辑资料</string>
+    <string name="me_name_hint">轻触编辑昵称</string>
+    <string name="me_tools_title">功能工具</string>
+    <string name="me_stats_title">收藏概览</string>
+    <string name="me_total_models">总收藏</string>
+    <string name="me_total_spent">累计花费</string>
+    <string name="me_types">模型种类</string>
+    <string name="me_about">关于高达记物</string>
+    <string name="me_cloud">坚果云同步</string>
+    <string name="me_version">版本 %1$s</string>
+
+    <!-- Editor -->
+    <string name="label_name">名称 *</string>
+    <string name="label_photo">模型美图</string>
+    <string name="photo_camera">📷 拍照</string>
+    <string name="photo_gallery">🖼 从相册选择</string>
+    <string name="photo_remove">移除图片</string>
+    <string name="photo_replace">更换图片</string>
+    <string name="photo_view">查看大图</string>
+    <string name="photo_fail">图片处理失败，请重试</string>
+    <string name="photo_camera_denied">未授予相机权限，可改用「从相册选择」</string>
+    <string name="photo_no_camera">未找到可用的相机应用</string>
+    <string name="photo_no_gallery">未找到可用的相册应用</string>
+    <string name="label_grade">规格</string>
+    <string name="label_scale">比例</string>
+    <string name="label_price">价格（元）</string>
+    <string name="label_date">购买日期</string>
+    <string name="label_category">分类</string>
+    <string name="hint_category">选择分类（可选）</string>
+    <string name="label_brand">品牌</string>
+    <string name="hint_brand">如：万代</string>
+    <string name="label_location">存放位置</string>
+    <string name="hint_location">如：书房书架</string>
+    <string name="label_cabinet">所属柜子</string>
+    <string name="hint_cabinet">如：云光玻璃柜</string>
+    <string name="label_date_pick">日期</string>
+    <string name="label_status">状态</string>
+    <string name="label_note">备注</string>
+    <string name="hint_name">如：RG 独角兽高达</string>
+    <string name="hint_scale">1/144</string>
+    <string name="hint_price">0.00</string>
+    <string name="hint_note">版件状态、购入渠道、涂装计划…</string>
+    <string name="hint_date">如 2026-09-02</string>
+    <string name="date_pick">选择日期</string>
+    <string name="date_invalid">日期格式不对，请按 2026-09-02 填写</string>
+    <string name="grade_pick_title">选择规格</string>
+    <string name="save">保存</string>
+    <string name="name_required">请输入名称</string>
+    <string name="delete_title">删除记录</string>
+    <string name="delete_msg_fmt">确定删除「%1$s」吗？</string>
+    <string name="delete_ok">删除</string>
+
+    <!-- Sort -->
+    <string name="menu_sort">排序方式</string>
+    <string name="sort_date_desc">日期 新→旧</string>
+    <string name="sort_date_asc">日期 旧→新</string>
+    <string name="sort_price_desc">价格 高→低</string>
+    <string name="sort_price_asc">价格 低→高</string>
+    <string name="sort_name">名称 A→Z</string>
+    <string name="menu_stats">统计信息</string>
+    <string name="menu_backup">备份数据</string>
+    <string name="menu_restore">恢复数据</string>
+    <string name="menu_cloud">坚果云同步</string>
+
+    <!-- Backup -->
+    <string name="backup_pick_title">备份到哪里</string>
+    <string name="backup_local">📁 备份到本地文件</string>
+    <string name="backup_cloud">☁️ 备份到坚果云</string>
+    <string name="restore_pick_title">从哪里恢复</string>
+    <string name="restore_local">📁 从本地文件恢复</string>
+    <string name="restore_cloud">☁️ 从坚果云恢复</string>
+    <string name="backup_empty">还没有任何记录，无需备份</string>
+    <string name="backup_done_fmt">已备份 %1$d 条记录</string>
+    <string name="backup_fail_fmt">备份失败：%1$s</string>
+    <string name="backup_uploading">正在上传到坚果云…</string>
+    <string name="backup_cloud_done_fmt">已上传：%1$s</string>
+
+    <!-- Restore -->
+    <string name="restore_mode_title">恢复方式</string>
+    <string name="restore_mode_msg_fmt">备份包含 %1$d 条记录（%2$s）\n\n合并：保留现有记录，只补充没有的\n覆盖：清空现有记录，完全按备份还原</string>
+    <string name="restore_mode_merge">合并</string>
+    <string name="restore_mode_replace">覆盖</string>
+    <string name="restore_done_fmt">恢复完成：新增 %1$d 条，跳过 %2$d 条，图片 %3$d 张</string>
+    <string name="restore_fail_fmt">恢复失败：%1$s</string>
+    <string name="restore_bad_file">这不是有效的备份文件（需要 .gunpla.zip）</string>
+    <string name="restore_downloading">正在从坚果云下载…</string>
+
+    <!-- Cloud -->
+    <string name="cloud_list_empty">坚果云上还没有备份文件</string>
+    <string name="cloud_listing">正在读取云端备份列表…</string>
+    <string name="cloud_pick_title">选择要恢复的备份</string>
+    <string name="cloud_not_configured">请先设置坚果云账号</string>
+    <string name="cloud_goto_setting">去设置</string>
+    <string name="cloud_title">坚果云 / WebDAV</string>
+    <string name="cloud_help">坚果云需要使用「应用密码」，不是登录密码。在坚果云网页端 → 账户信息 → 安全选项 → 添加应用密码，生成后填到下面。凭据保存在本机应用私有目录，不会上传到别处。</string>
+    <string name="cloud_open_console">打开坚果云安全设置页 ›</string>
+    <string name="cloud_endpoint">服务器地址</string>
+    <string name="cloud_endpoint_hint">https://dav.jianguoyun.com/dav/</string>
+    <string name="cloud_user">账号（邮箱）</string>
+    <string name="cloud_user_hint">you@example.com</string>
+    <string name="cloud_pass">应用密码</string>
+    <string name="cloud_pass_hint">坚果云生成的应用密码</string>
+    <string name="cloud_dir">备份目录</string>
+    <string name="cloud_dir_hint">GunplaLog</string>
+    <string name="cloud_test">测试连接</string>
+    <string name="cloud_save">保存</string>
+    <string name="cloud_clear">清除已保存的账号</string>
+    <string name="cloud_testing">正在连接…</string>
+    <string name="cloud_test_ok">连接成功，备份目录就绪</string>
+    <string name="cloud_need_all">地址、账号、应用密码都要填</string>
+    <string name="cloud_saved">已保存云服务设置</string>
+    <string name="cloud_cleared">已清除云服务账号</string>
+    <string name="cloud_open_fail">没有可用的浏览器</string>
+
+    <!-- Stats -->
+    <string name="stats_total_fmt">总记录：%1$d 条</string>
+    <string name="stats_owned_fmt">已入手：%1$d 台 · 合计 ¥%2$.2f</string>
+    <string name="stats_wanted_fmt">想买 %1$d 台 · 已出 %2$d 台</string>
+    <string name="stats_by_grade">按规格：</string>
+    <string name="stats_top_fmt">最贵一台：%1$s（¥%2$.2f）</string>
+    <string name="loading">处理中…</string>
+</resources>

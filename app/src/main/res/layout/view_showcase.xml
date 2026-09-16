@@ -16,6 +16,25 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <!-- 分类 pills -->
+    <HorizontalScrollView
+        android:id="@+id/showcaseCatScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="4dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/showcasePillRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

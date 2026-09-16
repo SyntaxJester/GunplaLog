@@ -43,6 +43,9 @@ class MainActivity : AppCompatActivity() {
     private var filterTopCat = "全部"
     private var filterSubCat = "全部"
 
+    // 展柜分类筛选
+    private var filterCaseCat = "全部"
+
     // 日历选中日期
     private lateinit var calendarView: CalendarWeekView
     private var selectedCal = Calendar.getInstance()
@@ -162,6 +165,35 @@ class MainActivity : AppCompatActivity() {
         caseRv.layoutManager = GridLayoutManager(this, 2)
         caseRv.adapter = caseAdapter
 
+        // 展架分类 pills
+        val caseRow = tabShowcase.findViewById<LinearLayout>(R.id.showcasePillRow)
+        val caseTopNames = listOf("全部") + AssetStore.categories(this).filter { it.children.isNotEmpty() }.map { it.name }
+        caseTopNames.forEach { name ->
+            val pill = Pills.sheet(this, name)
+            pill.isSelected = (name == "全部")
+            pill.setOnClickListener {
+                caseRow.removeAllViewsInLayout()
+                caseTopNames.forEach { n ->
+                    val p = Pills.sheet(this, n)
+                    p.isSelected = (n == name)
+                    p.setOnClickListener {
+                        caseRow.removeAllViewsInLayout()
+                        caseTopNames.forEach { nn ->
+                            val pp = Pills.sheet(this, nn)
+                            pp.isSelected = (nn == name)
+                            caseRow.addView(pp, Pills.rowParams(this))
+                        }
+                        filterCaseCat = n
+                        refreshCase()
+                    }
+                    caseRow.addView(p, Pills.rowParams(this))
+                }
+                filterCaseCat = n
+                refreshCase()
+            }
+            caseRow.addView(pill, Pills.rowParams(this))
+        }
+
         // 我的 tab：完全按参考页组织资产管理和更多功能
         tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { openManager("stats") }
         tabMe.findViewById<View>(R.id.btnMeWishlist).setOnClickListener { openManager("wishlist") }
@@ -178,13 +210,13 @@ class MainActivity : AppCompatActivity() {
         tabMe.findViewById<View>(R.id.btnEditProfile).setOnClickListener { editProfileName() }
         tabMe.findViewById<View>(R.id.avatarView).setOnClickListener { editProfileName() }
 
-        // 资产与管理：点击展开/折叠
-        tabMe.findViewById<View>(R.id.btnAssetsToggle).setOnClickListener {
-            val content = tabMe.findViewById<View>(R.id.assetsContent)
-            val arrow = tabMe.findViewById<TextView>(R.id.btnAssetsToggle)
-            val isVisible = content.visibility == View.VISIBLE
-            content.visibility = if (isVisible) View.GONE else View.VISIBLE
-            arrow.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, if (isVisible) R.drawable.ic_arrow_drop_down else R.drawable.ic_arrow_drop_up, 0)
+        // 物品 tab：资产卡默认隐藏，点击展开
+        val assetsCard = tabItems.findViewById<View>(R.id.assetsCard)
+        val btnToggleAssets = tabItems.findViewById<TextView>(R.id.btnToggleAssets)
+        btnToggleAssets.setOnClickListener {
+            val isVisible = assetsCard.visibility == View.VISIBLE
+            assetsCard.visibility = if (isVisible) View.GONE else View.VISIBLE
+            btnToggleAssets.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, if (isVisible) R.drawable.ic_arrow_drop_down else R.drawable.ic_arrow_drop_up, 0)
         }
 
         // 日历周条
@@ -246,7 +278,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (idx == 0) refreshHome()
-        if (idx == 3) refreshShowcase()
+        if (idx == 3) refreshCase()
         if (idx == 4) refreshMe()
     }
 
@@ -298,8 +330,12 @@ class MainActivity : AppCompatActivity() {
         calendarView.refreshMarks()
     }
 
-    private fun refreshShowcase() {
-        val withPhotos = items.filter { it.photo.isNotBlank() }
+    private fun refreshCase() {
+        val withPhotos = if (filterCaseCat == "全部") {
+            items.filter { it.photo.isNotBlank() }
+        } else {
+            items.filter { it.category == filterCaseCat && it.photo.isNotBlank() }
+        }
         caseAdapter.submit(withPhotos)
         val rv = tabShowcase.findViewById<RecyclerView>(R.id.rvShowcase)
         val empty = tabShowcase.findViewById<View>(R.id.showcaseEmpty)

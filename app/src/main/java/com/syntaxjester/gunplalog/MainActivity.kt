@@ -178,6 +178,15 @@ class MainActivity : AppCompatActivity() {
         tabMe.findViewById<View>(R.id.btnEditProfile).setOnClickListener { editProfileName() }
         tabMe.findViewById<View>(R.id.avatarView).setOnClickListener { editProfileName() }
 
+        // 资产与管理：点击展开/折叠
+        tabMe.findViewById<View>(R.id.btnAssetsToggle).setOnClickListener {
+            val content = tabMe.findViewById<View>(R.id.assetsContent)
+            val arrow = tabMe.findViewById<TextView>(R.id.btnAssetsToggle)
+            val isVisible = content.visibility == View.VISIBLE
+            content.visibility = if (isVisible) View.GONE else View.VISIBLE
+            arrow.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, if (isVisible) R.drawable.ic_arrow_drop_down else R.drawable.ic_arrow_drop_up, 0)
+        }
+
         // 日历周条
         calendarView = CalendarWeekView(this)
         calendarView.listener = { cal ->

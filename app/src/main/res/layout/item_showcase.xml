@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="6dp"
     app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="1dp">
+    app:cardCornerRadius="14dp"
+    app:cardElevation="3dp"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,7 @@
         android:orientation="vertical">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="152dp">
+            android:layout_height="160dp">
             <ImageView
                 android:id="@+id/ivPhoto"
                 android:layout_width="match_parent"
@@ -24,10 +25,10 @@
                 android:scaleType="centerCrop" />
             <TextView
                 android:id="@+id/tvBadge"
-                android:layout_width="56dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="22dp"
                 android:layout_gravity="top|end"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:background="@drawable/bg_badge"
                 android:gravity="center"
                 android:text="HG"
@@ -41,9 +42,9 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:paddingTop="5dp"
-            android:paddingRight="4dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="8dp"
+            android:paddingRight="10dp"
             android:text="高达"
             android:textColor="#222222"
             android:textSize="13sp"
@@ -54,9 +55,9 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="8dp"
             android:textColor="#8A909C"
             android:textSize="10sp" />
     </LinearLayout>

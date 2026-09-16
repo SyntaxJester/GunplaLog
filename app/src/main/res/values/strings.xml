@@ -13,9 +13,10 @@
     <string name="label_asset_value">当前资产</string>
     <string name="label_today_cost">今日花费</string>
     <string name="label_item_count">物品数量</string>
-    <string name="btn_group_view">分组查看</string>
+    <!-- Empty states -->
     <string name="empty_title">没有找到匹配的物品</string>
     <string name="empty_sub">试试换一个名称、分类或存放位置</string>
+    <string name="empty_hint">📁 没有找到匹配的物品\n\n试试换一个名称、分类或存放位置</string>
 
     <!-- Tabs -->
     <string name="tab_home">首页</string>

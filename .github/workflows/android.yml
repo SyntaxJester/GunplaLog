@@ -43,3 +43,50 @@ jobs:
           name: 玩物赏志 ${{ github.ref_name }}
           body: "玩物赏志（原 GunplaLog）Android 应用发布包"
           files: GunplaLog.apk
+
+      # 每次手动触发构建后自动发布/更新 release
+      - name: Publish to release
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          set -e
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          REPO="${{ github.repository }}"
+          HEAD_SHA=$(git rev-parse HEAD)
+
+          echo "::notice::Publishing APK to release v1.7.1 (commit: $HEAD_SHA)"
+
+          # 获取 release ID
+          RELEASE_ID=$(curl -s \
+            -H "Authorization: token $TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$REPO/releases/tags/v1.7.1" \
+            | python3 -c "import json,sys; print(json.load(sys.stdin).get('id',''))")
+
+          if [ -z "$RELEASE_ID" ]; then
+            echo "::error::Failed to get release ID"
+            exit 1
+          fi
+          echo "Release ID: $RELEASE_ID"
+
+          # 删除旧的 GunplaLog.apk 资产
+          OLD_ASSET_ID=$(curl -s \
+            -H "Authorization: token $TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$REPO/releases/tags/v1.7.1" \
+            | python3 -c "import json,sys; [print(a['id']) for a in json.load(sys.stdin).get('assets',[]) if a['name']=='GunplaLog.apk']" | head -1)
+          if [ -n "$OLD_ASSET_ID" ]; then
+            curl -s -X DELETE \
+              -H "Authorization: token $TOKEN" \
+              "https://api.github.com/repos/$REPO/releases/assets/$OLD_ASSET_ID"
+            echo "Deleted old asset $OLD_ASSET_ID"
+          fi
+
+          # 上传新的 APK
+          UPLOAD_URL="https://uploads.github.com/repos/$REPO/releases/$RELEASE_ID/assets?name=GunplaLog.apk"
+          curl -s -X POST \
+            -H "Authorization: token $TOKEN" \
+            -H "Content-Type: application/octet-stream" \
+            "$UPLOAD_URL" \
+            --data-binary "@$APK" \
+            | python3 -c "import json,sys; d=json.load(sys.stdin); print('Uploaded:', d.get('browser_download_url',''))"

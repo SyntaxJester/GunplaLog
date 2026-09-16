@@ -188,14 +188,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     caseRow.addView(p, Pills.rowParams(this))
                 }
-                filterCaseCat = n
+                filterCaseCat = name
                 refreshCase()
             }
             caseRow.addView(pill, Pills.rowParams(this))
         }
 
-        // 我的 tab：完全按参考页组织资产管理和更多功能
-        tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { openManager("stats") }
+        // 我的 tab：完全按参考页组织资产管理和更多功能        tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { openManager("stats") }
         tabMe.findViewById<View>(R.id.btnMeWishlist).setOnClickListener { openManager("wishlist") }
         tabMe.findViewById<View>(R.id.btnMeCollab).setOnClickListener { manageNameList("协作管理", "collaborators", "协作者") }
         tabMe.findViewById<View>(R.id.btnMeCategory).setOnClickListener { openAssetManager("category") }

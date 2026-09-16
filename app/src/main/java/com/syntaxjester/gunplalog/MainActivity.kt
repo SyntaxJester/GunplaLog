@@ -221,15 +221,6 @@ class MainActivity : AppCompatActivity() {
         tabMe.findViewById<View>(R.id.btnEditProfile).setOnClickListener { editProfileName() }
         tabMe.findViewById<View>(R.id.avatarView).setOnClickListener { editProfileName() }
 
-        // 物品 tab：资产卡默认隐藏，点击展开
-        val assetsCard = tabItems.findViewById<View>(R.id.assetsCard)
-        val btnToggleAssets = tabItems.findViewById<TextView>(R.id.btnToggleAssets)
-        btnToggleAssets.setOnClickListener {
-            val isVisible = assetsCard.visibility == View.VISIBLE
-            assetsCard.visibility = if (isVisible) View.GONE else View.VISIBLE
-            btnToggleAssets.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, if (isVisible) R.drawable.ic_arrow_drop_down else R.drawable.ic_arrow_drop_up, 0)
-        }
-
         // 日历周条
         calendarView = CalendarWeekView(this)
         calendarView.listener = { cal ->

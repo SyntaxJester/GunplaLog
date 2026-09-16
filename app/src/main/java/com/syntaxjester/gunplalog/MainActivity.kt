@@ -537,7 +537,7 @@ class MainActivity : AppCompatActivity() {
         row.removeAllViews()
         val topNames = listOf("全部") + AssetStore.categories(this).filter { it.children.isNotEmpty() }.map { it.name }
         topNames.forEach { name ->
-            val pill = Pills.header(this, name)
+            val pill = Pills.sheet(this, name)
             pill.isSelected = (name == filterTopCat)
             pill.setOnClickListener {
                 filterTopCat = name
@@ -555,7 +555,7 @@ class MainActivity : AppCompatActivity() {
         val curTop = AssetStore.categories(this).firstOrNull { it.name == filterTopCat }
         val subs = (if (curTop != null) curTop.children else emptyList())
         (listOf("全部") + subs).forEach { name ->
-            val pill = Pills.header(this, name)
+            val pill = Pills.sheet(this, name)
             pill.isSelected = (name == filterSubCat)
             pill.setOnClickListener {
                 filterSubCat = name

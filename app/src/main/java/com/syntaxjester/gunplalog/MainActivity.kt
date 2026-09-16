@@ -122,6 +122,18 @@ class MainActivity : AppCompatActivity() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
 
+        // 物品页：资产卡默认隐藏，向下拉显示
+        val assetsCard = tabItems.findViewById<View>(R.id.assetsCard)
+        rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            private var firstVisible = true
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && assetsCard.visibility != View.VISIBLE) {
+                    assetsCard.visibility = View.VISIBLE
+                }
+            }
+        })
+
         // 首页和物品页不能共享同一个 adapter：共享时刷新首页会覆盖物品列表
         val rvHome = tabHome.findViewById<RecyclerView>(R.id.rvHome)
         homeAdapter = ItemAdapter(

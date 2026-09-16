@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 我的资产：默认隐藏，点击展开 -->
+            <!-- 我的资产：默认隐藏，滚动显示 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,29 +26,12 @@
                 android:layout_marginRight="14dp"
                 android:layout_marginTop="4dp">
 
-                <TextView
-                    android:id="@+id/btnToggleAssets"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:gravity="center_vertical"
-                    android:drawableEnd="@drawable/ic_arrow_drop_down"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="8dp"
-                    android:text="我的资产"
-                    android:textColor="@color/text_main"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:background="@drawable/bg_card_btn"
-                    android:clickable="true"
-                    android:focusable="true" />
-
                 <LinearLayout
                     android:id="@+id/assetsCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    android:layout_marginTop="6dp">
+                    android:visibility="gone">
 
                     <!-- 资产统计大卡 -->
                     <LinearLayout

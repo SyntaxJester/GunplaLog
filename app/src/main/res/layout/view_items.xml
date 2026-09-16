@@ -171,6 +171,8 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+            </LinearLayout>
 
             <!-- 搜索框 -->
             <LinearLayout

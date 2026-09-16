@@ -137,16 +137,6 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
         })
-                tabItems.findViewById<View>(R.id.btnStats).setOnClickListener { showStats() }
-
-        // 分组查看：跳转到独立的按分类/品牌/柜子查看页
-        tabItems.findViewById<View>(R.id.btnGroup).setOnClickListener {
-            startActivity(android.content.Intent(this, GroupViewActivity::class.java))
-        }
-
-        val btnSort = tabItems.findViewById<TextView>(R.id.btnSort)
-        }
-
         val btnSort = tabItems.findViewById<TextView>(R.id.btnSort)
         btnSort.text = sortLabel()
         btnSort.setOnClickListener {

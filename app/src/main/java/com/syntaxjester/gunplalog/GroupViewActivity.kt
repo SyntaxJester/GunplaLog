@@ -14,13 +14,14 @@ import androidx.core.view.WindowCompat
 /** 分组查看页面：按分类/品牌/柜子展示物品。 */
 class GroupViewActivity : AppCompatActivity() {
     private lateinit var store: Store
-    private val items by lazy { store.items }
+    private var items = listOf<Item>()
     private var groupMode = 0 // 10=分类 11=品牌 12=柜子
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         store = Store(this)
+        items = store.load().filter { it.status == 1 || it.status == 0 }
         groupMode = intent.getIntExtra("mode", 10)
         setContentView(root())
     }
@@ -59,13 +60,12 @@ class GroupViewActivity : AppCompatActivity() {
 
     private fun buildGroups(): List<Pair<String, List<Item>>> {
         val keyOf: (Item) -> String = when (groupMode) {
-            10 -> { it -> it.category.ifBlank { "未分类" } }
-            11 -> { it -> it.brand.ifBlank { "未填品牌" } }
-            12 -> { it -> it.cabinet.ifBlank { "未入柜" } }
+            10 -> { item -> item.category.ifBlank { "未分类" } }
+            11 -> { item -> item.brand.ifBlank { "未填品牌" } }
+            12 -> { item -> item.cabinet.ifBlank { "未入柜" } }
             else -> return emptyList()
         }
-        return items.filter { it.status == 1 || it.status == 0 }
-            .groupBy(keyOf).toList().sortedBy { it.first }
+        return items.groupBy(keyOf).toList().sortedBy { it.first }
     }
 
     private fun groupSection(label: String, list: List<Item>) = LinearLayout(this).apply {

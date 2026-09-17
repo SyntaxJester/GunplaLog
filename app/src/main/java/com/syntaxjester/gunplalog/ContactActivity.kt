@@ -23,6 +23,7 @@ class ContactActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        // 根布局
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundResource(R.drawable.bg_me_page)
@@ -35,13 +36,19 @@ class ContactActivity : AppCompatActivity() {
             setBackgroundResource(R.drawable.bg_card_header)
             setPadding(dp(16), dp(14), dp(16), dp(14))
         }
+
+        // 返回按钮
         val backBtn = ImageView(this).apply {
             setImageResource(R.drawable.ic_manager_back)
             setBackgroundResource(R.drawable.bg_manager_circle)
             setPadding(dp(10), dp(10), dp(10), dp(10))
+            setOnClickListener { finish() }
         }
-        backBtn.setOnClickListener { finish() }
+        backBtn.id = R.id.btnBack
+
         header.addView(backBtn, LinearLayout.LayoutParams(dp(44), dp(44)))
+
+        // 标题文字
         header.addView(TextView(this).apply {
             text = "联系我们"
             textSize = 20f
@@ -51,6 +58,7 @@ class ContactActivity : AppCompatActivity() {
             weight = 1f
             marginStart = dp(14)
         })
+
         root.addView(header, LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
 
@@ -62,7 +70,7 @@ class ContactActivity : AppCompatActivity() {
         }
 
         // GitHub 卡片
-        val githubCard = cardRow(
+        content.addView(cardRow(
             R.drawable.ic_more_github,
             "GitHub",
             "开源仓库 & Issue",
@@ -70,11 +78,10 @@ class ContactActivity : AppCompatActivity() {
         ) {
             startActivity(Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://github.com/SyntaxJester/GunplaLog")))
-        }
-        content.addView(githubCard)
+        })
 
         // QQ 卡片
-        val qqCard = cardRow(
+        content.addView(cardRow(
             R.drawable.ic_more_contact,
             "QQ",
             "Privat5418",
@@ -83,8 +90,7 @@ class ContactActivity : AppCompatActivity() {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             cm.setPrimaryClip(android.content.ClipData.newPlainText("QQ", "Privat5418"))
             toast("已复制 QQ：Privat5418")
-        }
-        content.addView(qqCard)
+        })
 
         // 说明文字
         content.addView(TextView(this).apply {

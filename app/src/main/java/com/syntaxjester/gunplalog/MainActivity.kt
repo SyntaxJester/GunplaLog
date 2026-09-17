@@ -507,17 +507,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showContact() {
-        AlertDialog.Builder(this)
-            .setTitle("联系我们")
-            .setMessage("GitHub 仓库：\nhttps://github.com/SyntaxJester/GunplaLog\n\nQQ：Privat5418")
-            .setPositiveButton("打开 GitHub") { _, _ -> openGithubRepository() }
-            .setNeutralButton("复制 QQ") { _, _ ->
-                val cm = getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                cm.setPrimaryClip(android.content.ClipData.newPlainText("QQ", "Privat5418"))
-                toast("已复制 QQ：Privat5418")
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
+        startActivity(android.content.Intent(this, ContactActivity::class.java))
     }
 
     // ━━━━━━━━━━━━━━━━━ 排序 / 筛选 ━━━━━━━━━━━━━━━━━

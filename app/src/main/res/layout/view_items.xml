@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 我的资产：默认隐藏，滚动显示 -->
+            <!-- 我的资产：默认显示 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,8 +30,7 @@
                     android:id="@+id/assetsCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="vertical">
 
                     <!-- 资产统计大卡 -->
                     <LinearLayout

@@ -122,18 +122,6 @@ class MainActivity : AppCompatActivity() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
 
-        // 物品页：资产卡默认隐藏，向下拉显示
-        val assetsCard = tabItems.findViewById<View>(R.id.assetsCard)
-        rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            private var firstVisible = true
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0 && assetsCard.visibility != View.VISIBLE) {
-                    assetsCard.visibility = View.VISIBLE
-                }
-            }
-        })
-
         // 首页和物品页不能共享同一个 adapter：共享时刷新首页会覆盖物品列表
         val rvHome = tabHome.findViewById<RecyclerView>(R.id.rvHome)
         homeAdapter = ItemAdapter(
@@ -344,6 +332,15 @@ class MainActivity : AppCompatActivity() {
         val empty = tabShowcase.findViewById<View>(R.id.showcaseEmpty)
         rv.visibility = if (withPhotos.isEmpty()) View.GONE else View.VISIBLE
         empty.visibility = if (withPhotos.isEmpty()) View.VISIBLE else View.GONE
+
+        val allItems = items.filter { it.photo.isNotBlank() }
+        val types = allItems.map { it.grade }.distinct().size
+        val brands = allItems.map { it.brand }.filter { it.isNotBlank() }.distinct().size
+        val locations = allItems.map { it.location }.filter { it.isNotBlank() }.distinct().size
+        tabShowcase.findViewById<TextView>(R.id.tvShowcaseCount).text = withPhotos.size.toString()
+        tabShowcase.findViewById<TextView>(R.id.tvShowcaseTypes).text = types.toString()
+        tabShowcase.findViewById<TextView>(R.id.tvShowcaseBrand).text = brands.toString()
+        tabShowcase.findViewById<TextView>(R.id.tvShowcaseLocation).text = locations.toString()
     }
 
     private fun refreshMe() {

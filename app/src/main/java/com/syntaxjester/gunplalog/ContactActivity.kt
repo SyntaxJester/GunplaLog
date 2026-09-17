@@ -44,7 +44,6 @@ class ContactActivity : AppCompatActivity() {
             setPadding(dp(10), dp(10), dp(10), dp(10))
             setOnClickListener { finish() }
         }
-        backBtn.id = R.id.btnBack
 
         header.addView(backBtn, LinearLayout.LayoutParams(dp(44), dp(44)))
 

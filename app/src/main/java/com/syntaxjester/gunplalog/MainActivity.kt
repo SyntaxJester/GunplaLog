@@ -168,31 +168,22 @@ class MainActivity : AppCompatActivity() {
         // 展架分类 pills
         val caseRow = tabShowcase.findViewById<LinearLayout>(R.id.showcasePillRow)
         val caseTopNames = listOf("全部") + AssetStore.categories(this).filter { it.children.isNotEmpty() }.map { it.name }
-        caseTopNames.forEach { name ->
-            val pill = Pills.sheet(this, name)
-            pill.isSelected = (name == "全部")
-            pill.setOnClickListener {
-                caseRow.removeAllViewsInLayout()
-                caseTopNames.forEach { n ->
-                    val p = Pills.sheet(this, n)
-                    p.isSelected = (n == name)
-                    p.setOnClickListener {
-                        caseRow.removeAllViewsInLayout()
-                        caseTopNames.forEach { nn ->
-                            val pp = Pills.sheet(this, nn)
-                            pp.isSelected = (nn == name)
-                            caseRow.addView(pp, Pills.rowParams(this))
-                        }
-                        filterCaseCat = n
-                        refreshCase()
-                    }
-                    caseRow.addView(p, Pills.rowParams(this))
+
+        fun rebuildCasePills(activeName: String) {
+            caseRow.removeAllViewsInLayout()
+            caseTopNames.forEach { n ->
+                val p = Pills.sheet(this, n)
+                p.isSelected = (n == activeName)
+                p.setOnClickListener {
+                    rebuildCasePills(n)
+                    filterCaseCat = n
+                    refreshCase()
                 }
-                filterCaseCat = name
-                refreshCase()
+                caseRow.addView(p, Pills.rowParams(this))
             }
-            caseRow.addView(pill, Pills.rowParams(this))
         }
+
+        rebuildCasePills("全部")
 
         // 我的 tab：完全按参考页组织资产管理和更多功能
         tabMe.findViewById<View>(R.id.btnMeStats).setOnClickListener { openManager("stats") }
@@ -272,7 +263,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (idx == 0) refreshHome()
-        if (idx == 3) refreshCase()
+        // 展柜页：分类 pills 由 rebuildCasePills 重建
         if (idx == 4) refreshMe()
     }
 

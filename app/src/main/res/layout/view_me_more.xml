@@ -126,43 +126,6 @@
         android:layout_marginLeft="50dp"
         android:background="#E9ECF1" />
 
-    <LinearLayout
-        android:id="@+id/btnMeGithub"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:contentDescription="GitHub"
-            android:src="@drawable/ic_more_github" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_weight="1"
-            android:text="GitHub 仓库"
-            android:textColor="#191B22"
-            android:textSize="15sp"
-            android:textStyle="normal" />
-
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:contentDescription="打开 GitHub"
-            android:src="@drawable/ic_more_chevron" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="50dp"
-        android:background="#E9ECF1" />
-
     <!-- 联系我们：卡片样式 -->
     <LinearLayout
         android:id="@+id/btnMeContact"

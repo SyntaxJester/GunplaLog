@@ -203,9 +203,12 @@ class MainActivity : AppCompatActivity() {
         tabMe.findViewById<View>(R.id.btnMeLocation).setOnClickListener { openAssetManager("location") }
         tabMe.findViewById<View>(R.id.btnMeBackup).setOnClickListener { openDataExport() }
         tabMe.findViewById<View>(R.id.btnMeSettings).setOnClickListener { openSettings() }
-        tabMe.findViewById<View>(R.id.btnMeFeedback).setOnClickListener { showFeedback() }
-        tabMe.findViewById<View>(R.id.btnMeAbout).setOnClickListener { showAbout() }
-        tabMe.findViewById<View>(R.id.btnMeGithub).setOnClickListener { openGithubRepository() }
+        tabMe.findViewById<View>(R.id.btnMeFeedback).setOnClickListener {
+            startActivity(android.content.Intent(this, FeedbackActivity::class.java))
+        }
+        tabMe.findViewById<View>(R.id.btnMeAbout).setOnClickListener {
+            startActivity(android.content.Intent(this, AboutActivity::class.java))
+        }
         tabMe.findViewById<View>(R.id.btnMeContact).setOnClickListener { showContact() }
         tabMe.findViewById<View>(R.id.btnEditProfile).setOnClickListener { editProfileName() }
         tabMe.findViewById<View>(R.id.avatarView).setOnClickListener { editProfileName() }

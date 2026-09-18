@@ -121,10 +121,10 @@ class ManagerActivity : AppCompatActivity() {
                 orientation = LinearLayout.VERTICAL
                 gravity = Gravity.CENTER
                 setPadding(0, dp(150), 0, 0)
-                addView(ImageView(this@ManagerActivity).apply { setImageResource(R.drawable.ic_asset_wishlist) }, LinearLayout.LayoutParams(dp(96), dp(96)))
-                addView(label("还没有种下心愿", 24f, dark, true).apply { setPadding(0, dp(22), 0, 0) })
-                addView(label("先记下来，给喜欢一点时间", 16f, muted, true).apply { setPadding(0, dp(12), 0, dp(28)) })
-                addView(label("添加一个心愿", 17f, Color.WHITE, true).apply {
+                addView(ImageView(this@ManagerActivity).apply { setImageResource(R.drawable.ic_asset_wishlist) }, LinearLayout.LayoutParams(dp(66), dp(66)))
+                addView(label("还没有种下心愿", 17f, dark, true).apply { setPadding(0, dp(20), 0, 0) })
+                addView(label("先把喜欢记下来，再给它时间", 13f, muted, true).apply { setPadding(0, dp(10), 0, dp(18)) })
+                addView(label("添加一个心愿", 16f, Color.WHITE, true).apply {
                     gravity = Gravity.CENTER; setBackgroundResource(R.drawable.bg_manager_primary); setOnClickListener { openNewWish() }
                 }, LinearLayout.LayoutParams(dp(190), dp(52)))
             })
@@ -163,9 +163,9 @@ class ManagerActivity : AppCompatActivity() {
             root.addView(card().apply {
                 gravity = Gravity.CENTER
                 setPadding(dp(20), dp(80), dp(20), dp(80))
-                addView(ImageView(this@ManagerActivity).apply { setImageResource(R.drawable.ic_asset_category) }, LinearLayout.LayoutParams(dp(90), dp(90)))
-                addView(label("还没有分类数据", 25f, dark, true).apply { setPadding(0, dp(20), 0, 0) })
-                addView(label("添加物品后会按规格自动归类", 16f, muted, true).apply { setPadding(0, dp(12), 0, 0) })
+                addView(ImageView(this@ManagerActivity).apply { setImageResource(R.drawable.ic_asset_category) }, LinearLayout.LayoutParams(dp(58), dp(58)))
+                addView(label("还没有分类数据", 17f, dark, true).apply { setPadding(0, dp(20), 0, 0) })
+                addView(label("添加物品后会按规格自动归类", 13f, muted, true).apply { setPadding(0, dp(10), 0, 0) })
             }, margins(top = 120))
         } else counts.forEach { (grade, count) ->
             root.addView(card().apply {
@@ -187,7 +187,7 @@ class ManagerActivity : AppCompatActivity() {
             root.addView(card().apply {
                 gravity = Gravity.CENTER
                 setPadding(dp(20), dp(72), dp(20), dp(72))
-                if (mode == "cabinet") addView(ImageView(this@ManagerActivity).apply { setImageResource(R.drawable.ic_asset_cabinet) }, LinearLayout.LayoutParams(dp(94), dp(94)))
+                root.addView(ImageView(this@ManagerActivity).apply { setImageResource(R.drawable.ic_asset_cabinet) }, LinearLayout.LayoutParams(dp(66), dp(66)))
                 addView(label("还没有$noun", 26f, dark, true).apply { setPadding(0, dp(18), 0, 0) })
                 addView(label("点击右上角＋，创建第一个${if (noun == "柜子") "收藏柜" else "存放位置"}", 16f, muted, true).apply { setPadding(0, dp(14), 0, 0) })
             }, margins(top = 150))

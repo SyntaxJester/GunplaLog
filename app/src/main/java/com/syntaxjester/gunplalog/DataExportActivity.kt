@@ -41,19 +41,19 @@ class DataExportActivity : AppCompatActivity() {
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundResource(R.drawable.bg_me_page)
-            setPadding(dp(14), dp(14), dp(14), dp(20))
+            setPadding(dp(10), dp(10), dp(10), dp(14))
         }
         root.addView(header())
-        root.addView(summary(items.size), margin(18))
-        root.addView(sectionTitle("数据备份"), margin(24))
-        root.addView(actionCard(R.drawable.ic_export_backup, "备份数据", "导出全部物品、图片与记录为安全备份包") { pickBackupTarget() }, margin(10))
-        root.addView(actionCard(R.drawable.ic_export_restore, "恢复数据", "从本地文件或坚果云备份还原数据") { pickRestoreSource() }, margin(10))
-        root.addView(sectionTitle("云端同步"), margin(24))
-        root.addView(actionCard(R.drawable.ic_export_cloud, "坚果云 WebDAV", if (WebDav.load(this).configured) "已配置，可备份并恢复云端数据" else "配置坚果云账号后启用云端备份") { CloudSheet().show(supportFragmentManager, "cloud") }, margin(10))
+        root.addView(summary(items.size), margin(12))
+        root.addView(sectionTitle("数据备份"), margin(18))
+        root.addView(actionCard(R.drawable.ic_export_backup, "备份数据", "导出全部物品、图片与记录为安全备份包") { pickBackupTarget() }, margin(8))
+        root.addView(actionCard(R.drawable.ic_export_restore, "恢复数据", "从本地文件或坚果云备份还原数据") { pickRestoreSource() }, margin(8))
+        root.addView(sectionTitle("云端同步"), margin(18))
+        root.addView(actionCard(R.drawable.ic_export_cloud, "坚果云 WebDAV", if (WebDav.load(this).configured) "已配置，可备份并恢复云端数据" else "配置坚果云账号后启用云端备份") { CloudSheet().show(supportFragmentManager, "cloud") }, margin(8))
         root.addView(TextView(this).apply {
             text = "备份包包含物品资料和已保存的图片；恢复时可选择合并或覆盖现有数据。"
-            textSize = 13f; setTextColor(muted); gravity = Gravity.CENTER
-            setPadding(dp(16), dp(28), dp(16), 0)
+            textSize = 12f; setTextColor(muted); gravity = Gravity.CENTER
+            setPadding(dp(12), dp(20), dp(12), 0)
         })
         setContentView(ScrollView(this).apply { fitsSystemWindows = true; addView(root) })
     }
@@ -62,33 +62,33 @@ class DataExportActivity : AppCompatActivity() {
         gravity = Gravity.CENTER_VERTICAL
         addView(ImageView(this@DataExportActivity).apply {
             setImageResource(R.drawable.ic_manager_back); setBackgroundResource(R.drawable.bg_manager_circle)
-            setPadding(dp(13), dp(13), dp(13), dp(13)); setOnClickListener { finish() }
-        }, LinearLayout.LayoutParams(dp(54), dp(54)))
+            setPadding(dp(10), dp(10), dp(10), dp(10)); setOnClickListener { finish() }
+        }, LinearLayout.LayoutParams(dp(44), dp(44)))
         addView(LinearLayout(this@DataExportActivity).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(15), 0, 0, 0)
-            addView(text("数据导出", 22f, dark, true))
-            addView(text("管理备份、恢复与云端同步", 12f, muted, false))
-        }, LinearLayout.LayoutParams(0, dp(54), 1f))
+            orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, 0, 0)
+            addView(text("数据导出", 18f, dark, true))
+            addView(text("管理备份、恢复与云端同步", 11f, muted, false))
+        }, LinearLayout.LayoutParams(0, dp(44), 1f))
     }
 
     private fun summary(count: Int) = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL; setBackgroundResource(R.drawable.bg_export_summary)
-        setPadding(dp(15), dp(13), dp(15), dp(13))
-        addView(text("保护你的收藏数据", 16f, Color.WHITE, true))
-        addView(text("当前共有 $count 条物品记录，建议定期创建完整备份。", 12f, Color.WHITE, false).apply { alpha = .9f; setPadding(0, dp(4), 0, 0) })
+        setPadding(dp(12), dp(10), dp(12), dp(10))
+        addView(text("保护你的收藏数据", 14f, Color.WHITE, true))
+        addView(text("当前共有 $count 条物品记录，建议定期创建完整备份。", 11f, Color.WHITE, false).apply { alpha = .9f; setPadding(0, dp(3), 0, 0) })
     }
 
     private fun actionCard(icon: Int, title: String, sub: String, click: () -> Unit) = LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-        setBackgroundResource(R.drawable.bg_manager_card); setPadding(dp(12), dp(11), dp(12), dp(11)); isClickable = true
+        setBackgroundResource(R.drawable.bg_manager_card); setPadding(dp(10), dp(9), dp(10), dp(9)); isClickable = true
         setOnClickListener { click() }
-        addView(ImageView(this@DataExportActivity).apply { setImageResource(icon) }, LinearLayout.LayoutParams(dp(36), dp(36)))
+        addView(ImageView(this@DataExportActivity).apply { setImageResource(icon) }, LinearLayout.LayoutParams(dp(28), dp(28)))
         addView(LinearLayout(this@DataExportActivity).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(11), 0, dp(6), 0)
-            addView(text(title, 15f, dark, true))
-            addView(text(sub, 12f, muted, false).apply { setPadding(0, dp(2), 0, 0) })
+            orientation = LinearLayout.VERTICAL; setPadding(dp(9), 0, dp(6), 0)
+            addView(text(title, 13f, dark, true))
+            addView(text(sub, 11f, muted, false).apply { setPadding(0, dp(2), 0, 0) })
         }, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-        addView(text("›", 31f, Color.parseColor("#9BA7B8"), false))
+        addView(text("›", 24f, Color.parseColor("#9BA7B8"), false))
     }
 
     private fun sectionTitle(value: String) = text(value, 16f, Color.parseColor("#8391A7"), true)

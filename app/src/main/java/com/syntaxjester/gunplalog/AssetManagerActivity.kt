@@ -50,12 +50,12 @@ class AssetManagerActivity : AppCompatActivity() {
 
     private fun header(title: String, subtitle: String, add: (() -> Unit)? = null) = LinearLayout(this).apply {
         gravity = Gravity.CENTER_VERTICAL
-        addView(iconButton(R.drawable.ic_manager_back) { finish() }, LinearLayout.LayoutParams(dp(54), dp(54)))
+        addView(iconButton(R.drawable.ic_manager_back) { finish() }, LinearLayout.LayoutParams(dp(44), dp(44)))
         addView(LinearLayout(this@AssetManagerActivity).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(14), 0, dp(8), 0)
-            addView(txt(title, 22f, dark, true)); addView(txt(subtitle, 12f, muted, false).apply { maxLines = 1 })
-        }, LinearLayout.LayoutParams(0, dp(54), 1f))
-        if (add != null) addView(iconButton(R.drawable.ic_manager_add, add), LinearLayout.LayoutParams(dp(54), dp(54)))
+            orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, dp(6), 0)
+            addView(txt(title, 17f, dark, true)); addView(txt(subtitle, 11f, muted, false).apply { maxLines = 1 })
+        }, LinearLayout.LayoutParams(0, dp(44), 1f))
+        if (add != null) addView(iconButton(R.drawable.ic_manager_add, add), LinearLayout.LayoutParams(dp(44), dp(44)))
     }
 
     private fun categoryPage() {
@@ -168,10 +168,10 @@ class AssetManagerActivity : AppCompatActivity() {
 
     private fun emptyEntity(noun: String, click: () -> Unit) = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER; setBackgroundResource(R.drawable.bg_manager_card); setPadding(dp(18), dp(56), dp(18), dp(56))
-        addView(ImageView(this@AssetManagerActivity).apply { setImageResource(if (noun == "柜子") R.drawable.ic_cabinet_empty else R.drawable.ic_asset_location) }, LinearLayout.LayoutParams(dp(104), dp(104)))
-        addView(txt("还没有$noun", 23f, dark, true).apply { setPadding(0, dp(16), 0, 0) })
-        addView(txt("点击右上角＋，创建第一个${if (noun == "柜子") "收藏柜" else "存放位置"}", 14f, muted, false).apply { setPadding(0, dp(9), 0, dp(18)) })
-        addView(primary("创建$noun", click), LinearLayout.LayoutParams(dp(150), dp(42)))
+        addView(ImageView(this@AssetManagerActivity).apply { setImageResource(if (noun == "柜子") R.drawable.ic_cabinet_empty else R.drawable.ic_asset_location) }, LinearLayout.LayoutParams(dp(76), dp(76)))
+        addView(txt("还没有$noun", 17f, dark, true).apply { setPadding(0, dp(14), 0, 0) })
+        addView(txt("点击右上角＋，创建第一个${if (noun == "柜子") "收藏柜" else "存放位置"}", 12f, muted, false).apply { setPadding(0, dp(7), 0, dp(18)) })
+        addView(primary("创建$noun", click), LinearLayout.LayoutParams(dp(130), dp(36)))
     }
 
     private fun entityCard(entry: ManagedEntry, key: String, noun: String) = LinearLayout(this).apply {
@@ -181,10 +181,10 @@ class AssetManagerActivity : AppCompatActivity() {
             else setImageResource(if (noun == "柜子") R.drawable.ic_asset_cabinet else R.drawable.ic_asset_location)
             scaleType = ImageView.ScaleType.CENTER_CROP
         }
-        addView(preview, LinearLayout.LayoutParams(dp(54), dp(54)))
+        addView(preview, LinearLayout.LayoutParams(dp(44), dp(44)))
         addView(LinearLayout(this@AssetManagerActivity).apply {
             orientation = LinearLayout.VERTICAL; setPadding(dp(14), 0, dp(6), 0)
-            addView(txt(entry.name, 18f, dark, true)); addView(txt(if (noun == "柜子") entry.template else "点击管理存放位置", 13f, muted, false))
+            addView(txt(entry.name, 15f, dark, true)); addView(txt(if (noun == "柜子") entry.template else "点击管理存放位置", 11f, muted, false))
         }, LinearLayout.LayoutParams(0, dp(58), 1f))
         addView(txt("⋮", 27f, muted, true).apply { gravity = Gravity.CENTER; setOnClickListener { entityMenu(entry, key, noun) } }, LinearLayout.LayoutParams(dp(40), dp(52)))
         setOnClickListener { entityEditor(key, noun, entry) }

@@ -34,7 +34,7 @@
             android:layout_height="78dp"
             android:layout_gravity="bottom"
             android:background="@drawable/bg_nav_float"
-            android:elevation="14dp"
+            android:elevation="5dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="4dp"

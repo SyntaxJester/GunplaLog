@@ -126,46 +126,36 @@
         android:layout_marginLeft="50dp"
         android:background="#E9ECF1" />
 
-    <!-- 联系我们：卡片样式 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="50dp"
+        android:background="#E9ECF1" />
+
+    <!-- 联系我们：与上方各项一致的行样式 -->
     <LinearLayout
         android:id="@+id/btnMeContact"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/bg_me_asset_tile"
+        android:layout_height="52dp"
+        android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:contentDescription="联系我们"
             android:src="@drawable/ic_more_contact" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="联系我们"
-                android:textColor="#191B22"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="GitHub · QQ Privat5418"
-                android:textColor="#8E99A9"
-                android:textSize="12sp" />
-        </LinearLayout>
+            android:text="联系我们"
+            android:textColor="#191B22"
+            android:textSize="15sp"
+            android:textStyle="normal" />
 
         <ImageView
             android:layout_width="16dp"

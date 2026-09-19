@@ -69,7 +69,7 @@
             android:layout_height="104dp"
             android:layout_gravity="top|center_horizontal"
             android:clickable="true"
-            android:elevation="20dp"
+            android:elevation="8dp"
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -78,7 +78,7 @@
                 android:layout_width="66dp"
                 android:layout_height="66dp"
                 android:background="@drawable/bg_nav_add"
-                android:elevation="20dp">
+                android:elevation="8dp">
                 <ImageView android:layout_width="30dp" android:layout_height="30dp" android:layout_gravity="center" android:contentDescription="@string/tab_add" android:src="@drawable/ic_nav_add" />
             </FrameLayout>
 

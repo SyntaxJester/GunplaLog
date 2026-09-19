@@ -34,7 +34,9 @@
             android:layout_height="78dp"
             android:layout_gravity="bottom"
             android:background="@drawable/bg_nav_float"
-            android:elevation="5dp"
+            android:elevation="6dp"
+            android:outlineAmbientShadowColor="#8FA6CC"
+            android:outlineSpotShadowColor="#8FA6CC"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="4dp"
@@ -69,7 +71,7 @@
             android:layout_height="104dp"
             android:layout_gravity="top|center_horizontal"
             android:clickable="true"
-            android:elevation="8dp"
+            android:elevation="6dp"
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -78,7 +80,9 @@
                 android:layout_width="66dp"
                 android:layout_height="66dp"
                 android:background="@drawable/bg_nav_add"
-                android:elevation="8dp">
+                android:elevation="6dp"
+                android:outlineAmbientShadowColor="#3A5BC7"
+                android:outlineSpotShadowColor="#3A5BC7">
                 <ImageView android:layout_width="30dp" android:layout_height="30dp" android:layout_gravity="center" android:contentDescription="@string/tab_add" android:src="@drawable/ic_nav_add" />
             </FrameLayout>
 

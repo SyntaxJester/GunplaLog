@@ -175,7 +175,7 @@ class AssetManagerActivity : AppCompatActivity() {
     }
 
     private fun entityCard(entry: ManagedEntry, key: String, noun: String) = LinearLayout(this).apply {
-        gravity = Gravity.CENTER_VERTICAL; setBackgroundResource(R.drawable.bg_manager_card); setPadding(dp(14), dp(13), dp(14), dp(13))
+        gravity = Gravity.CENTER_VERTICAL; setBackgroundResource(R.drawable.bg_manager_card); setPadding(dp(14), dp(12), dp(14), dp(12))
         val preview = ImageView(this@AssetManagerActivity).apply {
             if (entry.photo.isNotBlank()) Photos.decode(this@AssetManagerActivity, entry.photo, 160)?.let { setImageBitmap(it) } ?: setImageResource(if (noun == "柜子") R.drawable.ic_asset_cabinet else R.drawable.ic_asset_location)
             else setImageResource(if (noun == "柜子") R.drawable.ic_asset_cabinet else R.drawable.ic_asset_location)
@@ -184,7 +184,12 @@ class AssetManagerActivity : AppCompatActivity() {
         addView(preview, LinearLayout.LayoutParams(dp(44), dp(44)))
         addView(LinearLayout(this@AssetManagerActivity).apply {
             orientation = LinearLayout.VERTICAL; setPadding(dp(14), 0, dp(6), 0)
-            addView(txt(entry.name, 15f, dark, true)); addView(txt(if (noun == "柜子") entry.template else "点击管理存放位置", 11f, muted, false))
+            addView(txt(entry.name, 15f, dark, true))
+            val extra = when (key) {
+                "cabinets" -> entry.template ?: "通用柜子"
+                else -> "${AssetStore.entries(this, key).size} 个存放位置"
+            }
+            addView(txt(extra, 11f, muted, false))
         }, LinearLayout.LayoutParams(0, dp(58), 1f))
         addView(txt("⋮", 27f, muted, true).apply { gravity = Gravity.CENTER; setOnClickListener { entityMenu(entry, key, noun) } }, LinearLayout.LayoutParams(dp(40), dp(52)))
         setOnClickListener { entityEditor(key, noun, entry) }

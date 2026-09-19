@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="72dp" android:height="72dp" android:viewportWidth="72" android:viewportHeight="72">
-    <path android:fillColor="#F1F6FF" android:pathData="M9,7h54v58H9z" />
-    <path android:fillColor="#D7E8FC" android:strokeColor="#91B9E8" android:strokeWidth="1.2" android:pathData="M18,10h36c3,0 5,2 5,5v45c0,3 -2,5 -5,5H18c-3,0 -5,-2 -5,-5V15c0,-3 2,-5 5,-5z" />
-    <path android:fillColor="#FFFFFF" android:strokeColor="#9EC1EA" android:strokeWidth="1" android:pathData="M18,16h36v13H18zM18,31h36v13H18zM18,46h36v13H18z" />
-    <path android:fillColor="#78A7DE" android:pathData="M34,21h4v3h-4zM34,36h4v3h-4zM34,51h4v3h-4z" />
-    <path android:fillColor="#C1DAF7" android:pathData="M9,12h4v48H9zM59,12h4v48h-4z" />
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+    <!-- Cabinet body -->
+    <path
+        android:fillColor="#E8F0FE"
+        android:strokeColor="#90CAF9"
+        android:strokeWidth="1.5"
+        android:pathData="M10,6h60c3,0 5,2 5,5v50c0,3 -2,5 -5,5H10c-3,0 -5,-2 -5,-5V11c0,-3 2,-5 5,-5z" />
+    <!-- Glass shelves -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.8"
+        android:pathData="M15,14h50v16H15zM15,34h50v16H15zM15,54h50v16H15z" />
+    <!-- Shelf frames -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#90CAF9"
+        android:strokeWidth="1"
+        android:pathData="M14,13h52v18H14zM14,33h52v18H14zM14,53h52v18H14z" />
+    <!-- Decorative items on shelves -->
+    <path android:fillColor="#FFCDD2" android:pathData="M22,22h8v8h-8z" />
+    <path android:fillColor="#C8E6C9" android:pathData="M36,22h8v8h-8z" />
+    <path android:fillColor="#BBDEFB" android:pathData="M50,22h8v8h-8z" />
+    <path android:fillColor="#FFF9C4" android:pathData="M22,42h8v8h-8z" />
+    <path android:fillColor="#F8BBD0" android:pathData="M36,42h8v8h-8z" />
+    <path android:fillColor="#B3E5FC" android:pathData="M50,42h8v8h-8z" />
+    <!-- Cabinet doors -->
+    <path
+        android:fillColor="#F5F5F5"
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="0.5"
+        android:pathData="M10,6h6v50H10zM64,6h6v50H64z" />
+    <!-- Cabinet handle -->
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M63,38h2v4h-2z" />
+    <!-- Base -->
+    <path
+        android:fillColor="#E3F2FD"
+        android:pathData="M10,71h60v4H10z" />
 </vector>

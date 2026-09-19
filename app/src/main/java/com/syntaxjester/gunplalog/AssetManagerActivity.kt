@@ -187,7 +187,7 @@ class AssetManagerActivity : AppCompatActivity() {
             addView(txt(entry.name, 15f, dark, true))
             val extra = when (key) {
                 "cabinets" -> entry.template ?: "通用柜子"
-                else -> "${AssetStore.entries(this, key).size} 个存放位置"
+                else -> "点击管理存放位置"
             }
             addView(txt(extra, 11f, muted, false))
         }, LinearLayout.LayoutParams(0, dp(58), 1f))

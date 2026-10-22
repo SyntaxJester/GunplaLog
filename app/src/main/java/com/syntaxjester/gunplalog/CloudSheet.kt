@@ -76,11 +76,18 @@ class CloudSheet : BottomSheetDialogFragment() {
             }
             status(getString(R.string.cloud_testing))
             thread {
-                val err = WebDav.test(c) ?: WebDav.ensureDir(c)
-                activity?.runOnUiThread {
-                    if (!isAdded) return@runOnUiThread
-                    if (err == null) status(getString(R.string.cloud_test_ok), true)
-                    else status(err, false)
+                try {
+                    val err = WebDav.test(c) ?: WebDav.ensureDir(c)
+                    activity?.runOnUiThread {
+                        if (!isAdded) return@runOnUiThread
+                        if (err == null) status(getString(R.string.cloud_test_ok), true)
+                        else status(err, false)
+                    }
+                } catch (e: Exception) {
+                    activity?.runOnUiThread {
+                        if (!isAdded) return@runOnUiThread
+                        status("连接测试失败: ${e.message}", false)
+                    }
                 }
             }
         }

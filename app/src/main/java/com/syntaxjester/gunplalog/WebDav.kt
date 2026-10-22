@@ -2,6 +2,8 @@ package com.syntaxjester.gunplalog
 
 import android.content.Context
 import android.util.Base64
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
@@ -113,14 +115,26 @@ object WebDav {
     /** 连通性 + 认证测试；成功返回 null，失败返回错误描述 */
     fun test(c: Config): String? {
         return try {
-            val conn = open(c, baseUrl(c), "PROPFIND")
-            conn.setRequestProperty("Depth", "0")
-            conn.doOutput = false
-            val code = conn.responseCode
-            conn.disconnect()
-            if (code in 200..299 || code == 207) null else describe(code)
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                .url(baseUrl(c))
+                .addHeader("Authorization", "Basic ${Base64.encodeToString("${c.user}:${c.password}".toByteArray(), Base64.NO_WRAP)}")
+                .addHeader("Depth", "0")
+                .build()
+            
+            val response = client.newCall(request).execute()
+            if (response.isSuccessful || response.code == 207) {
+                null
+            } else {
+                when (response.code) {
+                    401 -> "认证失败，请检查用户名/密码或应用密码"
+                    403 -> "WebDAV未开启或无权限"
+                    404 -> "目录不存在"
+                    else -> "连接失败: ${response.code} ${response.message}"
+                }
+            }
         } catch (e: Exception) {
-            "网络错误：" + (e.message ?: e.javaClass.simpleName)
+            "网络错误: ${e.message}"
         }
     }
 
@@ -129,13 +143,27 @@ object WebDav {
         val d = c.dir.trim().trim('/')
         if (d.isEmpty()) return null
         return try {
-            val conn = open(c, dirUrl(c), "MKCOL")
-            val code = conn.responseCode
-            conn.disconnect()
-            if (code in 200..299 || code == 405 || code == 301 || code == 302) null
-            else describe(code)
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                .url(dirUrl(c))
+                .addHeader("Authorization", "Basic ${Base64.encodeToString("${c.user}:${c.password}".toByteArray(), Base64.NO_WRAP)}")
+                .method("MKCOL", null)
+                .build()
+            
+            val response = client.newCall(request).execute()
+            if (response.isSuccessful || response.code == 405 || response.code == 301 || response.code == 302) {
+                null
+            } else {
+                when (response.code) {
+                    401 -> "认证失败，请检查用户名/密码或应用密码"
+                    403 -> "无权限创建目录"
+                    404 -> "父目录不存在"
+                    409 -> "目录已存在"
+                    else -> "创建目录失败: ${response.code} ${response.message}"
+                }
+            }
         } catch (e: Exception) {
-            "网络错误：" + (e.message ?: e.javaClass.simpleName)
+            "网络错误: ${e.message}"
         }
     }
 

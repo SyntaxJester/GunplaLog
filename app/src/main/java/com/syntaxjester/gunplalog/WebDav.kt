@@ -128,7 +128,7 @@ object WebDav {
             } else {
                 when (response.code) {
                     401 -> "认证失败，请检查用户名/密码或应用密码"
-                    403 -> "WebDAV未开启或无权限"
+                    403 -> "WebDAV 未开启或无权限：请确认坚果云账号已开启 WebDAV（网页端→账户设置→高级→开启 WebDAV），并使用「应用密码」而非登录密码"
                     404 -> "目录不存在"
                     else -> "连接失败: ${response.code} ${response.message}"
                 }
@@ -156,7 +156,7 @@ object WebDav {
             } else {
                 when (response.code) {
                     401 -> "认证失败，请检查用户名/密码或应用密码"
-                    403 -> "无权限创建目录"
+                    403 -> "无权限创建目录：请检查目录路径是否正确，或尝试换一个目录名"
                     404 -> "父目录不存在"
                     409 -> "目录已存在"
                     else -> "创建目录失败: ${response.code} ${response.message}"

@@ -7,6 +7,7 @@
     <color name="icon_bg">#1E4FD6</color>
     <color name="white">#FFFFFF</color>
     <color name="page_bg">#FFFFFF</color>
+    <color name="bg_home">#F7F2F9</color>
     <color name="text_main">#222222</color>
     <color name="text_secondary">#8A909C</color>
     <color name="text_tertiary">#B4B9C9</color>

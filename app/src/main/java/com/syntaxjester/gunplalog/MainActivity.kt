@@ -73,6 +73,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         try {
             setContentView(R.layout.activity_main)
+            // 设置状态栏背景色与首页内容区一致，消除割裂感
+            window.statusBarColor = getColor(R.color.bg_home)
+            // 设置导航栏背景透明，让悬浮底栏保持效果
+            window.navigationBarColor = getColor(android.R.color.transparent)
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.container)) { v, insets ->
                 val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
                 v.setPadding(0, bars.top, 0, 0)
